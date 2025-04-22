@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\TopupController;
 Route::get('/welcome', function () {
     return view('welcome');
 });
@@ -54,7 +53,7 @@ Route::get('/riwayat-sewa', [RiwayatSewaController::class, 'index']);
 
 use App\Http\Controllers\TopupController;
 
-Route::get('/topup', [TopupController::class, 'index'])->name('topup.index');
+Route::get('/topup', [TopupController::class, 'index']);
 
 
 
@@ -71,3 +70,9 @@ Route::get('/nav-user', [NavUserController::class, 'index']);
 use App\Http\Controllers\PaymentController;
 
 Route::get('/payment', [PaymentController::class, 'index']);
+
+
+
+Route::get('/navbar', function () {
+    return view('components/navbar');
+});

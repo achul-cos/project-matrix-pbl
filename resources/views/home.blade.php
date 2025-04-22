@@ -10,7 +10,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="bg-[#556B2F] text-white px-6 py-4 flex justify-between items-center shadow-md">
+    {{-- <nav class="bg-[#556B2F] text-white px-6 py-4 flex justify-between items-center shadow-md">
         <div class="flex items-center gap-3">
         <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Logo" class="w-10 h-10 object-contain" />
         <span class="text-xl font-bold tracking-wide">MATRIX</span>
@@ -24,7 +24,8 @@
         <button><img src="/path-to-user-icon.png" alt="User" class="w-6 h-6"></button>
         <button><img src="/path-to-add-icon.png" alt="Add" class="w-6 h-6"></button>
         </div>
-    </nav>
+    </nav> --}}
+    @include('components.navbar')
 
     <section class="flex flex-col p-4 space-y-4" id="welcome">
         <div class="mt-4 bg-white rounded-xl shadow-xl overflow-hidden transition-transform transform hover:scale-101">
