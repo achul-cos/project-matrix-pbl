@@ -53,3 +53,16 @@ use App\Http\Controllers\RiwayatTopupController;
 Route::get('/riwayat-topup', [RiwayatTopupController::class, 'index']);
 
 
+use App\Http\Controllers\LoginAdminController;
+
+Route::get('/login-admin', [LoginAdminController::class, 'index']);
+
+
+use App\Http\Controllers\NavUserController;
+
+Route::get('/nav-user', [NavUserController::class, 'index']);
+
+
+use App\Http\Controllers\PaymentController;
+
+Route::get('/payment', [PaymentController::class, 'index']);
