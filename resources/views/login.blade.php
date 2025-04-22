@@ -12,7 +12,7 @@
   <!-- Navbar -->
   <header class="bg-[#556B2F] py-4 px-8 flex items-center justify-between shadow-md text-white">
     <div class="flex items-center gap-3">
-      <img src="logo.png" alt="Logo Matrix" class="w-10 h-10 object-contain" />
+      <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Logo Matrix" class="w-10 h-10 object-contain" />
       <span class="text-xl font-bold tracking-wide">MATRIX</span>
     </div>
     <nav class="hidden md:flex gap-6 text-sm font-medium">

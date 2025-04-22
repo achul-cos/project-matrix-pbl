@@ -9,6 +9,10 @@ Route::get('/gambar', function () {
     return view('img'); // tanpa .blade.php
 });
 
+Route::get('/home', function () {
+    return view('home');
+});
+
 use App\Http\Controllers\LoginController;
 
 Route::get('/login', [LoginController::class, 'index']);

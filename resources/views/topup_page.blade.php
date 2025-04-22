@@ -29,7 +29,7 @@
   <nav class="bg-olive shadow-md">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <img src="https://via.placeholder.com/40x40?text=Logo" class="h-10" alt="Logo Matrix">
+        <img src="img/logo/Matrix_Icon_Square_Logo_White.png" class="h-10" alt="Logo Matrix">
         <span class="text-white text-xl font-bold">Matrix</span>
       </div>
       <div class="w-1/2">

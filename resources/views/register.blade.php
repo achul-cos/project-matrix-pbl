@@ -58,7 +58,7 @@
   <footer class="bg-gray-200 mt-12 text-gray-800 text-sm">
     <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-5 gap-6">
       <div>
-        <img src="/your-logo.png" alt="Logo" class="w-20 mb-2">
+        <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Logo" class="w-20 mb-2">
         <p class="text-gray-600 text-sm">Matrix Warnet</p>
       </div>
       <div>

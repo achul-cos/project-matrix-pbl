@@ -12,7 +12,7 @@
   <!-- Navbar -->
   <header class="bg-[#556B2F] text-white px-6 py-4 flex justify-between items-center">
     <div class="flex items-center gap-4">
-      <img src="/logo.svg" alt="Logo" class="h-8 w-8" />
+      <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Logo" class="h-8 w-8" />
       <input type="text" placeholder="Cari..." class="rounded-full px-4 py-1 w-60 text-black" />
     </div>
     <div class="flex items-center gap-2">
