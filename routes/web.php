@@ -20,8 +20,9 @@ use App\Http\Controllers\RiwayatSewaController;
 Route::get('/riwayat-sewa', [RiwayatSewaController::class, 'index']);
 
 
-use App\Http\Controllers\RiwayatTopupController;
+use App\Http\Controllers\TopupController;
 
-Route::get('/riwayat-topup', [RiwayatTopupController::class, 'index']);
+Route::get('/topup', [TopupController::class, 'index'])->name('topup.index');
+
 
 
