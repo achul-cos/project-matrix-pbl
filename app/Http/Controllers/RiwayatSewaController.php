@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class RiwayatController extends Controller
+class RiwayatSewaController extends Controller
 {
     public function index()
     {

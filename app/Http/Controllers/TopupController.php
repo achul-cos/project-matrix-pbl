@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 class TopupController extends Controller
 {
-    public function show()
+    public function index()
     {
-        return view('topup_page');
+        // Kalau butuh data, bisa pakai compact()
+        return view('topup');
     }
 }
