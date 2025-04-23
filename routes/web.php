@@ -1,78 +1,44 @@
 <?php
-
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Route::get('/gambar', function () {
-    return view('img'); // tanpa .blade.php
+Route::get('/', function () {
+    return view('pages/landing');
 });
 
 Route::get('/home', function () {
-    return view('home');
+    return view('pages/home');
 });
 
-use App\Http\Controllers\LoginController;
-
-Route::get('/login', [LoginController::class, 'index']);
-
-use App\Http\Controllers\ManagementController;
-
-Route::get('/management', [ManagementController::class, 'index']);
-
-use App\Http\Controllers\RegisterController;
-
-Route::get('/register', [RegisterController::class, 'index']);
-
-
-Route::get('/produk', function () {
-    return view('productpage');
+Route::get('/login', function () {
+    return view('pages/login');
 });
 
-use App\Http\Controllers\UserController;
+Route::get('/register', function () {
+    return view('pages/register');
+});
 
-Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+Route::get('/admin', function () {
+    return view('pages/admin');
+});
 
-Route::get('/topup', [TopupController::class, 'index']);
+Route::get('/product', function () {
+    return view('pages/product');
+});
 
+Route::get('/payment', function () {
+    return view('pages/payment');
+});
 
-use App\Http\Controllers\LandingPageController;
+Route::get('/topup', function () {
+    return view('pages/topup');
+});
 
-Route::get('/landing', [LandingPageController::class, 'index']);
+Route::get('/profile', function () {
+    return view('pages/profile');
+});
 
+Route::get('/history_topup', function () {
+    return view('pages/history_topup');
+});
 
-use App\Http\Controllers\ReportController;
-
-Route::get('/live-rent-report', [ReportController::class, 'index']);
-
-
-use App\Http\Controllers\RiwayatSewaController;
-
-Route::get('/riwayat-sewa', [RiwayatSewaController::class, 'index']);
-
-
-use App\Http\Controllers\TopupController;
-
-Route::get('/topup', [TopupController::class, 'index']);
-
-
-
-use App\Http\Controllers\LoginAdminController;
-
-Route::get('/login-admin', [LoginAdminController::class, 'index']);
-
-
-use App\Http\Controllers\NavUserController;
-
-Route::get('/nav-user', [NavUserController::class, 'index']);
-
-
-use App\Http\Controllers\PaymentController;
-
-Route::get('/payment', [PaymentController::class, 'index']);
-
-
-
-Route::get('/navbar', function () {
-    return view('components/navbar');
+Route::get('/history_rent', function () {
+    return view('pages/history_rent');
 });

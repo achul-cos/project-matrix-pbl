@@ -8,23 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     @vite('resources/css/app.css')  
 </head>
-<body>
-    <!-- Navbar -->
-    {{-- <nav class="bg-[#556B2F] text-white px-6 py-4 flex justify-between items-center shadow-md">
-        <div class="flex items-center gap-3">
-        <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Logo" class="w-10 h-10 object-contain" />
-        <span class="text-xl font-bold tracking-wide">MATRIX</span>
-        </div>
-        <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#" class="hover:text-gray-200 transition">Home</a>
-        <a href="#" class="hover:text-gray-200 transition">Produk</a>
-        <a href="#" class="hover:text-gray-200 transition">Tentang</a>
-        </div>
-        <div class="flex items-center gap-4 text-white text-xl">
-        <button><img src="/path-to-user-icon.png" alt="User" class="w-6 h-6"></button>
-        <button><img src="/path-to-add-icon.png" alt="Add" class="w-6 h-6"></button>
-        </div>
-    </nav> --}}
+<body class="inter">
     @include('components.navbar')
 
     <section class="flex flex-col p-4 space-y-4" id="welcome">
