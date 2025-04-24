@@ -24,12 +24,12 @@
             </div>
             <div class="grid grid-flow-row grid-rows-2 auto-rows-max justify-end gap-4 pr-2 ml-2">
                 <div class="flex gap-8 justify-end">
-                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="#"><img src="img/ui/tombol_intel.png" alt="" class="shadow-md rounded-lg"></a></div>
-                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="#"><img src="img/ui/tombol_amd.png" alt="" class="shadow-md rounded-lg"></a></div>
+                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/search"><img src="img/ui/tombol_intel.png" alt="" class="shadow-md rounded-lg"></a></div>
+                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/search"><img src="img/ui/tombol_amd.png" alt="" class="shadow-md rounded-lg"></a></div>
                 </div>
                 <div class="flex gap-8 justify-end">
-                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="#"><img src="img/ui/tombol_rtx.png" alt="" class="shadow-md rounded-lg"></a></div>
-                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="#"><img src="img/ui/tombol_isi_token.png" alt="" class="shadow-md rounded-lg"></a></div>
+                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/search"><img src="img/ui/tombol_rtx.png" alt="" class="shadow-md rounded-lg"></a></div>
+                    <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/topup"><img src="img/ui/tombol_isi_token.png" alt="" class="shadow-md rounded-lg"></a></div>
                 </div>    
             </div>   
         </div>

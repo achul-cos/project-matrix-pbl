@@ -70,3 +70,11 @@ Route::get('/admin/monitoring_computer', function () {
 Route::get('/admin/topup_report', function () {
     return view('pages/admin_topup_report');
 });
+
+Route::get('/search', function () {
+    return view('pages/search');
+});
+
+Route::get('/developer', function () {
+    return view('pages/developer');
+});
