@@ -9,11 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-white inter">
-    @include('components.navbar')
-    <div class="pt-20 min-h-screen">
-        @yield('content')
-    </div>
-    @include('components.footer')
+<body class="bg-white inter max-w-screen">
+    @include('components/dashboard')
+    <div class="mt-14 sm:ml-64">
+        <div class="min-h-screen">
+            @yield('content')
+        </div>
+    @include('components/footer_admin')
+    </div>  
 </body>
-</html>     
+</html>

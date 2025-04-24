@@ -35,10 +35,38 @@ Route::get('/profile', function () {
     return view('pages/profile');
 });
 
-Route::get('/history_topup', function () {
+Route::get('/profile/topup', function () {
     return view('pages/history_topup');
 });
 
-Route::get('/history_rent', function () {
+Route::get('/profile/rent', function () {
     return view('pages/history_rent');
+});
+
+Route::get('/admin/management_computer', function () {
+    return view('pages/admin_management_computer');
+});
+
+Route::get('/admin/live_rent_report', function () {
+    return view('pages/admin_live_rent_report');
+});
+
+Route::get('/admin/management_account', function () {
+    return view('pages/admin_management_account');
+});
+
+Route::get('/admin/management_admin', function () {
+    return view('pages/admin_management_admin');
+});
+
+Route::get('/admin/rent_report', function () {
+    return view('pages/admin_rent_report');
+});
+
+Route::get('/admin/monitoring_computer', function () {
+    return view('pages/admin_monitoring_computer');
+});
+
+Route::get('/admin/topup_report', function () {
+    return view('pages/admin_topup_report');
 });

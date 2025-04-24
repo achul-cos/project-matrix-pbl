@@ -5,8 +5,8 @@
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:hidden">
-            <img src="img\logo\Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
-            <img src="img\logo\(M)ATRIX Text icon logo white.png" class="h-8" alt="Matrix Logo" />
+            <img src="../img/logo/Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
+            <img src="../img/logo/(M)ATRIX Text icon logo white.png" class="h-8" alt="Matrix Logo" />
         </a>
 
         <div class="flex max-sm:order-2 md:order-1">
@@ -69,7 +69,7 @@
                     <p class="self-center text-center font-black text-xl text-slate-800 truncate w-15">200000000000</p>
                 </div>
                 <div class="">
-                    <div class="w-10 h-10 justify-self-end invert transform transition-transform hover:scale-105" style="background-image: url(img/icon/Matrix_Token_Icon_white.svg); background-size: cover;"></div>
+                    <div class="w-10 h-10 justify-self-end invert transform transition-transform hover:scale-105" style="background-image: url(../img/icon/Matrix_Token_Icon_white.svg); background-size: cover;"></div>
                 </div>
             </div>
             </a>

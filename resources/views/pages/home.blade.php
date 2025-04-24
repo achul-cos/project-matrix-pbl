@@ -359,7 +359,7 @@
         </div>
     </div> 
 </section>
-<section class="flex flex-col p-4 space-y-4 mt-4 pb-8" id="aplikasi">
+<section class="flex flex-col p-4 space-y-4 mt-4 pb-20" id="aplikasi">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
         <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
         <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Game Yang Ada Diwarnet</span></div>
@@ -388,5 +388,4 @@
         <img src="https://static.cdnlogo.com/logos/d/43/discord.svg" alt="" class="aspect-square w-48 h-48 object-contain rounded-lg transition-transform transform hover:scale-102">
     </div>
 </section>
-
 @endsection

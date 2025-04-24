@@ -11,7 +11,7 @@
 </head>
 <body class="bg-white inter">
     @include('components.navbar_admin')
-    <div class="pt-20">
+    <div class="pt-20 min-h-screen">
         @yield('content')
     </div>
     @include('components.footer_admin')
