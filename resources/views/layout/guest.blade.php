@@ -10,10 +10,10 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-white inter">
-    @include('components.navbar')
+    @include('components.navbar_guest')
     <div class="pt-20 min-h-dvh pb-10">
         @yield('content')
     </div>
-    @include('components.footer')
+    @include('components.footer_guest')
 </body>
-</html>     
+</html>   

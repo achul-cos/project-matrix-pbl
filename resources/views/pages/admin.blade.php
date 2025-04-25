@@ -11,7 +11,7 @@
                 <!-- Left side - Login Form -->
                 <div class="w-full md:w-1/2 p-8">
                     <h2 class="text-2xl font-bold mb-8 text-center">MASUK</h2>
-                    <form>
+                    <form action="/admin/management_computer">
                         <div class="mb-4">
                             <input type="text" placeholder="Masukkan username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
                         </div>

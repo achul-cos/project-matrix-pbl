@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.guest')
 
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
@@ -10,17 +10,19 @@
 
       <!-- Form Login -->
       <div class="md:w-1/2 w-full p-10 flex flex-col justify-center text-center">
-        <h2 class="text-3xl font-bold text-[#556B2F] mb-6">MASUK</h2>
-        <input type="text" placeholder="Masukkan username" class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#556B2F]" />
-        <input type="password" placeholder="Masukkan password" class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#556B2F]" />
-        <div class="flex items-center justify-center mb-4 text-sm">
-          <input type="checkbox" id="ingat" class="mr-2" />
-          <label for="ingat">Ingat saya</label>
-        </div>
-        <button class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white font-semibold py-3 rounded-full transition duration-300">
-          MASUK
-        </button>
-        <p class="text-sm mt-4 text-gray-600">Belum punya akun? <a href="#" class="font-semibold text-[#556B2F] hover:underline">Daftar</a></p>
+        <form action="/home" method="GET" class="">
+          <h2 class="text-3xl font-bold text-[#556B2F] mb-6">MASUK</h2>
+          <input type="text" placeholder="Masukkan username" class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#556B2F]" />
+          <input type="password" placeholder="Masukkan password" class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#556B2F]" />
+          <div class="flex items-center justify-center mb-4 text-sm">
+            <input type="checkbox" id="ingat" class="mr-2" />
+            <label for="ingat">Ingat saya</label>
+          </div>
+          <button class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white font-semibold py-3 rounded-full transition duration-300">
+            MASUK
+          </button>
+          <p class="text-sm mt-4 text-gray-600">Belum punya akun? <a href="/register" class="font-semibold text-[#556B2F] hover:underline">Daftar</a></p>
+        </form>
       </div>
 
       <!-- Welcome Panel -->

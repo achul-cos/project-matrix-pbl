@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.guest')
 
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
@@ -10,7 +10,7 @@
       <!-- Form Section -->
       <div class="p-8 md:w-[500px]">
         <h2 class="text-center text-3xl font-bold text-[#556B2F] mb-6">DAFTAR</h2>
-        <form class="space-y-4">
+        <form action="/login" class="space-y-4">
           <input type="text" placeholder="Nama Lengkap" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
           <input type="text" placeholder="Username" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
           <input type="email" placeholder="Email" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
@@ -21,7 +21,7 @@
           <input type="text" placeholder="No Telepon" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
           <button type="submit" class="w-full py-3 bg-[#556B2F] hover:bg-[#6e8239] text-white font-bold rounded-xl shadow-md transition duration-300">DAFTAR</button>
         </form>
-        <p class="text-center mt-4 text-sm">Sudah punya akun? <a href="#" class="text-[#556B2F] font-semibold hover:underline">Masuk</a></p>
+        <p class="text-center mt-4 text-sm">Sudah punya akun? <a href="/login" class="text-[#556B2F] font-semibold hover:underline">Masuk</a></p>
       </div>
 
       <!-- Welcome Section -->
