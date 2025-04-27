@@ -24,7 +24,7 @@
                         </div>
                         <button type="submit" class="w-full bg-slate-500 text-white py-2 rounded-lg hover:bg-slate-900 transition duration-300">MASUK</button>
                         <div class="text-center mt-4">
-                            <a href="#" class="text-sm text-slate-800 hover:underline">Belum ada pengguna baru?</a>
+                            <a href="/login" class="text-sm text-slate-800 hover:underline">Login Sebagai User?</a>
                         </div>
                     </form>
                 </div>

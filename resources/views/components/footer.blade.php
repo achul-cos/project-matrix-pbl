@@ -1,6 +1,3 @@
-<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-@vite('resources/css/app.css') 
 <footer class="border-t-2 border-t-lime-950">
     <div class="max-sm:flex grid grid-cols-12 bg-stone-200 p-10">
         <div class="max-sm:flex-row col-span-3 grid grid-rows-12 gap-y-4 items-start">
