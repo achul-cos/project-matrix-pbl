@@ -4,6 +4,6 @@
 
 @section('content')
 
-{{-- Tempat Kode Frontend halaman Management Computer --}}
+{{-- Tempat Kode Frontend halaman Management Information --}}
 
 @endsection

@@ -10,638 +10,95 @@
       <h1 class="text-3xl font-bold mb-6">
         <span class="text-slate-900">Monitoring Computer</span>
       </h1>
-      @php
-        $monitors = [
-            // Existing data (updated room types)
-            [
-                'id_komputer' => '1',
-                'nama_komputer' => 'ASUS ROG Z1',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A1',
-                'jam_awal_booking_komputer' => '10.00',
-                'jam_akhir_booking_komputer' => '12.00',
-                'cpu_komputer' => 'Intel i9-12450HX',
-                'gpu_komputer' => 'RTX 4090',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '2',
-                'nama_komputer' => 'MSI Titan GT77',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A2',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-12900HX',
-                'gpu_komputer' => 'RTX 3080 Ti',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '5',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '3',
-                'nama_komputer' => 'Alienware X17',
-                'status_komputer' => 'maintenance',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B1',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3070 Ti',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '4',
-                'nama_komputer' => 'Razer Blade 17',
-                'status_komputer' => 'offline',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C1',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-11800H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '5',
-                'nama_komputer' => 'Lenovo Legion 7',
-                'status_komputer' => 'prepare',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D1',
-                'jam_awal_booking_komputer' => '14.00',
-                'jam_akhir_booking_komputer' => '16.00',
-                'cpu_komputer' => 'AMD Ryzen 9 5900HX',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            
-            // More data for all floors, adjusted for Public/Private only
-            // Lantai 1 (6-15)
-            [
-                'id_komputer' => '6',
-                'nama_komputer' => 'ASUS TUF Gaming F15',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A3',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '7',
-                'nama_komputer' => 'Acer Predator Helios 300',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A4',
-                'jam_awal_booking_komputer' => '09.00',
-                'jam_akhir_booking_komputer' => '11.00',
-                'cpu_komputer' => 'Intel i7-11800H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '8',
-                'nama_komputer' => 'HP Omen 17',
-                'status_komputer' => 'offline',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A5',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '9',
-                'nama_komputer' => 'MSI GP66 Leopard',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A6',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-11800H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '10',
-                'nama_komputer' => 'Gigabyte G5',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A7',
-                'jam_awal_booking_komputer' => '13.00',
-                'jam_akhir_booking_komputer' => '15.00',
-                'cpu_komputer' => 'Intel i5-11400H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '11',
-                'nama_komputer' => 'ASUS ROG Strix G15',
-                'status_komputer' => 'maintenance',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A8',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 7 5800H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '12',
-                'nama_komputer' => 'Alienware m15 R7',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A9',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-12900H',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '5',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '13',
-                'nama_komputer' => 'MSI Stealth 15M',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A10',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-11375H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '14',
-                'nama_komputer' => 'Lenovo Legion 5',
-                'status_komputer' => 'prepare',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A11',
-                'jam_awal_booking_komputer' => '16.00',
-                'jam_akhir_booking_komputer' => '18.00',
-                'cpu_komputer' => 'AMD Ryzen 7 5800H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '15',
-                'nama_komputer' => 'HP Victus 15',
-                'status_komputer' => 'undefined',
-                'lantai_komputer' => '1',
-                'kode_komputer' => 'A12',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i5-12500H',
-                'gpu_komputer' => 'RTX 3050',
-                'ram_komputer' => '8',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            
-            // Lantai 2 (16-25)
-            [
-                'id_komputer' => '16',
-                'nama_komputer' => 'MSI GE76 Raider',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B2',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-12900HK',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '17',
-                'nama_komputer' => 'Dell Alienware m17 R5',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B3',
-                'jam_awal_booking_komputer' => '13.00',
-                'jam_akhir_booking_komputer' => '15.00',
-                'cpu_komputer' => 'AMD Ryzen 9 6900HX',
-                'gpu_komputer' => 'RTX 3070 Ti',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '18',
-                'nama_komputer' => 'Gigabyte Aorus 17',
-                'status_komputer' => 'prepare',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B4',
-                'jam_awal_booking_komputer' => '16.00',
-                'jam_akhir_booking_komputer' => '18.00',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '19',
-                'nama_komputer' => 'ASUS ROG Strix G17',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B5',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 9 5900HX',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '20',
-                'nama_komputer' => 'MSI Pulse GL76',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B6',
-                'jam_awal_booking_komputer' => '11.00',
-                'jam_akhir_booking_komputer' => '13.00',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '21',
-                'nama_komputer' => 'Acer Predator Triton 500',
-                'status_komputer' => 'offline',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B7',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-11900H',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '22',
-                'nama_komputer' => 'Dell G15 Gaming',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B8',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 7 6800H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '23',
-                'nama_komputer' => 'ASUS TUF Dash F15',
-                'status_komputer' => 'maintenance',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B9',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12650H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '24',
-                'nama_komputer' => 'Lenovo IdeaPad Gaming 3',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B10',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 5 6600H',
-                'gpu_komputer' => 'RTX 3050 Ti',
-                'ram_komputer' => '8',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '25',
-                'nama_komputer' => 'HP Pavilion Gaming',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '2',
-                'kode_komputer' => 'B11',
-                'jam_awal_booking_komputer' => '14.00',
-                'jam_akhir_booking_komputer' => '16.00',
-                'cpu_komputer' => 'Intel i5-12500H',
-                'gpu_komputer' => 'RTX 3050',
-                'ram_komputer' => '8',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            
-            // Lantai 3 (26-35)
-            [
-                'id_komputer' => '26',
-                'nama_komputer' => 'Acer Nitro 5',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C2',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i5-12500H',
-                'gpu_komputer' => 'RTX 3050 Ti',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '27',
-                'nama_komputer' => 'MSI Katana GF76',
-                'status_komputer' => 'maintenance',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C3',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12650H',
-                'gpu_komputer' => 'RTX 3050 Ti',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '28',
-                'nama_komputer' => 'Lenovo Legion 5 Pro',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C4',
-                'jam_awal_booking_komputer' => '12.00',
-                'jam_akhir_booking_komputer' => '14.00',
-                'cpu_komputer' => 'AMD Ryzen 7 5800H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '29',
-                'nama_komputer' => 'HP Victus 16',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C5',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i5-12500H',
-                'gpu_komputer' => 'RTX 3050',
-                'ram_komputer' => '8',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '30',
-                'nama_komputer' => 'Dell G15',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C6',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 5 6600H',
-                'gpu_komputer' => 'RTX 3050',
-                'ram_komputer' => '8',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '31',
-                'nama_komputer' => 'Acer Predator Helios 500',
-                'status_komputer' => 'offline',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C7',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-11980HK',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '5',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '32',
-                'nama_komputer' => 'MSI Vector GP66',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C8',
-                'jam_awal_booking_komputer' => '15.00',
-                'jam_akhir_booking_komputer' => '17.00',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '33',
-                'nama_komputer' => 'ASUS ROG Zephyrus G15',
-                'status_komputer' => 'undefined',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C9',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'AMD Ryzen 9 6900HS',
-                'gpu_komputer' => 'RTX 3080',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '34',
-                'nama_komputer' => 'Gigabyte G7',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C10',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-11800H',
-                'gpu_komputer' => 'RTX 3050 Ti',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '2',
-                'room_komputer' => 'Public',
-            ],
-            [
-                'id_komputer' => '35',
-                'nama_komputer' => 'HP Omen 16',
-                'status_komputer' => 'prepare',
-                'lantai_komputer' => '3',
-                'kode_komputer' => 'C11',
-                'jam_awal_booking_komputer' => '17.00',
-                'jam_akhir_booking_komputer' => '19.00',
-                'cpu_komputer' => 'AMD Ryzen 7 6800H',
-                'gpu_komputer' => 'RTX 3070',
-                'ram_komputer' => '16',
-                'biaya_komputer' => '3',
-                'room_komputer' => 'Public',
-            ],
-            
-            // Lantai 4 (36-40)
-            [
-                'id_komputer' => '36',
-                'nama_komputer' => 'ASUS ProArt StudioBook 16',
-                'status_komputer' => 'online',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D2',
-                'jam_awal_booking_komputer' => '11.00',
-                'jam_akhir_booking_komputer' => '13.00',
-                'cpu_komputer' => 'Intel i9-12900H',
-                'gpu_komputer' => 'RTX A5000',
-                'ram_komputer' => '64',
-                'biaya_komputer' => '6',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '37',
-                'nama_komputer' => 'MSI Creator Z16',
-                'status_komputer' => 'available',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D3',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3060',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '38',
-                'nama_komputer' => 'Razer Blade 15 Studio',
-                'status_komputer' => 'maintenance',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D4',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-11900H',
-                'gpu_komputer' => 'RTX A5000',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '5',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '39',
-                'nama_komputer' => 'Alienware x15 R2',
-                'status_komputer' => 'offline',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D5',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i9-12900H',
-                'gpu_komputer' => 'RTX 3080 Ti',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '5',
-                'room_komputer' => 'Private',
-            ],
-            [
-                'id_komputer' => '40',
-                'nama_komputer' => 'Gigabyte Aero 16',
-                'status_komputer' => 'undefined',
-                'lantai_komputer' => '4',
-                'kode_komputer' => 'D6',
-                'jam_awal_booking_komputer' => '-',
-                'jam_akhir_booking_komputer' => '-',
-                'cpu_komputer' => 'Intel i7-12700H',
-                'gpu_komputer' => 'RTX 3070 Ti',
-                'ram_komputer' => '32',
-                'biaya_komputer' => '4',
-                'room_komputer' => 'Private',
-            ],
-        ];
-        $statusColorMap = [
-            'available' => 'bg-lime-200 text-lime-800',
-            'online' => 'bg-orange-200 text-orange-800',
-            'offline' => 'bg-red-200 text-red-800',
-            'maintenance' => 'bg-indigo-200 text-indigo-800',
-            'prepare' => 'bg-yellow-200 text-yellow-800',
-            'undefined' => 'bg-gray-200 text-gray-800',
-        ];
-      @endphp
+
+    @php
+        $monitors = config('data_product_dummy.monitors');
+        $statusColorMap = config('data_product_dummy.statusColorMap');
+    @endphp
 
       @include('components.computer-monitor', ['monitors' => $monitors])
 
         <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
             <!-- Table -->
-            <table class="min-w-full text-left border-separate border-spacing-y-3" id="search-table">
-            <thead>
-                <tr class="bg-gray-200 text-sm text-gray-700">
-                    <th class="p-3 rounded-l-lg">ID</th>
-                    <th class="p-3">Kode</th>
-                    <th class="p-3">Nama</th>
-                    <th class="p-3">Lantai</th>
-                    <th class="p-3">Ruangan</th>
-                    <th class="p-3 rounded-r-lg">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($monitors as $monitor)
-                    @php
-                        $status = strtolower($monitor['status_komputer']);
-                        $badgeClass = $statusColorMap[$status] ?? 'bg-gray-300 text-gray-700';
-                    @endphp
-                    <tr class="bg-gray-100 rounded-xl">
-                        <td class="p-3">{{ $monitor['id_komputer'] }}</td>
-                        <td class="p-3">{{ $monitor['kode_komputer'] }}</td>
-                        <td class="p-3 flex items-center space-x-3">
-                            <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                            <span>{{ $monitor['nama_komputer'] }}</span>
-                        </td>
-                        <td class="p-3">{{ $monitor['lantai_komputer'] }}</td>
-                        <td class="p-3">{{ $monitor['room_komputer'] }}</td>
-                        <td class="p-3">
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $badgeClass }}">
-                                {{ ucfirst($monitor['status_komputer']) }}
-                            </span>
-                        </td>
+            <table class="min-w-full text-left border-separate border-spacing-y-3" id="filter-table">
+                <thead>
+                    <tr class="bg-gray-200 text-sm text-gray-700">
+                        @php
+                            $headers = ['ID', 'Kode', 'Nama', 'Lantai', 'Ruangan', 'Status'];
+                        @endphp
+                
+                        @foreach($headers as $index => $header)
+                            <th class="p-3 {{ $index === 0 ? 'rounded-l-lg' : '' }} {{ $index === count($headers) - 1 ? 'rounded-r-lg' : '' }}">
+                                <span class="flex items-center">
+                                    {{ $header }}
+                                    <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                                    </svg>
+                                </span>
+                            </th>
+                        @endforeach
                     </tr>
-                @endforeach
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach ($monitors as $monitor)
+                        @php
+                            $status = strtolower($monitor['status_komputer']);
+                            $badgeClass = $statusColorMap[$status] ?? 'bg-gray-300 text-gray-700';
+                        @endphp
+                        <tr class="bg-gray-100 rounded-xl">
+                            <td class="p-3">{{ $monitor['id_komputer'] }}</td>
+                            <td class="p-3">{{ $monitor['kode_komputer'] }}</td>
+                            <td class="p-3 flex items-center space-x-3">
+                                <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
+                                <span>{{ $monitor['nama_komputer'] }}</span>
+                            </td>
+                            <td class="p-3">{{ $monitor['lantai_komputer'] }}</td>
+                            <td class="p-3">{{ $monitor['room_komputer'] }}</td>
+                            <td class="p-3">
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $badgeClass }}">
+                                    {{ ucfirst($monitor['status_komputer']) }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </section>
 </div>
 
 <script>
-    if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#search-table", {
-        searchable: true,
-        sortable: false
-    });}
+    if (document.getElementById("filter-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+        const dataTable = new simpleDatatables.DataTable("#filter-table", {
+            tableRender: (_data, table, type) => {
+                if (type === "print") {
+                    return table
+                }
+                const tHead = table.childNodes[0]
+                const filterHeaders = {
+                    nodeName: "TR",
+                    attributes: {
+                        class: "search-filtering-row"
+                    },
+                    childNodes: tHead.childNodes[0].childNodes.map(
+                        (_th, index) => ({nodeName: "TH",
+                            childNodes: [
+                                {
+                                    nodeName: "INPUT",
+                                    attributes: {
+                                        class: "datatable-input",
+                                        type: "search",
+                                        "data-columns": "[" + index + "]"
+                                    }
+                                }
+                            ]})
+                    )
+                }
+                tHead.childNodes.push(filterHeaders)
+                return table
+            }
+        });
+    }
 </script>
 
 @endsection

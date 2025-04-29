@@ -74,6 +74,10 @@ Route::get('/admin/topup_report', function () {
     return view('pages/admin_topup_report');
 });
 
+Route::get('/admin/management_information', function () {
+    return view('pages/admin_management_information');
+});
+
 Route::get('/search', function () {
     return view('pages/search');
 });

@@ -9,6 +9,7 @@
     <!-- Stylesheets -->
     <link href="../styles/flowbite.min.css" rel="stylesheet">
     <script src='https://cdn.jsdelivr.net/npm/simple-datatables@9.0.4'></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-white inter max-w-screen">
