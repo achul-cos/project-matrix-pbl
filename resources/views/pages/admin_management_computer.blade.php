@@ -3,7 +3,6 @@
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
 @section('content')
-
 <div class="flex">
     <!-- Main Content -->
     <section class="flex-1 px-8 py-10">
@@ -89,5 +88,6 @@
       </div>
     </section>
   </div>
+{{-- Tempat Kode Frontend halaman Monitoring Computer --}}
 
 @endsection
