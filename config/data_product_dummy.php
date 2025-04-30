@@ -580,6 +580,6 @@ return [
         'prepare' => 'bg-yellow-200 text-yellow-800',
         'undefined' => 'bg-gray-200 text-gray-800',
     ]
-    ];
+];
 
 ?>
