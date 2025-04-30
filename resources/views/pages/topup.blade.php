@@ -47,45 +47,4 @@
       </button>
     </div>
   </section>
-
-  <script>
-    // Auto-fill token input when clicking quick selection buttons
-    const tokenButtons = document.querySelectorAll('.tokenButton');
-    const tokenInput = document.getElementById('token');
-
-    tokenButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const tokenValue = this.getAttribute('data-value');
-        tokenInput.value = tokenValue;
-
-        // Visual feedback - highlight active button
-        tokenButtons.forEach(btn => {
-          btn.classList.remove('ring-2', 'ring-white', 'ring-opacity-50');
-        });
-        this.classList.add('ring-2', 'ring-white', 'ring-opacity-50');
-      });
-    });
-
-    document.getElementById('paymentButton').addEventListener('click', function() {
-      // Show notification
-      const notification = document.getElementById('notification');
-      notification.classList.remove('hidden');
-      notification.classList.add('translate-y-0');
-      notification.classList.remove('translate-y-full');
-
-      // Hide notification after 5 seconds
-      setTimeout(function() {
-        closeNotification();
-      }, 5000);
-    });
-
-    function closeNotification() {
-      const notification = document.getElementById('notification');
-      notification.classList.add('translate-y-full');
-      setTimeout(function() {
-        notification.classList.add('hidden');
-      }, 300);
-    }
-  </script>
-
 @endsection

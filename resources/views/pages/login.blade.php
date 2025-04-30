@@ -22,6 +22,7 @@
             MASUK
           </button>
           <p class="text-sm mt-4 text-gray-600">Belum punya akun? <a href="/register" class="font-semibold text-[#556B2F] hover:underline">Daftar</a></p>
+          <a href="/admin"><p class="text-xs mt-4 text-gray-400 hover:underline hover:text-lime-900 hover:opacity-50">Login Sebagai Admin.</p></a>
         </form>
       </div>
 

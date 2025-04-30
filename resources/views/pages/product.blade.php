@@ -5,27 +5,27 @@
 @section('content')
 
   <!-- Produk Detail Section -->
-  <main class="max-w-5xl mx-auto p-8 mt-6 bg-white rounded-2xl shadow-lg grid md:grid-cols-2 gap-10">
+  <section class="p-8 px-32 mt-6 max-sm:px-4 max-md:px-16 bg-white rounded-2xl grid md:grid-cols-2 gap-10">
     
     <!-- Gambar -->
     <div>
       <!-- Gambar Utama -->
-      <div class="bg-gray-200 h-80 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-        <img src="/img/ad/placeholder1.png" alt="Gambar Produk Utama" class="object-cover h-full w-full" />
+      <div class="bg-gray-200 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+        <img src="/img/ad/placeholder1.png" alt="Gambar Produk Utama" class="object-cover h-full w-full aspect-square" />
       </div>
     
       <!-- Gambar Thumbnail -->
       <div class="grid grid-cols-3 gap-3">
-        <img src="/img/ad/placeholder1.png" alt="Thumbnail 1" class="h-20 w-full rounded-xl object-cover cursor-pointer hover:opacity-80 transition" />
-        <img src="/img/ad/placeholder1.png" alt="Thumbnail 2" class="h-20 w-full rounded-xl object-cover cursor-pointer hover:opacity-80 transition" />
-        <img src="/img/ad/placeholder1.png" alt="Thumbnail 3" class="h-20 w-full rounded-xl object-cover cursor-pointer hover:opacity-80 transition" />
+        <img src="/img/ad/placeholder1.png" alt="Thumbnail 1" class="rounded-xl object-cover cursor-pointer hover:opacity-80 transition aspect-square" />
+        <img src="/img/ad/placeholder1.png" alt="Thumbnail 2" class="rounded-xl object-cover cursor-pointer hover:opacity-80 transition aspect-square" />
+        <img src="/img/ad/placeholder1.png" alt="Thumbnail 3" class="rounded-xl object-cover cursor-pointer hover:opacity-80 transition aspect-square" />
       </div>
     </div>
     
         <!-- Info -->
         <div class="flex flex-col justify-between">
           <div>
-            <h1 class="text-3xl font-bold text-[#556B2F] mb-2">ASUS ROG A1</h1>
+            <h1 class="text-4xl font-black text-[#556B2F] mb-2">ASUS ROG A1</h1>
             <p class="text-sm text-gray-500">Inclusive deal of the day</p>
             <p class="text-sm font-medium text-blue-600">BY ASUS</p>
             
@@ -64,6 +64,19 @@
             </div>
           </div>
         </div>
-      </main>
+
+        
+  </section>
+
+  <section class="p-8 px-32 mt-6 max-sm:px-4 max-md:px-16 bg-white">
+    
+    @php
+        $monitors = config('data_product_dummy.monitors');
+        $statusColorMap = config('data_product_dummy.statusColorMap');
+    @endphp
+  
+    @include('components/computer-monitor')
+  </section>
+      
 
 @endsection

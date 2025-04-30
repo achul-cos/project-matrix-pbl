@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="flex flex-col justify-center items-center min-h-screen text-center -mt-20">
-    <img src="../img/icon/kazuha_chibi.png" alt="" class="w-20 h-20 object-fill mb-4">
+    <img src="../../../../img/icon/kazuha_chibi.png" alt="" class="w-20 h-20 object-fill mb-4">
     <p class="lg:text-3xl md:text-xl sm:text-lg text-lime-900 opacity-80 font-bold mt-6">
         "Maaf Halaman Ini Tidak Tersedia."
     </p>

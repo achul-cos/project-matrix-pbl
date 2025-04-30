@@ -1,12 +1,9 @@
-<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-@vite('resources/css/app.css')  
 <nav class="bg-lime-700 fixed w-full z-100 top-0 start-0 border-b border-gray-200">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
         <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:hidden">
-            <img src="../img/logo/Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
-            <img src="../img/logo/(M)ATRIX Text icon logo white.png" class="h-8" alt="Matrix Logo" />
+            <img src="../../../../img/logo/Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
+            <img src="../../../../img/logo/(M)ATRIX Text icon logo white.png" class="h-8" alt="Matrix Logo" />
         </a>
 
         <div class="flex max-sm:order-2 md:order-1">
