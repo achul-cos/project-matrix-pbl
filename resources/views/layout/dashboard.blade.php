@@ -14,7 +14,7 @@
 </head>
 <body class="bg-white inter max-w-screen">
     @include('components/dashboard')
-    <div class="mt-14 sm:ml-64">
+    <div class="mt-14 ml-64 max-sm:ml-0">
         <div class="min-h-screen">
             @yield('content')
         </div>
