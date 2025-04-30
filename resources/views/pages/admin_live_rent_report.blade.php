@@ -107,6 +107,14 @@
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   </div>
+  </main>
+
+  <script>
+    // Sidebar Toggle Functionality
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    const expandedMenu = document.getElementById('expanded-menu');
+
 @endsection

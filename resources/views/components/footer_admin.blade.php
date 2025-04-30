@@ -1,5 +1,5 @@
 @vite('resources/css/app.css') 
-<footer class="border-t-2 border-t-slate-950">
+<footer class="border-t-2 border-t-slate-950 w-full">
     <div class="max-sm:flex grid items-start grid-cols-12 bg-stone-200 p-10">
         <div class="max-md:flex-row col-span-3 grid grid-rows-12 gap-y-4 items-start">
             <div class="row-span-6 max-sm:row-span-2 flex items-center gap-4 p-0 m-0">

@@ -43,60 +43,8 @@
 <section class="mt-20 p-4 px-10" id="pengembang">
     <div class="flex gap-12 flex-wrap justify-center">
         @php
-            $developers = [
-                [
-                    'id_pengembang' => '1',
-                    'nama_pengembang' => 'Cyntia Lasmi Andesti, S.Kom., M.Kom',
-                    'role_pengembang' => 'Manager Proyek',
-                    'deskripsi_pengembang' => 'Manager Proyek adalah seseorang yang bertanggung jawab membuka, mengawasi berjalannya proyek, juga sebagai pembina dan manajer sumber daya tim proyek.',
-                    'biografi_pengembang' => 'Dosen Teknik Informatika Politeknik Negeri Batam Sejak 2025',
-                    // 'foto_pengembang' => '',
-                    // 'instagram_pengembang' => '',
-                    // 'linkedin_pengembang' => '',
-                ],
-                [
-                    'id_pengembang' => '2',
-                    'nama_pengembang' => 'Nasrullah',
-                    'role_pengembang' => 'Ketua Tim',
-                    'deskripsi_pengembang' => 'Ketua Tim adalah seseorang yang bertanggung jawab, menjalankan, dan sebagai inti dalam kerja tim proyek, juga sebagai penanggung jawab proyek kepada manager proyek.',
-                    'biografi_pengembang' => 'Mahasiswa D3 Teknik Informatika Politeknik Negeri Batam Angkatan 2024',
-                    // 'foto_pengembang' => '',
-                    // 'instagram_pengembang' => '',
-                    // 'linkedin_pengembang' => '',
-                ],
-                [
-                    'id_pengembang' => '3',
-                    'nama_pengembang' => 'Arabella Advania Ginting',
-                    'role_pengembang' => 'Anggota Tim',
-                    'deskripsi_pengembang' => 'Anggota Tim Adalah Seseorang yang bekerja dalam pelaksanaan proyek, dimana spesifikasi pekerjaan dan peran dalam tim telah ditentukan dalam kerja sama dan diskusi tim.',
-                    'biografi_pengembang' => 'Mahasiswa D3 Teknik Informatika Politeknik Negeri Batam Angkatan 2024',
-                    // 'foto_pengembang' => '',
-                    // 'instagram_pengembang' => '',
-                    // 'linkedin_pengembang' => '',
-                ],
-                [
-                    'id_pengembang' => '4',
-                    'nama_pengembang' => 'Nabila Maya Shafira',
-                    'role_pengembang' => 'Anggota Tim',
-                    'deskripsi_pengembang' => 'Anggota Tim Adalah Seseorang yang bekerja dalam pelaksanaan proyek, dimana spesifikasi pekerjaan dan peran dalam tim telah ditentukan dalam kerja sama dan diskusi tim.',
-                    'biografi_pengembang' => 'Mahasiswa D3 Teknik Informatika Politeknik Negeri Batam Angkatan 2024',
-                    // 'foto_pengembang' => '',
-                    // 'instagram_pengembang' => '',
-                    // 'linkedin_pengembang' => '',
-                ],
-                [
-                    'id_pengembang' => '5',
-                    'nama_pengembang' => 'Salsa Putri Ajriyanti',
-                    'role_pengembang' => 'Anggota Tim',
-                    'deskripsi_pengembang' => 'Anggota Tim Adalah Seseorang yang bekerja dalam pelaksanaan proyek, dimana spesifikasi pekerjaan dan peran dalam tim telah ditentukan dalam kerja sama dan diskusi tim.',
-                    'biografi_pengembang' => 'Mahasiswa D3 Teknik Informatika Politeknik Negeri Batam Angkatan 2024',
-                    // 'foto_pengembang' => '',
-                    // 'instagram_pengembang' => '',
-                    // 'linkedin_pengembang' => '',
-                ],
-            ];
+            $developers = config('developer.developer');
         @endphp
-
         @foreach ($developers as $developer)
             @include('components.developer_card', [
                 'id_pengembang' => $developer['id_pengembang'] ?? null,
@@ -109,7 +57,6 @@
                 'linkedin_pengembang' => $developer['linkedin_pengembang'] ?? null,
             ])
         @endforeach
-
     </div>
 </section>
 
