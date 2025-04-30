@@ -3,52 +3,26 @@
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
 @section('content')
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto mt-10 px-6 md:flex md:gap-6">
 
-<div class="flex p-4 gap-4">
-    <!-- Sidebar dengan height yang sama dengan main content -->
-    <div class="w-72">
-      <aside class="bg-white rounded-lg border border-dark-olive p-4 flex flex-col h-full">
-        <div class="text-center border-b pb-4">
-          <div class="w-20 h-20 bg-red-100 rounded-full mx-auto mb-2 flex items-center justify-center text-red-600 text-4xl">👤</div>
-          <p class="font-semibold">Nabila Maya</p>
-          <p class="text-sm text-gray-500">+62895364095999</p>
-        </div>
-        <nav class="mt-4 flex-grow">
-          <div class="flex items-center py-2 border-b cursor-pointer" onclick="toggleAccountMenu()">
-            <span class="mr-2">👤</span>
-            <div class="font-semibold text-dark-olive">Akun Saya</div>
-            <span id="account-arrow" class="ml-auto text-black">▶</span>
-          </div>
-          <ul id="account-menu" class="py-2 space-y-2 border-b hidden">
-            <li class="text-gray-700 hover:text-black cursor-pointer pl-6">Profil Saya</li>
-            <li class="text-gray-700 hover:text-black cursor-pointer pl-6">Pengaturan akun</li>
-            <li class="text-gray-700 hover:text-black cursor-pointer pl-6">Ganti password</li>
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-4">
+          <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F]"></div>
+          <h2 class="text-[#556B2F] font-bold text-lg">Achul</h2>
+          <ul class="space-y-2 w-full text-center text-sm">
+            <li>Riwayat Penyewaan</li>
+            <li>Riwayat Top Up</li>
+            <li>Pengaturan Akun</li>
+            <li>Ganti Password</li>
+            <li class="text-red-600 font-semibold">Keluar Akun</li>
+            <li class="text-red-700 font-bold">Hapus Akun</li>
           </ul>
-          <div class="flex items-center py-2 border-b cursor-pointer">
-            <span class="mr-2">📋</span>
-            <div class="font-semibold text-dark-olive">Riwayat Pesanan</div>
-          </div>
-          <div class="flex items-center py-2 border-b cursor-pointer">
-            <span class="mr-2">🪙</span>
-            <div class="font-semibold text-dark-olive">Riwayat Top Up</div>
-          </div>
-        </nav>
-        <!-- Keluar button placed at the bottom -->
-        <div class="mt-auto flex items-center text-red-600 cursor-pointer pt-4">
-          <span class="mr-2">↩️</span>
-          <span class="font-medium">Keluar</span>
         </div>
-      </aside>
-    </div>
 
     <!-- Main Content -->
     <main class="flex-1 bg-white rounded-lg border border-dark-olive min-h-[600px]">
-      <!-- Tabs -->
-      <div class="flex border-b">
-        <button onclick="switchTab('account')" class="px-4 py-2 text-white font-semibold flex-1 text-center cursor-pointer bg-dark-olive">Akun Saya</button>
-        <button onclick="switchTab('orders')" class="px-4 py-2 text-white font-semibold flex-1 text-center cursor-pointer bg-dark-olive">Riwayat Pesanan</button>
-        <button class="px-4 py-2 font-semibold flex-1 text-center bg-lime-200">Riwayat Top Up</button>
-      </div>
+
 
       <div class="p-4">
         <h2 class="text-center font-bold text-lg mb-4">Riwayat Top Up</h2>
@@ -110,7 +84,6 @@
                   <p class="text-lg font-semibold">Rp.9.000,00</p>
                   <div class="flex items-center justify-end text-sm text-gray-500">
                     <span>GoPay Saldo</span>
-                    <span class="ml-1 text-black">▼</span>
                   </div>
                 </div>
               </div>
@@ -136,7 +109,6 @@
                     <p class="text-lg font-semibold">Rp.8.000,00</p>
                     <div class="flex items-center justify-end text-sm text-gray-500">
                       <span>GoPay Saldo</span>
-                      <span class="ml-1 text-black">▼</span>
                     </div>
                   </div>
                 </div>
@@ -156,7 +128,6 @@
                     <p class="text-lg font-semibold">Rp.20.000,00</p>
                     <div class="flex items-center justify-end text-sm text-gray-500">
                       <span>DANA Saldo</span>
-                      <span class="ml-1 text-black">▼</span>
                     </div>
                   </div>
                 </div>
@@ -196,148 +167,5 @@
         <button class="w-full bg-dark-olive text-white py-2 rounded-md mt-4">Detail Klaim</button>
       </div>
     </div>
-  </div>
-
-  <script>
-    // Ketika dokumen sudah dimuat sepenuhnya
-    document.addEventListener('DOMContentLoaded', function() {
-      setupListeners();
-    });
-
-    function setupListeners() {
-      // Atur listener untuk setiap item transaksi
-      const allTransactionItems = document.querySelectorAll('.transaction-item');
-      allTransactionItems.forEach(item => {
-        // Tandai data tanggal dan metode pada setiap item
-        item.dataset.date = item.getAttribute('data-date');
-        item.dataset.method = item.getAttribute('data-method');
-      });
-    }
-
-    function toggleAccountMenu() {
-      const accountMenu = document.getElementById('account-menu');
-      const accountArrow = document.getElementById('account-arrow');
-      accountMenu.classList.toggle('hidden');
-      // Ubah arah panah
-      if (accountMenu.classList.contains('hidden')) {
-        accountArrow.innerHTML = '▶';
-      } else {
-        accountArrow.innerHTML = '▼';
-      }
-    }
-
-    function switchTab(tabName) {
-      // Fungsi untuk mengganti tab yang aktif
-      console.log(`Switching to ${tabName} tab`);
-    }
-
-    function showFilterOptions(filterId) {
-      const filterMenu = document.getElementById(filterId);
-      const filterArrow = document.getElementById(filterId + '-arrow');
-      filterMenu.classList.toggle('hidden');
-      // Ubah arah panah
-      if (filterMenu.classList.contains('hidden')) {
-        filterArrow.innerHTML = '▶';
-      } else {
-        filterArrow.innerHTML = '▼';
-      }
-    }
-
-    function applyDateFilter() {
-      const selectedDate = document.querySelector('#date-filter input').value;
-      // Format tanggal dari input (yyyy-mm-dd) ke format yang sesuai dengan data-date (dd-mm-yyyy)
-      if (selectedDate) {
-        const dateParts = selectedDate.split('-');
-        const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-
-        // Sembunyikan filter dan ubah arah panah
-        document.getElementById('date-filter').classList.add('hidden');
-        document.getElementById('date-filter-arrow').innerHTML = '▶';
-
-        // Tampilkan/sembunyikan transaksi berdasarkan tanggal
-        filterTransactions('date', formattedDate);
-
-        // Update teks di tombol filter
-        document.getElementById('date-button-text').textContent = `Tanggal: ${formattedDate}`;
-      }
-    }
-
-    function applyMethodFilter(method) {
-      // Sembunyikan filter dan ubah arah panah
-      document.getElementById('method-filter').classList.add('hidden');
-      document.getElementById('method-filter-arrow').innerHTML = '▶';
-
-      // Tampilkan/sembunyikan transaksi berdasarkan metode
-      filterTransactions('method', method);
-
-      // Update teks di tombol filter
-      document.getElementById('method-button-text').textContent = `Metode: ${method}`;
-    }
-
-    function filterTransactions(filterType, filterValue) {
-      // Ambil semua grup tanggal
-      const dateGroups = document.querySelectorAll('.date-group');
-
-      dateGroups.forEach(group => {
-        let hasVisibleTransaction = false;
-        // Ambil semua transaksi dalam grup ini
-        const transactions = group.querySelectorAll('.transaction-item');
-
-        transactions.forEach(transaction => {
-          // Periksa apakah transaksi cocok dengan filter
-          const matches = transaction.getAttribute(`data-${filterType}`) === filterValue;
-
-          if (matches) {
-            transaction.classList.remove('hidden');
-            hasVisibleTransaction = true;
-          } else {
-            transaction.classList.add('hidden');
-          }
-        });
-
-        // Tampilkan/sembunyikan grup tanggal berdasarkan apakah ada transaksi yang terlihat
-        if (hasVisibleTransaction) {
-          group.classList.remove('hidden');
-        } else {
-          group.classList.add('hidden');
-        }
-      });
-    }
-
-    function resetFilters() {
-      // Reset semua filter
-      document.querySelectorAll('.transaction-item').forEach(item => {
-        item.classList.remove('hidden');
-      });
-
-      document.querySelectorAll('.date-group').forEach(group => {
-        group.classList.remove('hidden');
-      });
-
-      // Reset teks tombol filter
-      document.getElementById('date-button-text').textContent = 'Tanggal';
-      document.getElementById('method-button-text').textContent = 'Metode';
-
-      // Reset UI filter
-      document.getElementById('date-filter').classList.add('hidden');
-      document.getElementById('date-filter-arrow').innerHTML = '▶';
-      document.getElementById('method-filter').classList.add('hidden');
-      document.getElementById('method-filter-arrow').innerHTML = '▶';
-    }
-
-    function showTransactionDetails(nominal, date, token) {
-      // Set modal content
-      document.getElementById('modal-nominal').textContent = `Rp.${nominal},00`;
-      document.getElementById('modal-date').textContent = date;
-      document.getElementById('modal-token').textContent = token;
-
-      // Show modal
-      document.getElementById('transaction-modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('transaction-modal').classList.add('hidden');
-    }
-  </script>
 
 @endsection
