@@ -148,4 +148,26 @@
     </main>
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.querySelector('input[name="search"]');
+      const orders = document.querySelectorAll('.order-item');
+      const emptyState = document.getElementById('empty-orders');
+
+      searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+        let found = 0;
+
+        orders.forEach(order => {
+          const keywords = order.dataset.keywords.toLowerCase();
+          const visible = keywords.includes(keyword);
+          order.style.display = visible ? "block" : "none";
+          if (visible) found++;
+        });
+
+        emptyState.classList.toggle("hidden", found > 0);
+      });
+    });
+    </script>
+
 @endsection

@@ -167,5 +167,108 @@
         <button class="w-full bg-dark-olive text-white py-2 rounded-md mt-4">Detail Klaim</button>
       </div>
     </div>
+    <script>
+        function showFilterOptions(id) {
+          document.querySelectorAll('.hidden').forEach(el => {
+            if (el.id === id) {
+              el.classList.toggle('hidden');
+            } else {
+              el.classList.add('hidden');
+            }
+          });
+        }
+
+        function applyDateFilter() {
+          const selectedDate = document.querySelector('#date-filter input[type="date"]').value;
+          const formattedDate = new Date(selectedDate).toLocaleDateString('id-ID', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          }).replace(/\//g, '-'); // Format ke 05-03-2025
+
+          document.getElementById('date-button-text').innerText = selectedDate || 'Tanggal';
+          filterTransactions(formattedDate, null);
+        }
+
+        function applyMethodFilter(method) {
+          document.getElementById('method-button-text').innerText = method;
+          filterTransactions(null, method);
+        }
+
+        function resetFilters() {
+          document.getElementById('date-button-text').innerText = 'Tanggal';
+          document.getElementById('method-button-text').innerText = 'Metode';
+          document.querySelector('#date-filter input[type="date"]').value = '';
+
+          const items = document.querySelectorAll('.transaction-item');
+          items.forEach(item => item.closest('.date-group').style.display = 'block');
+          items.forEach(item => item.style.display = 'block');
+
+          // Tampilkan semua date-group
+          document.querySelectorAll('.date-group').forEach(group => group.style.display = 'block');
+          document.getElementById('empty-state').classList.add('hidden');
+        }
+
+        function filterTransactions(date = null, method = null) {
+          const items = document.querySelectorAll('.transaction-item');
+          let hasVisible = false;
+
+          items.forEach(item => {
+            const itemDate = item.getAttribute('data-date');
+            const itemMethod = item.getAttribute('data-method');
+
+            const matchDate = date ? itemDate === date : true;
+            const matchMethod = method ? itemMethod === method : true;
+
+            const visible = matchDate && matchMethod;
+            item.style.display = visible ? 'block' : 'none';
+          });
+
+          // Sembunyikan grup yang tidak punya transaksi terlihat
+          document.querySelectorAll('.date-group').forEach(group => {
+            const visibleItems = group.querySelectorAll('.transaction-item:not([style*="display: none"])');
+            group.style.display = visibleItems.length > 0 ? 'block' : 'none';
+          });
+
+          // Cek apakah semua transaksi disembunyikan
+          const anyVisible = document.querySelectorAll('.transaction-item:not([style*="display: none"])').length > 0;
+          document.getElementById('empty-state').classList.toggle('hidden', anyVisible);
+        }
+
+        function showTransactionDetails(nominal, tanggal, token) {
+          document.getElementById('modal-nominal').innerText = 'Rp.' + nominal + ',00';
+          document.getElementById('modal-date').innerText = tanggal;
+          document.getElementById('modal-token').innerText = token;
+          document.getElementById('transaction-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+          document.getElementById('transaction-modal').classList.add('hidden');
+        }
+
+        // Klik di luar modal = close
+        window.addEventListener('click', function (e) {
+          const modal = document.getElementById('transaction-modal');
+          if (e.target === modal) closeModal();
+        });
+        function resetFilters() {
+  document.getElementById('date-button-text').innerText = 'Tanggal';
+  document.getElementById('method-button-text').innerText = 'Metode';
+  document.querySelector('#date-filter input[type="date"]').value = '';
+
+  const items = document.querySelectorAll('.transaction-item');
+  items.forEach(item => item.closest('.date-group').style.display = 'block');
+  items.forEach(item => item.style.display = 'block');
+
+  document.querySelectorAll('.date-group').forEach(group => group.style.display = 'block');
+  document.getElementById('empty-state').classList.add('hidden');
+
+  // Tutup semua dropdown
+  document.getElementById('date-filter').classList.add('hidden');
+  document.getElementById('method-filter').classList.add('hidden');
+}
+
+      </script>
+
 
 @endsection

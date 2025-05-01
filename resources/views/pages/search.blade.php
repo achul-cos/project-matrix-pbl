@@ -15,7 +15,7 @@
         <div class="text-lg font-black">Filter</div>
     </div>
 </button>
- 
+
  <!-- drawer component -->
  <div id="drawer-disabled-backdrop" class="fixed shadow-2xl top-0 left-0 z-100 min-sm:pb-20 min-sm:mt-20 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-64 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-disabled-backdrop-label">
      <h5 id="drawer-disabled-backdrop-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Filter</h5>
@@ -35,7 +35,7 @@
             <ul class="grid w-full gap-4 md:grid-cols-2">
                <li>
                   <input type="radio" id="cpu-intel" name="cpu" value="cpu-intel" class="hidden peer" required />
-                  <label for="cpu-intel" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">                           
+                  <label for="cpu-intel" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
                      <div class="block">
                            <div class="w-full text-lg font-semibold">Intel</div>
                            <div class="w-full text-xs">Cocok Editing & Design</div>
@@ -62,7 +62,7 @@
             <ul class="grid w-full gap-4 md:grid-cols-2">
                <li>
                   <input type="radio" id="gpu-gtx" name="gpu" value="gpu-gtx" class="hidden peer" required />
-                  <label for="gpu-gtx" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-gray-600 peer-checked:text-gray-600 hover:text-gray-600 hover:bg-gray-100">                           
+                  <label for="gpu-gtx" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-gray-600 peer-checked:text-gray-600 hover:text-gray-600 hover:bg-gray-100">
                      <div class="block">
                            <div class="w-full text-lg font-semibold">GTX</div>
                            <div class="w-full text-xs">Grafis & Performa Standar</div>
@@ -89,7 +89,7 @@
                <ul class="grid w-full gap-4 md:grid-cols-2">
                   <li>
                      <input type="radio" id="room-public" name="room" value="room-public" class="hidden peer" required />
-                     <label for="room-public" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-slate-600 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">                           
+                     <label for="room-public" class="inline-flex items-center justify-between w-full p-3 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-slate-600 peer-checked:text-slate-600 hover:text-gray-600 hover:bg-gray-100">
                         <div class="block">
                               <div class="w-full text-lg font-semibold">Public</div>
                               <div class="w-full text-xs">Cocok Untuk Tim dan Terbuka</div>
@@ -268,6 +268,6 @@
 
 </section>
 
- 
+
 
 @endsection
