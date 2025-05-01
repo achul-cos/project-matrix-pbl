@@ -66,36 +66,39 @@
 
         <!-- Top Up History -->
         <div class="transaction-container space-y-6 px-2">
-          <!-- First date group -->
-          <div class="date-group">
-            <p class="font-semibold">Sabtu, 5 Maret 2025</p>
-            <div class="transaction-item cursor-pointer" data-date="05-03-2025" data-method="GoPay" onclick="showTransactionDetails('9000', 'Jumat, 4 Maret 2025', '2790-120-35-0665-09')">
-              <div class="bg-white p-4 rounded-md border border-gray-200 mt-2 flex justify-between items-center">
-                <div class="flex items-center">
-                  <div class="w-8 h-8 bg-amber-200 rounded mr-3 flex items-center justify-center text-amber-600">
-                    🪙
+            <!-- First date group -->
+            <div class="date-group">
+              <p class="font-semibold">Sabtu, 5 Maret 2025</p>
+              <div class="transaction-item cursor-pointer transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-green-100"
+                data-date="05-03-2025" data-method="GoPay" onclick="showTransactionDetails('9000', 'Jumat, 4 Maret 2025', '2790-120-35-0665-09')">
+                <div class="bg-green p-4 rounded-md border border-red-200 mt-2 flex justify-between items-center">
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 bg-amber-200 rounded mr-3 flex items-center justify-center text-amber-600">
+                      🪙
+                    </div>
+                    <div>
+                      <p class="font-bold">Nabila</p>
+                      <p class="text-sm text-gray-500">2790-167-35-9005-21</p>
+                    </div>
                   </div>
-                  <div>
-                    <p class="font-bold">Nabila</p>
-                    <p class="text-sm text-gray-500">2790-167-35-9005-21</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="text-lg font-semibold">Rp.9.000,00</p>
-                  <div class="flex items-center justify-end text-sm text-gray-500">
-                    <span>GoPay Saldo</span>
+                  <div class="text-right">
+                    <p class="text-lg font-semibold">Rp.9.000,00</p>
+                    <div class="flex items-center justify-end text-sm text-gray-500">
+                      <span>GoPay Saldo</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
+
           <!-- Second date group -->
           <div class="date-group">
             <p class="font-semibold">Jumat, 4 Maret 2025</p>
             <div class="space-y-2">
-              <div class="transaction-item cursor-pointer" data-date="04-03-2025" data-method="GoPay" onclick="showTransactionDetails('8000', 'Jumat, 4 Maret 2025', '2790-120-35-0665-09')">
-                <div class="bg-white p-4 rounded-md border border-gray-200 flex justify-between items-center">
+              <div class="transaction-item cursor-pointer transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-green-100" data-date="04-03-2025" data-method="GoPay" onclick="showTransactionDetails('8000', 'Jumat, 4 Maret 2025', '2790-120-35-0665-09')">
+                <div class="bg-green p-4 rounded-md border border-red-200 flex justify-between items-center">
                   <div class="flex items-center">
                     <div class="w-8 h-8 bg-amber-200 rounded mr-3 flex items-center justify-center text-amber-600">
                       🪙
@@ -113,8 +116,8 @@
                   </div>
                 </div>
               </div>
-              <div class="transaction-item cursor-pointer" data-date="04-03-2025" data-method="DANA" onclick="showTransactionDetails('20000', 'Jumat, 4 Maret 2025', '2910-133-35-8005-03')">
-                <div class="bg-white p-4 rounded-md border border-gray-200 flex justify-between items-center">
+              <div class="transaction-item transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-green-100cursor-pointer" data-date="04-03-2025" data-method="DANA" onclick="showTransactionDetails('20000', 'Jumat, 4 Maret 2025', '2910-133-35-8005-03')">
+                <div class="bg-green p-4 rounded-md border border-red-200 flex justify-between items-center">
                   <div class="flex items-center">
                     <div class="w-8 h-8 bg-amber-200 rounded mr-3 flex items-center justify-center text-amber-600">
                       🪙
