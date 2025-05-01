@@ -41,7 +41,7 @@
       <div class="flex flex-wrap px-2 justify-center">
         <!-- Carousel Items -->
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 2" class="w-full h-full object-cover">
             </div>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 1" class="w-full h-full object-cover">
             </div>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 2" class="w-full h-full object-cover">
             </div>
@@ -68,7 +68,7 @@
         </div>
 
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 3" class="w-full h-full object-cover">
             </div>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 4" class="w-full h-full object-cover">
             </div>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="w-64 flex-shrink-0 p-2">
-          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">
               <img src="img/ad/placeholder1.png" alt="Computer 5" class="w-full h-full object-cover">
             </div>
@@ -166,7 +166,7 @@
     <div class="max-w-6xl mx-auto px-6 py-8">
         <!-- First Article Section - Image Left -->
         <div class="mb-16 md:flex md:items-start">
-            <div class="md:w-1/2 md:pr-10 mb-6 md:mb-0">
+            <div class="md:w-1/2 md:pr-10 mb-6 md:mb-0 transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
                 <div class="w-full h-64 md:h-80 rounded-lg overflow-hidden">
                     <img src="img/ad/placeholder1.png" alt="Gambar artikel pertama" class="w-full h-full object-cover" />
                 </div>
@@ -184,9 +184,9 @@
 
         <!-- Second Article Section - Image Right -->
         <div class="md:flex md:items-start">
-            <div class="md:w-1/2 md:pr-6 mb-6 md:mb-0 md:order-1 md:pl-10">
+            <div class="md:w-1/2 md:pr-6 mb-6 md:mb-0 md:order-1 md:pl-10 transition-all transform hover:scale-105 active:scale-100 active:shadow-inner">
                 <div class="w-full h-64 md:h-80 rounded-lg overflow-hidden">
-                    <<img src="img/ad/placeholder1.png" alt="Gambar artikel kedua" class="w-full h-full object-cover" />
+                    <img src="img/ad/placeholder1.png" alt="Gambar artikel kedua" class="w-full h-full object-cover"/>
                 </div>
             </div>
             <div class="md:w-1/2 md:order-0 md:pt-4 md:pr-10">

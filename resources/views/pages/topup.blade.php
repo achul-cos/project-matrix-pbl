@@ -47,4 +47,18 @@
       </button>
     </div>
   </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const tokenInput = document.getElementById("token");
+      const tokenButtons = document.querySelectorAll(".tokenButton");
+
+      tokenButtons.forEach(button => {
+        button.addEventListener("click", function () {
+          const tokenValue = this.getAttribute("data-value");
+          tokenInput.value = tokenValue;
+        });
+      });
+    });
+  </script>
+
 @endsection

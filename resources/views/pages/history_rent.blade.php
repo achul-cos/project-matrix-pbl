@@ -49,11 +49,11 @@
             <div class="flex justify-between items-center p-3 border-b">
               <div class="flex items-center gap-2">
                 <div class="h-6 w-6 bg-red-600 rounded"></div>
-                <span class="font-medium">Kode Pesanan A</span>
+                <span class="font-medium transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">Kode Pesanan A</span>
               </div>
               <div class="flex items-center gap-2">
                 </button>
-                <span class="text-red-600 font-medium">SELESAI</span>
+                <span class="text-red-600 font-medium transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">SELESAI</span>
               </div>
             </div>
 
@@ -63,7 +63,7 @@
               <div class="mb-4 md:mb-0 md:mr-4">
                 <div class="relative">
                   <div class="w-32 h-32 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
-                    <img src="img/ad/placeholder1.png" alt="PC Acer" class="w-full h-full object-cover"/>
+                    <img src="img/ad/placeholder1.png" alt="PC Acer" class="w-full h-full object-cover transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100"/>
                   </div>
                   <div class="absolute bottom-0 bg-dark-olive w-full text-center text-white text-xs py-1">
                     ACER ASPIRE C3
@@ -73,7 +73,7 @@
 
               <!-- Computer Details -->
               <div class="flex-1">
-                <div class="flex flex-col md:flex-row md:justify-between">
+                <div class="flex flex-col md:flex-row md:justify-between transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">
                   <div>
                     <h3 class="font-medium">PC Acer Aspire C3 - Core i7-3770 - Ram 8 GB</h3>
                     <p class="text-sm text-gray-600">Public Room 3</p>
@@ -86,7 +86,7 @@
                     </button>
                   </div>
                 </div>
-                <p class="text-sm text-gray-600 mt-4">Penyewaan pada tanggal 22 February 2025</p>
+                <p class="text-sm text-gray-600 mt-4 transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">Penyewaan pada tanggal 22 February 2025</p>
               </div>
             </div>
           </div>
@@ -97,11 +97,11 @@
             <div class="flex justify-between items-center p-3 border-b">
               <div class="flex items-center gap-2">
                 <div class="h-6 w-6 bg-red-600 rounded"></div>
-                <span class="font-medium">Kode Pesanan B</span>
+                <span class="font-medium transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">Kode Pesanan B</span>
               </div>
               <div class="flex items-center gap-2">
                 </button>
-                <span class="text-red-600 font-medium">SELESAI</span>
+                <span class="text-red-600 font-medium transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">SELESAI</span>
               </div>
             </div>
 
@@ -111,7 +111,7 @@
               <div class="mb-4 md:mb-0 md:mr-4">
                 <div class="relative">
                   <div class="w-32 h-32 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
-                    <img src="/api/placeholder/150/150" alt="PC Dell" class="w-full h-full object-cover"/>
+                    <img src="/api/placeholder/150/150" alt="PC Dell" class="w-full h-full object-cover transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100"/>
                   </div>
                   <div class="absolute bottom-0 bg-dark-olive w-full text-center text-white text-xs py-1">
                     DELL OPTIPLEX
@@ -121,7 +121,7 @@
 
               <!-- Computer Details -->
               <div class="flex-1">
-                <div class="flex flex-col md:flex-row md:justify-between">
+                <div class="flex flex-col md:flex-row md:justify-between transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">
                   <div>
                     <h3 class="font-medium">PC Dell Optiplex - Core i5-9400 - Ram 16 GB</h3>
                     <p class="text-sm text-gray-600">Private Room 2</p>
@@ -134,7 +134,7 @@
                     </button>
                   </div>
                 </div>
-                <p class="text-sm text-gray-600 mt-4">Penyewaan pada tanggal 18 February 2025</p>
+                <p class="text-sm text-gray-600 mt-4 transition-all transform hover:scale-101 active:scale-100 active:ring-2 active:ring-lime-600 active:bg-gray-100">Penyewaan pada tanggal 18 February 2025</p>
               </div>
             </div>
           </div>
@@ -147,5 +147,27 @@
       </div>
     </main>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.querySelector('input[name="search"]');
+      const orders = document.querySelectorAll('.order-item');
+      const emptyState = document.getElementById('empty-orders');
+
+      searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+        let found = 0;
+
+        orders.forEach(order => {
+          const keywords = order.dataset.keywords.toLowerCase();
+          const visible = keywords.includes(keyword);
+          order.style.display = visible ? "block" : "none";
+          if (visible) found++;
+        });
+
+        emptyState.classList.toggle("hidden", found > 0);
+      });
+    });
+    </script>
 
 @endsection

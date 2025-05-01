@@ -30,7 +30,7 @@
               <th class="p-3 rounded-1-lg">Processor</th>
               <th class="p-3">GPU</th>
               <th class="p-3 rounded-1-lg">RAM</th>
-              <th class="p-3">Ruanga</th>
+              <th class="p-3">Ruangan</th>
               <th class="p-3 rounded-1-lg">Status</th>
             </tr>
           </thead>
