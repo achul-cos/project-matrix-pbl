@@ -68,7 +68,7 @@
                     <p class="self-center text-center font-black text-xl text-amber-50 truncate w-15">200000000000</p>
                 </div>
                 <div class="">
-                    <div class="w-10 h-10 justify-self-end transform transition-transform hover:scale-105" style="background-image: url(img/icon/Matrix_Token_Icon_white.svg); background-size: cover;"></div>
+                    <div class="w-10 h-10 justify-self-end transform transition-transform hover:scale-105" style="background-image: url(../../img/icon/Matrix_Token_Icon_white.svg); background-size: cover;"></div>
                 </div>
             </div>
             </a>

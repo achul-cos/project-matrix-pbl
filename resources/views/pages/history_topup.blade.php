@@ -11,12 +11,12 @@
           <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F]"></div>
           <h2 class="text-[#556B2F] font-bold text-lg">Achul</h2>
           <ul class="space-y-2 w-full text-center text-sm">
-            <li>Riwayat Penyewaan</li>
-            <li>Riwayat Top Up</li>
-            <li>Pengaturan Akun</li>
-            <li>Ganti Password</li>
-            <li class="text-red-600 font-semibold">Keluar Akun</li>
-            <li class="text-red-700 font-bold">Hapus Akun</li>
+            <li><a href="/profile/rent">Riwayat Penyewaan</a></li>
+            <li><a href="profile/topup">Riwayat Top Up</a></li>
+            <li><a href="/profile">Pengaturan Akun</a></li>
+            <li><a href="/profile">Ganti Password</a></li>
+            <li class="text-red-600 font-semibold"><a href="/">Keluar Akun</a></li>
+            <li class="text-red-700 font-bold"><a href="/">Hapus Akun</a></li>
           </ul>
         </div>
 
