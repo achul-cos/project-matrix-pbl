@@ -38,8 +38,17 @@
         <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
     </div>
     <div class="overflow-x-auto scroll-smooth scrollbar-hide">
-      <div class="flex space-x-4 w-max px-2">
+      <div class="flex flex-wrap px-2 justify-center">
         <!-- Carousel Items -->
+        <div class="w-64 flex-shrink-0 p-2">
+          <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
+            <div class="w-full h-32 mb-2 overflow-hidden rounded">
+              <img src="img/ad/placeholder1.png" alt="Computer 2" class="w-full h-full object-cover">
+            </div>
+            <span class="text-gray-500 font-medium">89 X DISEWA</span>
+          </div>
+        </div>
+
         <div class="w-64 flex-shrink-0 p-2">
           <div class="bg-gray-200 p-6 flex flex-col items-center justify-center rounded-lg shadow">
             <div class="w-full h-32 mb-2 overflow-hidden rounded">

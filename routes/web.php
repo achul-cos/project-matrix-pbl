@@ -78,6 +78,10 @@ Route::get('/admin/management_information', function () {
     return view('pages/admin_management_information');
 });
 
+Route::get('/admin/management_warnet', function () {
+    return view('pages/admin_management_warnet');
+});
+
 Route::get('/search', function () {
     return view('pages/search');
 });

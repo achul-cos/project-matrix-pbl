@@ -49,7 +49,7 @@
             <a href="#"><img src="img/ad/placeholder1.png" alt="" class="rounded-xl shadow-xl aspect-video object-fit"></a>
         </div>
     </div>
-    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4 justify-items-center">
         <div class="transition-transform transform hover:scale-102">
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
