@@ -276,6 +276,201 @@
 
 </section>
 
- 
+<script>
+   // JavaScript to update filter display text based on selected filters
+   document.addEventListener('DOMContentLoaded', function() {
+      // Get reference to the filter display span
+      const filterDisplaySpan = document.querySelector('.text-center.text-lg span.font-bold');
+      
+      // Function to update filter display text
+      function updateFilterDisplay() {
+         let activeFilters = [];
+         
+         // Check CPU filters
+         const cpuIntel = document.getElementById('cpu-intel').checked;
+         const cpuAmd = document.getElementById('cpu-amd').checked;
+         if (cpuIntel) activeFilters.push('Intel');
+         if (cpuAmd) activeFilters.push('AMD');
+         
+         // Check GPU filters
+         const gpuGtx = document.getElementById('gpu-gtx').checked;
+         const gpuRtx = document.getElementById('gpu-rtx').checked;
+         if (gpuGtx) activeFilters.push('GTX');
+         if (gpuRtx) activeFilters.push('RTX');
+         
+         // Check Room filters
+         const roomPublic = document.getElementById('room-public').checked;
+         const roomPrivate = document.getElementById('room-private').checked;
+         if (roomPublic) activeFilters.push('Public');
+         if (roomPrivate) activeFilters.push('Private');
+         
+         // Check RAM filters (range input)
+         const ramRange = document.querySelector('input[type="range"][min="0"][max="16"]').value;
+         if (ramRange == 8) activeFilters.push('8GB RAM');
+         if (ramRange == 16) activeFilters.push('16GB RAM');
+         
+         // Check Token filters (range input)
+         const tokenRange = document.querySelector('input[type="range"][min="1"][max="6"]').value;
+         if (tokenRange > 1) activeFilters.push(`${tokenRange} Token`);
+         
+         // Update display text
+         if (activeFilters.length > 0) {
+               filterDisplaySpan.textContent = activeFilters.join(', ');
+         } else {
+               filterDisplaySpan.textContent = 'Semua Produk'; // Default text when no filters are active
+         }
+      }
+      
+      // Add event listeners to all filter inputs
+      const radioInputs = document.querySelectorAll('input[type="radio"]');
+      radioInputs.forEach(input => {
+         input.addEventListener('change', updateFilterDisplay);
+      });
+      
+      // Add event listeners to range inputs
+      const rangeInputs = document.querySelectorAll('input[type="range"]');
+      rangeInputs.forEach(input => {
+         input.addEventListener('input', updateFilterDisplay);
+      });
+      
+      // Initialize display
+      updateFilterDisplay();
+   });
+
+   // JavaScript to update filter display text based on selected filters
+   document.addEventListener('DOMContentLoaded', function() {
+      // Get reference to the filter display span
+      const filterDisplaySpan = document.querySelector('.text-center.text-lg span.font-bold');
+      
+      // Get references to filter inputs
+      const cpuIntel = document.getElementById('cpu-intel');
+      const cpuAmd = document.getElementById('cpu-amd');
+      const gpuGtx = document.getElementById('gpu-gtx');
+      const gpuRtx = document.getElementById('gpu-rtx');
+      const roomPublic = document.getElementById('room-public');
+      const roomPrivate = document.getElementById('room-private');
+      const ramRange = document.getElementById('ram-range');
+      const tokenRange = document.getElementById('token-range');
+      
+      // Get references to action buttons
+      const resetButton = document.getElementById('reset-filters');
+      const applyButton = document.getElementById('apply-filters');
+      
+      let activeFilters = [];
+      let pendingFilters = [];
+      
+      // Function to update filter display text
+      function updateFilterDisplay(filtersArray) {
+         if (filtersArray.length > 0) {
+               filterDisplaySpan.textContent = filtersArray.join(', ');
+         } else {
+               filterDisplaySpan.textContent = 'Semua Produk'; // Default text when no filters are active
+         }
+      }
+      
+      // Function to collect current filter values
+      function collectFilterValues() {
+         let filters = [];
+         
+         // Check CPU filters
+         if (cpuIntel.checked) filters.push('Intel');
+         if (cpuAmd.checked) filters.push('AMD');
+         
+         // Check GPU filters
+         if (gpuGtx.checked) filters.push('GTX');
+         if (gpuRtx.checked) filters.push('RTX');
+         
+         // Check Room filters
+         if (roomPublic.checked) filters.push('Public');
+         if (roomPrivate.checked) filters.push('Private');
+         
+         // Check RAM filters (range input)
+         if (ramRange.value == 8) filters.push('8GB RAM');
+         if (ramRange.value == 16) filters.push('16GB RAM');
+         
+         // Check Token filters (range input)
+         if (tokenRange.value > 1) filters.push(`${tokenRange.value} Token`);
+         
+         return filters;
+      }
+      
+      // Function to handle input changes (collect pending filters but don't apply yet)
+      function handleInputChange() {
+         pendingFilters = collectFilterValues();
+      }
+      
+      // Function to apply filters
+      function applyFilters() {
+         activeFilters = pendingFilters;
+         updateFilterDisplay(activeFilters);
+         
+         // Here you would typically also update the product list based on filters
+         console.log('Filters applied:', activeFilters);
+         
+         // Close the drawer after applying filters
+         const drawerElement = document.getElementById('drawer-disabled-backdrop');
+         if (typeof window.Flowbite !== 'undefined' && drawerElement) {
+               const drawer = window.Flowbite.getInstance('Drawer', drawerElement);
+               if (drawer) drawer.hide();
+         }
+      }
+      
+      // Function to reset filters
+      function resetFilters() {
+         // Reset radio inputs
+         cpuIntel.checked = false;
+         cpuAmd.checked = false;
+         gpuGtx.checked = false;
+         gpuRtx.checked = false;
+         roomPublic.checked = false;
+         roomPrivate.checked = false;
+         
+         // Reset range inputs
+         ramRange.value = 0;
+         tokenRange.value = 1;
+         
+         // Update pending filters
+         pendingFilters = [];
+         
+         // Also update active filters and display immediately
+         activeFilters = [];
+         updateFilterDisplay(activeFilters);
+         
+         console.log('Filters reset');
+      }
+      
+      // Add event listeners to all filter inputs
+      const radioInputs = document.querySelectorAll('input[type="radio"]');
+      radioInputs.forEach(input => {
+         input.addEventListener('change', handleInputChange);
+      });
+      
+      // Add event listeners to range inputs
+      const rangeInputs = document.querySelectorAll('input[type="range"]');
+      rangeInputs.forEach(input => {
+         input.addEventListener('input', handleInputChange);
+      });
+      
+      // Add event listeners to buttons
+      if (resetButton) resetButton.addEventListener('click', resetFilters);
+      if (applyButton) applyButton.addEventListener('click', applyFilters);
+      
+      // Initialize filters
+      pendingFilters = collectFilterValues();
+      activeFilters = pendingFilters;
+      updateFilterDisplay(activeFilters);
+      
+      // If using Flowbite, initialize the drawer
+      if (typeof window.Flowbite !== 'undefined') {
+         const drawerElement = document.getElementById('drawer-disabled-backdrop');
+         if (drawerElement) {
+               const drawer = window.Flowbite.getInstance('Drawer', drawerElement);
+               if (!drawer) {
+                  new window.Flowbite.Drawer(drawerElement);
+               }
+         }
+      }
+   });
+</script>
 
 @endsection
