@@ -34,6 +34,7 @@
         <input type="text" id="token" placeholder="Masukkan jumlah token" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-lime-700" />
       </div>
       <!-- Quick Select Token Buttons -->
+      <form action="/payment" method="GET">
       <div class="grid grid-cols-3 gap-4 mb-8">
         <button class="tokenButton bg-lime-700 hover:bg-lime-700/80 text-white py-3 rounded-lg font-semibold transition-all active:scale-95" data-value="2">2 Token</button>
         <button class="tokenButton bg-lime-700 hover:bg-lime-700/80 text-white py-3 rounded-lg font-semibold transition-all active:scale-95" data-value="4">4 Token</button>
@@ -42,9 +43,10 @@
         <button class="tokenButton bg-lime-700 hover:bg-lime-700/80 text-white py-3 rounded-lg font-semibold transition-all active:scale-95" data-value="10">10 Token</button>
         <button class="tokenButton bg-lime-700 hover:bg-lime-700/80 text-white py-3 rounded-lg font-semibold transition-all active:scale-95" data-value="12">12 Token</button>
       </div>
-      <button id="paymentButton" class="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 transition duration-200 active:bg-gray-900 active:scale-[0.99]">
+      <button id="paymentButton" type="submit" class="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 transition duration-200 active:bg-gray-900 active:scale-[0.99]">
         Lanjutkan Pembayaran
       </button>
+      </form>
     </div>
   </section>
   <script>

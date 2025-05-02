@@ -12,7 +12,7 @@
           <h2 class="text-[#556B2F] font-bold text-lg">Achul</h2>
           <ul class="space-y-2 w-full text-center text-sm">
             <li><a href="/profile/rent">Riwayat Penyewaan</a></li>
-            <li><a href="profile/topup">Riwayat Top Up</a></li>
+            <li><a href="/profile/topup">Riwayat Top Up</a></li>
             <li><a href="/profile">Pengaturan Akun</a></li>
             <li><a href="/profile">Ganti Password</a></li>
             <li class="text-red-600 font-semibold"><a href="/">Keluar Akun</a></li>
