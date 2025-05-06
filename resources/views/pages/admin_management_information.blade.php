@@ -70,7 +70,7 @@
             </tr>
             <tr class="bg-gray-100 rounded-xl">
                 <td class="p-3 flex items-center space-x-3">
-                <span>Salsa Putri</span>
+                <span>3</span>
                 <td class="p-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
                 </td>
@@ -85,7 +85,7 @@
             </tr>
             <tr class="bg-gray-100 rounded-xl">
                 <td class="p-3 flex items-center space-x-3">
-                <span>Salsa Putri</span>
+                <span>4</span>
                 <td class="p-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
                 </td>

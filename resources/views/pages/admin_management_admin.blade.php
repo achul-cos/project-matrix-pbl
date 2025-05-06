@@ -28,7 +28,7 @@
           <thead>
             <tr class="bg-gray-200 text-sm text-gray-700">
               <th class="p-3 rounded-l-lg">Nama</th>
-              <th class="p-3">Ruangan</th>
+              <th class="p-3">Role</th>
               <th class="p-3 rounded-r-lg">Status</th>
             </tr>
           </thead>
@@ -36,9 +36,9 @@
             <tr class="bg-gray-100 rounded-xl">
               <td class="p-3 flex ml-8 items-center space-x-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                <span>Lenovo A</span>
+                <span>Admin 1</span>
               </td>
-              <td class="p-3">Private Room</td>
+              <td class="p-3">main branch</td>
               <td class="p-3">
                 <span class="bg-red-200 text-red-800 px-3 py-1 text-xs font-semibold rounded-full">Super</span>
               </td>
@@ -46,9 +46,9 @@
             <tr class="bg-gray-100 rounded-xl">
               <td class="p-3 flex ml-8 items-center space-x-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                <span>Asus A</span>
+                <span>Admin 2</span>
               </td>
-              <td class="p-3">Public Room</td>
+              <td class="p-3">branch</td>
               <td class="p-3">
                 <span class="bg-[#B9EC74] text-[#556B2F] px-3 py-1 text-xs font-semibold rounded-full">Junior</span>
               </td>
@@ -56,9 +56,9 @@
             <tr class="bg-gray-100 rounded-xl">
               <td class="p-3 flex ml-8 items-center space-x-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                <span>Acer A</span>
+                <span>Admin 3</span>
               </td>
-              <td class="p-3">Private Room</td>
+              <td class="p-3">branch</td>
               <td class="p-3">
                 <span class="bg-[#B9EC74] text-[#556B2F] px-3 py-1 text-xs font-semibold rounded-full">Junior</span>
               </td>
@@ -66,9 +66,9 @@
             <tr class="bg-gray-100 rounded-xl">
               <td class="p-3 flex ml-8 items-center space-x-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                <span>Lenovo B</span>
+                <span>Admin 4</span>
               </td>
-              <td class="p-3">Private Room</td>
+              <td class="p-3">branch</td>
               <td class="p-3">
                 <span class="bg-[#B9EC74] text-[#556B2F] px-3 py-1 text-xs font-semibold rounded-full">Junior</span>
               </td>
@@ -76,9 +76,9 @@
             <tr class="bg-gray-100 rounded-xl">
               <td class="p-3 flex ml-8 items-center space-x-3">
                 <img src="../img/ad/placeholder1.png" class="w-10 h-10 rounded object-cover" />
-                <span>Asus A</span>
+                <span>Admin 5</span>
               </td>
-              <td class="p-3">Public Room</td>
+              <td class="p-3">branch</td>
               <td class="p-3">
                 <span class="bg-[#B9EC74] text-[#556B2F] px-3 py-1 text-xs font-semibold rounded-full">Junior</span>
               </td>
