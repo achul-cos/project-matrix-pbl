@@ -61,7 +61,7 @@ $allColorClasses = [
                 id="lantai_{{ $floor }}" 
                 role="tabpanel" 
                 aria-labelledby="lantai_{{ $floor }}-tab">
-                <div class="flex flex-wrap gap-8 justify-center lg:mx-130 md:mx-48 md:gap-6">
+                <div class="flex flex-wrap gap-8 justify-center lg:mx-50 md:mx-48 md:gap-6">
                     @forelse ($computersByFloor->get((string)$floor, []) as $computer)
                         @php
                             $status = strtolower($computer['status_komputer']);
