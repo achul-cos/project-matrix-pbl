@@ -14,7 +14,7 @@
         <div class="p-8 gap-4 grid grid-cols-2 content-start">
             <div class="grid justify-start pl-2 mr-2 grid-rows-2">
                 <div class="">
-                    <h3 class="text-5xl font-bold">Halo, <span class="text-lime-600">Achul</span> </h3>
+                    <h3 class="text-5xl font-bold">Halo, <span class="text-lime-600">{{ Auth::user()->username ?? "Lorem Ipsum"}}</span> </h3>
                     <p class="text-xl mt-4 text-gray-500">Hari ini sewa komputer apa ya?</p>                        
                 </div>
                 <div class="flex items-end content-end gap-2">

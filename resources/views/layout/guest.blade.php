@@ -8,6 +8,7 @@
     <!-- Stylesheets -->
     <link href="styles/flowbite.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
 </head>
 <body class="bg-white inter">
     @include('components.navbar_guest')

@@ -13,13 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-white inter max-w-screen">
-    @include('components/dashboard')
+<body class="bg-white inter">
+    @include('components.dashboard')
     <div class="mt-14 ml-64 max-sm:ml-0">
         <div class="min-h-screen">
             @yield('content')
         </div>
-        @include('components/footer_admin')
+        @include('components.footer_admin')
     </div>  
     <!-- Scripts -->
     <script src="../styles/flowbite.min.js"></script>

@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Google reCAPTCHA Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the site key and secret key for Google reCAPTCHA.
+    |
+    */
+    'nocaptcha' => [
+        'sitekey' => env('NOCAPTCHA_SITEKEY', 'your_default_site_key'),
+        'secret' => env('NOCAPTCHA_SECRET', 'your_default_secret_key'),
+    ],
+
 ];

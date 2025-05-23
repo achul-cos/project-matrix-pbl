@@ -21,35 +21,53 @@
       </div>
   
       <!-- Profile Form -->
-      <div class="w-full md:w-2/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-6 space-y-4">
-        <div class="grid grid-cols-1 gap-4 text-sm text-black">
-          <div class="flex justify-between">
-            <span class="font-semibold">Nama Lengkap :</span>
-            <span>Nama Lengkap Tidak Dapat Diubah</span>
+
+      <form action="{{ route('update.account') }}" method="POST" class="w-full md:w-2/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-6 space-y-4">
+          @csrf
+          <div class="grid grid-cols-1 gap-4 text-sm text-black">
+              <div class="flex justify-between">
+                  <label>Nama Lengkap :</label>
+                  <input type="text" value="{{ Auth::user()->name ?? 'Nama Lengkap' }}" readonly class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
+              </div>
+              <div class="flex justify-between items-center">
+                  <label>Username :</label>
+                  <input type="text" name="username" value="{{ Auth::user()->username ?? 'User  Name' }}" autofocus required class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
+              </div>
+              <div class="flex justify-between items-center">
+                  <label>Email :</label>
+                  <input type="email" name="email" value="{{ Auth::user()->email ?? 'Email' }}" required class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
+              </div>
+              <div class="flex justify-between items-center">
+                  <label>Nomor Telepon :</label>
+                  <input type="text" name="phone" value="{{ Auth::user()->phone ?? 'Nomor Telepon' }}" required class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
+              </div>
+              <div class="flex justify-between items-center">
+                  <label>Kata Sandi :</label>
+                  <input type="password" name="password" placeholder="Min. 8 karakter" class="border border-[#556B2F] px-3 py-1 rounded" />
+              </div>
+              <div class="flex justify-between items-center">
+                  <label>Konfirmasi Kata Sandi :</label>
+                  <input type="password" name="password_confirmation" class="border border-[#556B2F] px-3 py-1 rounded" />
+              </div>
           </div>
-          <div class="flex justify-between items-center">
-            <label>Username :</label>
-            <input type="text" class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
-          </div>
-          <div class="flex justify-between items-center">
-            <label>Email :</label>
-            <input type="email" class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
-          </div>
-          <div class="flex justify-between items-center">
-            <label>Nomor Telepon :</label>
-            <input type="text" class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
-          </div>
-          <div class="flex justify-between items-center">
-            <label>Kata Sandi :</label>
-            <input type="password" placeholder="Min. 8 karakter" class="border border-[#556B2F] px-3 py-1 rounded" />
-          </div>
-          <div class="flex justify-between items-center">
-            <label>Konfirmasi Kata Sandi :</label>
-            <input type="password" class="border border-[#556B2F] px-3 py-1 rounded" />
-          </div>
-        </div>
-        <button class="mt-4 px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition">Simpan</button>
-      </div>
+          <button class="mt-4 px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition">Simpan</button>
+
+          @if(session('success'))
+              <div class="mt-4 text-green-600">
+                  {{ session('success') }}
+              </div>
+          @endif
+
+          @if($errors->any())
+              <div class="mt-4 text-red-600">
+                  <ul>
+                      @foreach($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
+      </form>
   
       <!-- Upload Foto -->
       <div class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-2">
