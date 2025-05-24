@@ -117,6 +117,17 @@
             </button>
 
         </form>
+
+        <div class="grid grid-cols-12">
+            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+            <p class="col-span-6 text-center text-base text-lime-900 opacity-70 place-self-center font-light"> Daftar Menggunakan </p>
+            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+        </div>
+
+        <div class="mt-2 flex flex-wrap mx-4 mb-8 justify-center">
+            <a href="{{ url('login/google') }}"><img src="https://static.cdnlogo.com/logos/g/35/google-icon.svg" alt="" class="w-auto h-8"></a>
+        </div>
+
         <p class="text-center mt-4 text-sm">Sudah punya akun? <a href="/login" class="text-[#556B2F] font-semibold hover:underline">Masuk</a></p>
       </div>
 

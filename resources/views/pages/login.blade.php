@@ -77,13 +77,31 @@
                 </button>
             </div>
           
-          <div class="flex items-center justify-center mb-4 text-sm">
-                <input type="checkbox" name="remember" id="remember" class="mr-2" />
-              <label for="ingat">Ingat saya</label>
-          </div>
-
+            
           <input type="submit" value="MASUK" class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white font-semibold py-3 rounded-full transition duration-300">
+
           
+          <div class="flex items-start mt-4">
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="remember" type="checkbox" name="remember" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+                    </div>
+                    <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ingat Saya</label>
+                </div>
+                <a href="/reset" class="ms-auto text-sm text-gray-600 hover:underline dark:text-gray-500">Lupa Kata Sandi?</a>
+            </div>
+          
+          
+        <div class="grid grid-cols-12">
+            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+            <p class="col-span-6 text-center text-base text-lime-900 opacity-70 place-self-center font-light"> Login Menggunakan </p>
+            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+        </div>
+
+        <div class="mt-2 flex flex-wrap mx-4 mb-8 justify-center">
+            <a href="{{ url('login/google') }}"><img src="https://static.cdnlogo.com/logos/g/35/google-icon.svg" alt="" class="w-auto h-8"></a>
+        </div>
+
           <p class="text-sm mt-4 text-gray-600">Belum punya akun? <a href="/register" class="font-semibold text-[#556B2F] hover:underline">Daftar</a></p>
           
           <a href="/admin">

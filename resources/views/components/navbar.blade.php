@@ -36,7 +36,7 @@
         <div class="flex items-center min-sm:order-1 md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span class="sr-only">Open user menu</span>
-              <img class="w-12 h-12 rounded-full object-cover" src="https://static.wikitide.net/hoyodexwiki/3/30/Kaedehara_Kazuha_%28YS-MU%29.png" alt="user photo">
+              <img class="w-12 h-12 rounded-full object-cover" src="{{ Auth::user()->photo ?? 'https://static.wikitide.net/hoyodexwiki/3/30/Kaedehara_Kazuha_%28YS-MU%29.png'}}" alt="user photo">
             </button>
             <!-- Dropdown menu -->
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -65,7 +65,7 @@
             <a href="/topup">
             <div class="flex bg-lime-950 rounded-4xl items-center">
                 <div class="px-2">
-                    <p class="self-center text-center font-black text-xl text-amber-50 truncate w-15">200000000000</p>
+                    <p class="self-center text-center font-black text-xl text-amber-50 truncate w-15">{{ Auth::user()->token ?? "00"}}</p>
                 </div>
                 <div class="">
                     <div class="w-10 h-10 justify-self-end transform transition-transform hover:scale-105" style="background-image: url(../../img/icon/Matrix_Token_Icon_white.svg); background-size: cover;"></div>

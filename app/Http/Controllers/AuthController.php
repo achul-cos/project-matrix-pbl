@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Auth;
 
+use Laravel\Socialite\Facades\Socialite;
+
+use Illuminate\Support\Str;
+
+use Laravel\Socialite\Two\InvalidStateException;
+
 class AuthController extends Controller
 {
     public function register()
@@ -94,5 +100,46 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login')->with('success', 'Anda berhasil logout.');
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser  = Socialite::driver('google')->user();
+            // Proses login atau pendaftaran pengguna
+        } catch (InvalidStateException $e) {
+            return redirect('/login')->withErrors(['login' => 'Terjadi kesalahan saat login. Silakan coba lagi.']);
+        }
+        // Cek apakah pengguna sudah terdaftar berdasarkan email
+        $user = User::where('email', $googleUser->getEmail())->first();
+        if (!$user) {
+            // Generate username berdasarkan nama atau email Google. Bisa disesuaikan
+            $baseUsername = Str::slug($googleUser->getName(), '') ?: explode('@', $googleUser->getEmail())[0];
+            // Pastikan username unik di tabel users
+            $username = $baseUsername;
+            $count = 1;
+            while (User::where('username', $username)->exists()) {
+                $username = $baseUsername . $count;
+                $count++;
+            }
+            // Buat user baru, phone kita set null atau kosong karena Google tidak menyediakan phone by default
+            $user = User::create([
+                'name' => $googleUser->getName(),
+                'username' => $username,
+                'email' => $googleUser->getEmail(),
+                'phone' => null, // atau '' jika kolom tidak nullable, sesuaikan migrasi
+                'password' => bcrypt(Str::random(16)), // password acak karena login pakai Google
+                'photo' => $googleUser->getAvatar(),
+                'token' => 0,
+            ]);
+        }
+        // Login user
+        Auth::login($user, true);
+        return redirect()->intended('/home')->with('success', 'Login berhasil!');
     }
 }
