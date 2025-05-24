@@ -65,7 +65,7 @@ Route::get('/admin/live_rent_report', function () {
 Route::get('/admin/management_account', function () {
     return view('pages.admin_management_account');
 });
-
+ 
 Route::get('/admin/management_admin', function () {
     return view('pages.admin_management_admin');
 });
