@@ -20,6 +20,10 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::post('/settingacount', [UserController::class, 'updateAccount'])->middleware('auth')->name('update.account');
 
+Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
+
+Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 Route::get('/admin', function () {
     return view('pages.admin');
 });
@@ -52,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
+
 });
 
 Route::get('/admin/management_computer', function () {
@@ -89,3 +94,7 @@ Route::get('/admin/management_information', function () {
 Route::get('/admin/management_warnet', function () {
     return view('pages.admin_management_warnet');
 });
+
+ Route::get('/reset', function () {
+        return view('pages.reset');
+    });
