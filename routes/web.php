@@ -70,7 +70,7 @@ Route::get('/admin/live_rent_report', function () {
 Route::get('/admin/management_account', function () {
     return view('pages.admin_management_account');
 });
- 
+
 Route::get('/admin/management_admin', function () {
     return view('pages.admin_management_admin');
 });
@@ -97,4 +97,8 @@ Route::get('/admin/management_warnet', function () {
 
  Route::get('/reset', function () {
         return view('pages.reset');
+    });
+
+  Route::get('/change', function () {
+        return view('pages.change_pw');
     });
