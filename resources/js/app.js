@@ -21,3 +21,74 @@ function togglePasswordVisibility(inputId, iconId) {
 
 // Agar fungsi bisa dipakai global dari HTML, tulis seperti ini
 window.togglePasswordVisibility = togglePasswordVisibility;
+
+let cropper;
+const photoInput = document.getElementById('photoInput');
+const cropperModal = document.getElementById('cropperModal');
+const imageToCrop = document.getElementById('imageToCrop');
+const profilePhoto = document.getElementById('profilePhoto');
+const croppedImageDataInput = document.getElementById('croppedImageData');
+const saveBtn = document.getElementById('saveBtn');
+const cancelCropBtn = document.getElementById('cancelCropBtn');
+const cropBtn = document.getElementById('cropBtn');
+
+photoInput.addEventListener('change', function(e) {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+        const file = files[0];
+        const url = URL.createObjectURL(file);
+
+        imageToCrop.src = url;
+
+        // Tampilkan modal
+        cropperModal.classList.remove('hidden');
+
+        if(cropper) {
+            cropper.destroy();
+        }
+        cropper = new Cropper(imageToCrop, {
+            aspectRatio: 1,
+            viewMode: 1,
+            minContainerHeight: 400,
+            minContainerWidth: 400,
+            movable: true,
+            zoomable: true,
+            rotatable: false,
+            scalable: false,
+        });
+    }
+});
+
+cancelCropBtn.addEventListener('click', () => {
+    // tutup modal dan reset input file
+    cropperModal.classList.add('hidden');
+    photoInput.value = null;
+    if(cropper) {
+        cropper.destroy();
+        cropper = null;
+    }
+});
+
+cropBtn.addEventListener('click', () => {
+    if (!cropper) return;
+
+    cropper.getCroppedCanvas({
+        width: 300,
+        height: 300,
+        imageSmoothingQuality: 'high',
+    }).toBlob((blob) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+            croppedImageDataInput.value = reader.result; // Base64 cropped image
+            profilePhoto.src = reader.result; // Update preview foto utama
+            saveBtn.disabled = false;
+            saveBtn.classList.remove('cursor-not-allowed', 'bg-[#556B2F]');
+            saveBtn.classList.add('bg-[#556B2F]');
+            cropperModal.classList.add('hidden');
+            cropper.destroy();
+            cropper = null;
+        };
+    }, 'image/jpeg');
+});
+

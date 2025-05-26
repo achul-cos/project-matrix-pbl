@@ -9,7 +9,6 @@
     <!-- Stylesheets -->
     <link href="styles/flowbite.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
 </head>
 <body class="bg-white inter">
     @include('components.navbar')
@@ -20,5 +19,6 @@
     <!-- Scripts -->
     <script src="styles/flowbite.min.js"></script>
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    @vite('resources/js/app.js')
 </body>
 </html>     
