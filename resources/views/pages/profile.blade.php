@@ -3,12 +3,17 @@
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
 @section('content')
+
+<!-- Cropper.js CSS -->
+<link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+
+
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto mt-10 px-6 md:flex md:gap-6">
       
       <!-- Sidebar -->
       <div class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-4">
-        <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F]"></div>
+        <img src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder1.png') }}" class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F] object-cover" />
         <h2 class="text-[#556B2F] font-bold text-lg">Achul</h2>
         <ul class="space-y-2 w-full text-center text-sm">
           <li><a href="/profile/rent">Riwayat Penyewaan</a></li>
@@ -39,15 +44,7 @@
               </div>
               <div class="flex justify-between items-center">
                   <label>Nomor Telepon :</label>
-                  <input type="text" name="phone" value="{{ Auth::user()->phone ?? 'Nomor Telepon' }}" required class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
-              </div>
-              <div class="flex justify-between items-center">
-                  <label>Kata Sandi :</label>
-                  <input type="password" name="password" placeholder="Min. 8 karakter" class="border border-[#556B2F] px-3 py-1 rounded" />
-              </div>
-              <div class="flex justify-between items-center">
-                  <label>Konfirmasi Kata Sandi :</label>
-                  <input type="password" name="password_confirmation" class="border border-[#556B2F] px-3 py-1 rounded" />
+                  <input type="text" name="phone" value="{{ Auth::user()->phone ?? NULL }}" placeholde="Nomor Telepon" required class="border border-[#556B2F] px-3 py-1 rounded transition hover:border-[#334422] focus:outline-none" />
               </div>
           </div>
           <button class="mt-4 px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition">Simpan</button>
@@ -68,13 +65,41 @@
               </div>
           @endif
       </form>
-  
-      <!-- Upload Foto -->
-      <div class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-2">
-        <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F]"></div>
-        <p class="text-xs text-center">Format: PNG, JPG, JPEG, GIF<br />Rekomendasi: 1000x1000 px</p>
-        <button class="px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition">Upload File</button>
-      </div>
+
+        <form action="{{ route('profile.photo.update') }}" method="POST" enctype="multipart/form-data" class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-2">
+            @csrf
+                <img id="profilePhoto" src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder1.png') }}" 
+                class="w-24 h-24 rounded-full border-4 border-[#556B2F] object-cover" alt="Foto Profil" />
+                <p class="text-xs text-center">Format: PNG, JPG, JPEG, GIF<br />Rekomendasi: 1000x1000 px</p>
+
+                <input type="file" id="photoInput" accept="image/*" class="hidden" />
+                <button type="button" onclick="document.getElementById('photoInput').click()"
+                    class="px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition">Upload File</button>
+
+            <!-- Input tersembunyi untuk gambar yang sudah di-crop -->
+            <input type="hidden" name="cropped_image" id="croppedImageData" />
+
+            <button type="submit" id="saveBtn" disabled class="px-4 py-2 bg-[#556B2F] text-white rounded shadow hover:bg-[#445522] transition cursor-not-allowed">Simpan Foto</button>
+        </form>
+
+        <!-- Modal Cropper -->
+        <div id="cropperModal" tabindex="-1" aria-hidden="true"
+            class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start pt-24 overflow-auto z-50">
+            <div class="bg-white rounded-lg w-11/12 max-w-3xl p-4 relative">
+                <h3 class="text-lg font-semibold mb-4">Sesuaikan Foto Profil Anda</h3>
+                <div class="max-h-[500px] overflow-hidden">
+                    <img id="imageToCrop" class="max-w-full rounded-lg" src="" alt="Image to crop"/>
+                </div>
+                <div class="mt-4 flex justify-end space-x-2">
+                    <button id="cancelCropBtn" type="button" class="px-4 py-2 bg-gray-500 rounded hover:bg-gray-600 text-white">Batal</button>
+                    <button id="cropBtn" type="button" class="px-4 py-2 bg-[#556B2F] rounded hover:bg-[#445522] text-white">Crop & Simpan</button>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+<!-- Cropper.js JS -->
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
 @endsection

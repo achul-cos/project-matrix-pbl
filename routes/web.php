@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -24,9 +26,7 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::get('/admin', function () {
-    return view('pages.admin');
-});
+Route::post('/profile/photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');  
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
@@ -56,8 +56,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
-
+    
 });
+
+Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
+
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.loginpage');
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 Route::get('/admin/management_computer', function () {
     return view('pages.admin_management_computer');
