@@ -1,0 +1,12 @@
+1. 
+    Buka terminal command prompt,
+2. 
+    ketik "set PATH=%CD%\nodejs;%PATH%"
+3.
+    node -v
+    npm -v
+    (digunakan untuk tes apakah node dan npm bekerja)
+4.
+    npm install
+5.
+    npm run dev
