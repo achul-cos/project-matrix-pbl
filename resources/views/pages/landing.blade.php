@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.guest')
 
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
@@ -112,7 +112,7 @@
 <!-- Rekomendasi -->
 <section class="flex flex-col p-3 space-y-3 mt-3" id="event">
   <!-- Judul -->
-  <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
+  <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center mb-8">
     <div class="col-span-4 sm:col-span-2">
       <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
     </div>
@@ -210,18 +210,18 @@
 <div>
 
 <!-- Hero Banner Warnet -->
-<section class="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden rounded-lg shadow-lg my-6">
+<section class="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden rounded-t-2xl shadow-lg mt-10">
   <!-- Gambar latar -->
   <img src="{{ asset('img/pc/pc3.jpg') }}" alt="Warnet Banner" class="absolute inset-0 w-full h-full object-cover">
 
   <!-- Overlay gelap agar teks terbaca -->
-  <div class="absolute inset-0 bg-gray bg-opacity-80"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-lime-950 to-white opacity-80"></div>
 
   <!-- Konten teks di tengah -->
   <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
     <h2 class="text-lg md:text-2xl font-medium mb-1 drop-shadow">Punya pengalaman seru di warnet?</h2>
     <h1 class="text-xl md:text-3xl font-bold mb-4 drop-shadow">Bagikan ceritamu di sini!</h1>
-    <a href=<a href="{{ route('login') }}" class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition">
+    <a href="{{ route('login') }}" class="bg-yellow-400 text-black font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition">
       Rent Now
     </a>
   </div>

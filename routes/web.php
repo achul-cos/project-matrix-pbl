@@ -30,7 +30,7 @@ Route::get('/admin', function () {
     return view('pages.admin');
 });
 
-Route::middleware(['auth:user'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
         return view('pages.home');
     });

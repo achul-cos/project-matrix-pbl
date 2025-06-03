@@ -1,6 +1,6 @@
-@extends('layout.app')
+@extends('layout.error')
 
-@section('title', 'Matrix - Penyewaan komputer Warnet')
+@section('title', '408 - Internet Error Matrix')
 
 @section('content')
 

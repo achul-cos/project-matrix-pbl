@@ -31,7 +31,7 @@
     </div>
 
     <div class="text-center mt-8">
-      <a href="/" class="inline-block mt-4 bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white px-6 py-3 rounded-lg shadow-md transition hover:scale-105">
+      <a href="/home" class="inline-block mt-4 bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white px-6 py-3 rounded-lg shadow-md transition hover:scale-105">
         Kembali ke Beranda
       </a>
     </div>
