@@ -88,7 +88,7 @@
                     </div>
                     <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ingat Saya</label>
                 </div>
-                <a href="/reset" class="ms-auto text-sm text-gray-600 hover:underline dark:text-gray-500">Lupa Kata Sandi?</a>
+                <a href="/forget" class="ms-auto text-sm text-gray-600 hover:underline dark:text-gray-500">Lupa Kata Sandi?</a>
             </div>
           
           
