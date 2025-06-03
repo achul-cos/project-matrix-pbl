@@ -61,48 +61,46 @@ Route::middleware(['auth:user'])->group(function () {
 
 });
 
-    Route::get('/admin/management_computer', function () {
-        return view('pages.admin_management_computer');
-    });
+Route::get('/admin/management_computer', function () {
+    return view('pages.admin_management_computer');
+});
 
-    Route::get('/admin/live_rent_report', function () {
-        return view('pages.admin_live_rent_report');
-    });
+Route::get('/admin/live_rent_report', function () {
+    return view('pages.admin_live_rent_report');
+});
 
-    Route::get('/admin/management_account', function () {
-        return view('pages.admin_management_account');
-    });
+Route::get('/admin/management_account', function () {
+    return view('pages.admin_management_account');
+});
 
-    Route::get('/admin/management_admin', function () {
-        return view('pages.admin_management_admin');
-    });
+Route::get('/admin/management_admin', function () {
+    return view('pages.admin_management_admin');
+});
 
-    Route::get('/admin/rent_report', function () {
-        return view('pages.admin_rent_report');
-    });
+Route::get('/admin/rent_report', function () {
+    return view('pages.admin_rent_report');
+});
 
-    Route::get('/admin/monitoring_computer', function () {
-        return view('pages.admin_monitoring_computer');
-    });
+Route::get('/admin/monitoring_computer', function () {
+    return view('pages.admin_monitoring_computer');
+});
 
-    Route::get('/admin/topup_report', function () {
-        return view('pages.admin_topup_report');
-    });
+Route::get('/admin/topup_report', function () {
+    return view('pages.admin_topup_report');
+});
 
-    Route::get('/admin/management_information', function () {
-        return view('pages.admin_management_information');
-    });
+Route::get('/admin/management_information', function () {
+    return view('pages.admin_management_information');
+});
 
-    Route::get('/admin/management_warnet', function () {
-        return view('pages.admin_management_warnet');
-    });
-
+Route::get('/admin/management_warnet', function () {
+    return view('pages.admin_management_warnet');
 });
 
 Route::get('/reset', function () {
     return view('pages.reset');
 });
 
-  Route::get('/change', function () {
-        return view('pages.change_pw');
-    });
+Route::get('/change', function () {
+    return view('pages.change_pw');
+});
