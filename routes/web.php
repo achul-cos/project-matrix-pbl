@@ -26,6 +26,8 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
+Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
+
 Route::get('/admin', function () {
     return view('pages.admin');
 });
@@ -49,8 +51,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/topup', function () {
         return view('pages.history_topup');
     });
+    Route::get('/profile/topup/invoice', function () {
+        return view('pages.history_topup');
+    });
     Route::get('/profile/rent', function () {
         return view('pages.history_rent');
+    });
+    Route::get('/profile/change_password', function () {
+        return view('pages.change_pw');
+    });
+    Route::get('/profile/rent/invoice', function () {
+        return view('pages.change_pw');
     });
     Route::get('/search', function () {
         return view('pages.search');
@@ -101,10 +112,14 @@ Route::get('/reset', function () {
     return view('pages.reset');
 });
 
- Route::get('/forget', function () {
-        return view('pages.forget');
-    });
+Route::get('/forget', function () {
+    return view('pages.forget');
+});
 
- Route::get('/otp', function () {
-        return view('pages.otp');
-    });
+Route::get('/otp', function () {
+    return view('pages.otp');
+});
+
+Route::get('/invoice', function () {
+    return view('pages.invoice_pc');
+});
