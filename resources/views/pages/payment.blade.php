@@ -3,22 +3,22 @@
 @section('title', 'Matrix - Pembayaran Token')
 
 @section('content')
-<section class="py-16 px-6 bg-gradient-to-br from-white to-lime-50 min-h-screen">
-  <div class="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-gray-100">
-    <h2 class="text-2xl font-bold text-center text-lime-700 mb-8">Konfirmasi Pembayaran</h2>
+<section class="py-16 px-6 bg-white min-h-screen">
+  <div class="max-w-xl mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-[#E0F0CC]">
+    <h2 class="text-2xl font-bold text-center text-[#2F5F00] mb-8">Konfirmasi Pembayaran</h2>
 
     <div class="space-y-4 text-gray-700">
       <div class="flex justify-between border-b pb-2">
-        <span class="font-medium">Jumlah Token</span>
-        <span id="tokenDisplay" class="font-semibold text-lime-700">0</span>
+        <span class="font-medium text-[#2F5F00]">Jumlah Token</span>
+        <span id="tokenDisplay" class="font-semibold text-[#2F5F00]">0</span>
       </div>
       <div class="flex justify-between border-b pb-2">
-        <span class="font-medium">Harga per Token</span>
-        <span>Rp 2.000</span>
+        <span class="font-medium text-[#2F5F00]">Harga per Token</span>
+        <span class="text-[#2F5F00]">Rp 2.000</span>
       </div>
       <div class="flex justify-between text-lg font-bold border-t pt-4">
-        <span>Total Bayar</span>
-        <span id="totalPrice" class="text-lime-800">Rp 0</span>
+        <span class="text-[#2F5F00]">Total Bayar</span>
+        <span id="totalPrice" class="text-[#2F5F00]">Rp 0</span>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
     </div>
 
     <div class="text-center mt-8">
-      <a href="/" class="inline-block mt-4 bg-lime-600 hover:bg-lime-700 text-white px-6 py-3 rounded-lg shadow-md transition">
+      <a href="/" class="inline-block mt-4 bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white px-6 py-3 rounded-lg shadow-md transition hover:scale-105">
         Kembali ke Beranda
       </a>
     </div>

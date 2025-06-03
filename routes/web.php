@@ -26,7 +26,7 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::post('/profile/photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');  
+Route::post('/profile/photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', function () {
@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
-    
+
 });
 
 Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
@@ -110,3 +110,10 @@ Route::get('/admin/management_warnet', function () {
   Route::get('/change', function () {
         return view('pages.change_pw');
     });
+
+  Route::get('/invoice', function () {
+        return view('pages.invoice_pc');
+    });
+
+
+
