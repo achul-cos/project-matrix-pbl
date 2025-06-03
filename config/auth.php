@@ -35,16 +35,27 @@ return [
     |
     */
 
+    // 'guards' => [
+    //     'web' => [
+    //         'driver' => 'session',
+    //         'provider' => 'users',
+    //     ],
+    //     'admin' => [
+    //         'driver' => 'session',
+    //         'provider' => 'admins',
+    //     ],
+    // ],
+
     'guards' => [
-        'web' => [
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'admins',
         ],
 
-    'admin' => [
-        'driver' => 'session',
-        'provider' => 'admins',
-    ],
+        'user' => [
+            'driver' => 'session',
+            'provider' => 'users', // pastikan provider ini ada
+        ]
     ],
 
     /*
@@ -74,15 +85,6 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
-        ],
     ],
 
     /*

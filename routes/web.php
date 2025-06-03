@@ -26,9 +26,11 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::post('/profile/photo', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');  
+Route::get('/admin', function () {
+    return view('pages.admin');
+});
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:user'])->group(function () {
     Route::get('/home', function () {
         return view('pages.home');
     });
@@ -56,16 +58,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
-    
+
 });
-
-Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
-
-Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.loginpage');
-
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 Route::get('/admin/management_computer', function () {
     return view('pages.admin_management_computer');
@@ -103,9 +97,9 @@ Route::get('/admin/management_warnet', function () {
     return view('pages.admin_management_warnet');
 });
 
- Route::get('/reset', function () {
-        return view('pages.reset');
-    });
+Route::get('/reset', function () {
+    return view('pages.reset');
+});
 
  Route::get('/forget', function () {
         return view('pages.forget');
