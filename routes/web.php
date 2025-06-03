@@ -101,6 +101,10 @@ Route::get('/reset', function () {
     return view('pages.reset');
 });
 
-Route::get('/change', function () {
-    return view('pages.change_pw');
-});
+ Route::get('/forget', function () {
+        return view('pages.forget');
+    });
+
+ Route::get('/otp', function () {
+        return view('pages.otp');
+    });
