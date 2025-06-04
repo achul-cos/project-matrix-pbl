@@ -6,19 +6,7 @@
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto mt-10 px-6 md:flex md:gap-6">
 
-      <!-- Sidebar -->
-      <div class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-4">
-        <div class="w-24 h-24 rounded-full bg-gray-200 border-4 border-[#556B2F]"></div>
-        <h2 class="text-[#556B2F] font-bold text-lg">Achul</h2>
-        <ul class="space-y-2 w-full text-center text-sm">
-          <li>Riwayat Penyewaan</li>
-          <li>Riwayat Top Up</li>
-          <li>Pengaturan Akun</li>
-          <li>Ganti Password</li>
-          <li class="text-red-600 font-semibold">Keluar Akun</li>
-          <li class="text-red-700 font-bold">Hapus Akun</li>
-        </ul>
-      </div>
+    @include('components.sidebar_profile')
 
      <!-- Edit Password -->
 <div class="w-full md:w-3/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-6">
@@ -60,7 +48,5 @@
         </div>
     </form>
 </div>
-
-
-
+    </div>
 @endsection

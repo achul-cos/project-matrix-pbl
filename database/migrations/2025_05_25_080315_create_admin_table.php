@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin', function (Blueprint $table) {
-            $table->id(); // Kolom ID
-            $table->string('name'); // Kolom untuk nama admin
-            $table->string('username')->unique(); // Kolom untuk username, harus unik
-            $table->string('password'); // Kolom untuk password admin
-            $table->string('role'); // Kolom untuk role admin (misalnya: super admin, operator)
-            $table->string('photo')->nullable();
-            $table->timestamp('last_online')->nullable(); // Kolom untuk waktu terakhir online, nullable
-            $table->timestamps(); // Kolom created_at dan updated_at
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->boolean('is_admin')->default(true); // Semua di tabel admin adalah admin
+            $table->enum('role', ['super_admin', 'admin'])->default('admin'); // Level admin jika diperlukan
+            $table->boolean('is_active')->default(true); // Status aktif admin
+            $table->string('photo')->nullable(); // Foto profil admin
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('admins');
     }
 };

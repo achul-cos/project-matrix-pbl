@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Admin; // Pastikan Anda mengimpor model Admin
 
 class AdminSeeder extends Seeder
 {
@@ -13,13 +13,37 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create super admin
         Admin::create([
             'name' => 'Super Admin',
-            'username' => 'superadmin',
-            'password' => Hash::make('Admin1234#'), // Gantilah dengan password yang lebih kuat
-            'role' => 'super admin',
-            'last_online' => now(), // Atur waktu terakhir online ke waktu sekarang
-            'photo' => NULL,
+            'email' => 'superadmin@warnet.com',
+            'password' => Hash::make('password123'),
+            'role' => 'super_admin',
+            'is_admin' => true,
+            'is_active' => true,
+            'photo' => null, // Bisa diisi dengan nama file foto default jika ada
+        ]);
+
+        // Create regular admin
+        Admin::create([
+            'name' => 'Admin Warnet',
+            'email' => 'admin@warnet.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
+            'is_admin' => true,
+            'is_active' => true,
+            'photo' => null,
+        ]);
+
+        // Create another admin (inactive example)
+        Admin::create([
+            'name' => 'Admin Nonaktif',
+            'email' => 'adminoff@warnet.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
+            'is_admin' => true,
+            'is_active' => false,
+            'photo' => null,
         ]);
     }
 }

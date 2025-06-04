@@ -85,16 +85,6 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class, // Pastikan model Admin ada
-        ],
     ],
 
     /*
