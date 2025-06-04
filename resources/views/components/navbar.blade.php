@@ -91,7 +91,9 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <input type="text" id="search-navbar" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-4xl bg-gray-50 focus:ring-lime-800 focus:border-lime-800" placeholder="Cari Komputer Apa Hari Ini?">
+          <form action="/search" id="search" value="search" method="GET">
+            <input type="text" name="search" value="{{ request('search') }}" id="search-navbar" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-4xl bg-gray-50 focus:ring-lime-800 focus:border-lime-800" placeholder="Cari Komputer Apa Hari Ini?">
+          </form>
         </div>
       </div>
     </div>

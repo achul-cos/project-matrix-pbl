@@ -70,7 +70,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
-
 });
 
 // Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
@@ -166,7 +165,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
-    });
     })->name('admin.management_warnet');
 });
 
