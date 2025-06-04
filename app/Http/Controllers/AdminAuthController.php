@@ -17,14 +17,21 @@ class AdminAuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'login' => 'required|string', // Ganti 'email' menjadi 'login'
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        
-        // Tambahkan kondisi admin aktif
-        $credentials['is_active'] = true;
+        $loginField = $request->input('login');
+        $password = $request->input('password');
+
+        // Tentukan apakah input adalah email atau username
+        $fieldType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+        $credentials = [
+            $fieldType => $loginField,
+            'password' => $password,
+            'is_active' => true
+        ];
 
         // Attempt login dengan guard admin
         if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
@@ -36,7 +43,7 @@ class AdminAuthController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => 'Email atau password salah, atau akun tidak aktif.',
+            'login' => 'Email/Nama atau password salah, atau akun tidak aktif.',
         ]);
     }
 
