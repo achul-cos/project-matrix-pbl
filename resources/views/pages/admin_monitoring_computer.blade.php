@@ -19,7 +19,7 @@
 
       @include('components.computer-monitor', ['monitors' => $monitors])
 
-        <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
+        <div class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
             <!-- Table -->
             <table class="min-w-full text-left border-separate border-spacing-y-3" id="filter-table">
                 <thead>
