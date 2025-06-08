@@ -70,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/developer', function () {
         return view('pages.developer');
     });
+    Route::get('/topup/history', function () {
+        return view('pages.history_topup');
+    });
 });
 
 // Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
