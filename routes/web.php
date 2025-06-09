@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -33,7 +33,7 @@ Route::get('/admin', function () {
     return view('pages.admin');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:user'])->group(function () {
     Route::get('/home', function () {
         return view('pages.home');
     });
@@ -71,54 +71,6 @@ Route::middleware(['auth'])->group(function () {
         return view('pages.developer');
     });
 });
-
-// Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
-
-// Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.loginpage');
-
-// Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-// Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
-
-// Route::middleware(['auth:admin', 'is_admin'])->group(function () {
-
-//     Route::get('/admin/management_computer', function () {
-//         return view('pages.admin_management_computer');
-//     });
-
-//     Route::get('/admin/live_rent_report', function () {
-//         return view('pages.admin_live_rent_report');
-//     });
-
-//     Route::get('/admin/management_account', function () {
-//         return view('pages.admin_management_account');
-//     });
-
-//     Route::get('/admin/management_admin', function () {
-//         return view('pages.admin_management_admin');
-//     });
-
-//     Route::get('/admin/rent_report', function () {
-//         return view('pages.admin_rent_report');
-//     });
-
-//     Route::get('/admin/monitoring_computer', function () {
-//         return view('pages.admin_monitoring_computer');
-//     });
-
-//     Route::get('/admin/topup_report', function () {
-//         return view('pages.admin_topup_report');
-//     });
-
-//     Route::get('/admin/management_information', function () {
-//         return view('pages.admin_management_information');
-//     });
-
-//     Route::get('/admin/management_warnet', function () {
-//         return view('pages.admin_management_warnet');
-//     });
-
-// });
 
 // Route untuk authentication admin
 Route::get('/admin', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
@@ -167,6 +119,13 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_management_warnet');
     })->name('admin.management_warnet');
 });
+
+Route::post('/admin/management_computer/add_product', [ProductController::class, 'store'])->name('products.store');
+Route::delete('/admin/management_computer/delete-all', [ProductController::class, 'deleteAll'])->name('produk.deleteAll');
+Route::get('/admin/management_computer', [ProductController::class, 'index'])
+      ->name('admin.management_computer');
+Route::post('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+
 
 Route::get('/reset', function () {
     return view('pages.reset');

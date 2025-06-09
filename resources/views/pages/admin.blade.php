@@ -51,24 +51,6 @@
                     </div>
                 @endif
 
-                {{-- <form action="/admin/login" method="POST">
-                    @csrf <!-- Tambahkan token CSRF -->
-                    <div class="mb-4">
-                        <input type="text" name="username" placeholder="Masukkan username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500" required>
-                    </div>
-                    <div class="mb-4">
-                        <input type="password" name="password" placeholder="Masukkan password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500" required>
-                    </div>
-                    <div class="mb-6 flex items-center">
-                        <input type="checkbox" id="ingat" class="mr-2">
-                        <label for="ingat" class="text-sm">Ingat saya</label>
-                    </div>
-                    <button type="submit" class="w-full bg-slate-500 text-white py-2 rounded-lg hover:bg-slate-900 transition duration-300">MASUK</button>
-                    <div class="text-center mt-4">
-                        <a href="/login" class="text-sm text-slate-800 hover:underline">Login Sebagai User?</a>
-                    </div>
-                </form> --}}
-
                 <form method="POST" action="/admin/login">
                     @csrf
                     

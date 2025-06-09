@@ -92,3 +92,48 @@ cropBtn.addEventListener('click', () => {
     }, 'image/jpeg');
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('product-image');
+    const preview = document.getElementById('preview');
+    const imagePreviewContainer = document.getElementById('image-preview');
+
+    if (input) {
+        input.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    imagePreviewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreviewContainer.classList.add('hidden');
+            }
+        });
+    }
+});
+
+
+module.exports = {
+  content: ['resources/**/*.blade.php', 'public/**/*.html', 'src/**/*.js'],
+  theme: {
+    extend: {
+      keyframes: {
+        fadeUp: {
+          '0%':   { opacity: '0', transform: 'translateY(40px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeLeft: {
+          '0%':   { opacity: '0', transform: 'translateX(40px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        'fade-up':   'fadeUp   0.7s ease-out forwards',
+        'fade-left': 'fadeLeft 0.7s ease-out forwards',
+      },
+    },
+  },
+  plugins: [],
+}
