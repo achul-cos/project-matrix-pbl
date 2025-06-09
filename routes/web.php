@@ -73,6 +73,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/topup/history', function () {
         return view('pages.history_topup');
     });
+    Route::get('/faq', function () {
+        return view('pages.faq');
+    })->name('faq');
 });
 
 // Route::get('/admin', [AdminController::class, 'loginPage'])->name('admin.login');
