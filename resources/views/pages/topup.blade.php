@@ -58,36 +58,31 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('tokenForm');
-    const customToken = document.getElementById('customToken');
+  document.getElementById('tokenForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+    const tokenInput = document.getElementById('customToken');
+    const tokenValue = parseInt(tokenInput.value);
 
-      const tokenValue = parseInt(customToken.value);
-      if (!tokenValue || isNaN(tokenValue) || tokenValue <= 0) {
-        alert("Jumlah token harus angka lebih dari 0 ya {{ Auth::user()->username ?? 'Kak' }}");
-        return;
-      }
-
-      // Tampilkan notif & redirect ke halaman pembayaran
+    if (!isNaN(tokenValue) && tokenValue > 0) {
       showNotification();
-      setTimeout(() => {
-        const url = /payment?customToken=${tokenValue};
-        window.location.href = url;
+
+      setTimeout(function() {
+        window.location.href = '/payment?token=' + tokenValue;
       }, 2000);
-    });
+    } else {
+      alert("Masukkan jumlah token yang valid (minimal 1)");
+    }
   });
 
   function showNotification() {
     const notif = document.getElementById('notification');
     notif.classList.remove('hidden');
-    setTimeout(() => notif.classList.add('hidden'), 4000);
   }
 
   function closeNotification() {
-    document.getElementById('notification').classList.add('hidden');
+    const notif = document.getElementById('notification');
+    notif.classList.add('hidden');
   }
 </script>
 
