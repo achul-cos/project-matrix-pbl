@@ -7,8 +7,8 @@
 <!-- Hero Banner Warnet -->
 <section class="relative w-full h-screen flex items-center justify-center overflow-hidden rounded-t-2xl">
   <!-- Gambar latar -->
-  <img src="{{ asset('img/ad/background-landing.gif') }}" alt="Warnet Banner" class="absolute inset-0 w-full h-full object-cover">
-  <img src="{{ asset('img/ad/background-landing-2.gif') }}" alt="Warnet Banner" class="absolute inset-0 z-20 w-full h-full object-cover">
+  <img src="{{ asset('img/ad/background-landing.gif') }}" class="absolute inset-0 w-full h-full object-cover">
+  <img src="{{ asset('img/ad/background-landing-2.gif') }}" class="absolute inset-0 z-20 w-full h-full object-cover">
 
   <!-- Overlay gelap agar teks terbaca -->
   <div class="absolute inset-0 bg-gradient-to-t from-white to-transparent "></div>

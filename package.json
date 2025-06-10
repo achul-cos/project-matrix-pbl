@@ -17,10 +17,14 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@tiptap/core": "^2.14.0",
+        "@tiptap/pm": "^2.14.0",
+        "@tiptap/starter-kit": "^2.14.0",
         "apexcharts": "^3.46.0",
         "bootstrap": "^5.3.5",
         "cropperjs": "^2.0.0",
         "flowbite": "^3.1.2",
+        "flowbite-typography": "^1.0.5",
         "laravel-mix": "^6.0.49",
         "simple-datatables": "^10.0.0"
     },

@@ -5,7 +5,7 @@
 @section('content')
 
   <!-- Main Section -->
-  <main class="flex justify-center items-center min-h-screen px-4 py-12">
+  <main class="flex justify-center items-center min-h-screen mt-12">
     <div class="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full">
       <!-- Form Section -->
       <div class="p-8 md:w-[500px]">

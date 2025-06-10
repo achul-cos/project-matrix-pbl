@@ -39,7 +39,7 @@ class AdminAuthController extends Controller
             
             $admin = Auth::guard('admin')->user();
             
-            return redirect()->intended('/admin/dashboard')->with('success', 'Selamat datang, ' . $admin->name);
+            return redirect()->intended('/admin/monitoring_computer')->with('success', 'Selamat datang, ' . $admin->name);
         }
 
         throw ValidationException::withMessages([

@@ -70,12 +70,6 @@
   </section>
 
   <section class="p-8 px-32 mt-6 max-sm:px-4 max-md:px-16 bg-white">
-
-    @php
-        $monitors = config('data_product_dummy.monitors');
-        $statusColorMap = config('data_product_dummy.statusColorMap');
-    @endphp
-
     @include('components/computer-monitor')
   </section>
 

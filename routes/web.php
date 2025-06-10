@@ -7,9 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {
-    return view('pages.landing');
-});
+Route::get('/', function () {return view('pages.landing');});
 
 Route::get('/register', [AuthController::class, 'register']);
 
@@ -27,19 +25,18 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
+Route::get('/reset', function () {return view('pages.reset');});
 
-Route::get('/admin', function () {
-    return view('pages.admin');
-});
+Route::get('/forget', function () {return view('pages.forget');});
+
+Route::get('/otp', function () {return view('pages.otp');});
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/home', function () {
         return view('pages.home');
     });
-    Route::get('/product', function () {
-        return view('pages.product');
-    });
+    Route::get('/product', [ProductController::class, 'productPage'])->name('product');
+
     Route::get('/payment', function () {
         return view('pages.payment');
     });
@@ -76,6 +73,10 @@ Route::middleware(['auth:user'])->group(function () {
     Route::get('/faq', function () {
         return view('pages.faq');
     })->name('faq');
+    Route::get('/invoice', function () {
+        return view('pages.invoice_pc');
+    });
+    Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
 });
 
 // Route untuk authentication admin
@@ -85,7 +86,7 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 
 // Route admin yang sudah ada dengan middleware
 Route::middleware(['auth:admin', 'is_admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
+    Route::get('/admin/monitoring_computer', function () {
         return view('pages.admin_monitoring_computer');
     })->name('admin.dashboard');
 
@@ -124,27 +125,16 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
     })->name('admin.management_warnet');
-});
 
-Route::post('/admin/management_computer/add_product', [ProductController::class, 'store'])->name('products.store');
-Route::delete('/admin/management_computer/delete-all', [ProductController::class, 'deleteAll'])->name('produk.deleteAll');
-Route::get('/admin/management_computer', [ProductController::class, 'index'])
-      ->name('admin.management_computer');
-Route::post('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::post('/admin/management_computer/add_product', [ProductController::class, 'store'])->name('products.store');
 
+    Route::delete('/admin/management_computer/delete_all', [ProductController::class, 'deleteAll'])->name('products.deleteAll');
 
-Route::get('/reset', function () {
-    return view('pages.reset');
-});
+    Route::get('/admin/management_computer', [ProductController::class, 'readProductManagement'])->name('admin.management_computer');
 
-Route::get('/forget', function () {
-    return view('pages.forget');
-});
+    Route::put('/admin/management_computer/edit_product/{id}', [ProductController::class, 'update'])->name('products.update');
 
-Route::get('/otp', function () {
-    return view('pages.otp');
-});
+    Route::delete('/admin/management_computer/delete_product/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Route::get('/invoice', function () {
-    return view('pages.invoice_pc');
+    Route::get('/admin/monitoring_computer', [ProductController::class, 'monitoringComputer'])->name('admin.monitoring_computer');
 });

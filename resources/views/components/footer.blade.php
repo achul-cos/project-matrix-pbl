@@ -39,6 +39,7 @@
                     <a href="/profile"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Pengaturan Akun</p></a>
                     <a href="/developer"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Tentang Pengembang</p></a>
                     <a href="/topup"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Top Up Token</p></a>
+                    <a href="{{ route('faq')}}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">FAQ</p></a>
                 </div>
                 <div class="flex-row gap-y-4 max-lg:hidden">
                     <div class=""><p class="font-light text-2xl pb-4">Ikuti Kami</p></div>
