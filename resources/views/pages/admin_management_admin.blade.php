@@ -13,7 +13,7 @@
         <span class="text-slate-900">Management Admin</span>
       </h1>
 
-      @include('components.admin_card')
+      {{-- @include('components.admin_card') --}}
 
       <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
         <!-- Search & Add -->

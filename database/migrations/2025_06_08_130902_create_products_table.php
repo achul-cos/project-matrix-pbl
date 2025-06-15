@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('ram');
             $table->integer('floor');
             $table->integer('price');
-            $table->integer('rating')->nullable();
             $table->enum('room', ['public', 'private'])->default('public');
             $table->enum('status', ['available','online', 'offline', 'maintenance', 'prepare', 'undifined'])->default('maintenance');
             $table->timestamp('book_start')->nullable();

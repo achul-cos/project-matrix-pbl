@@ -12,7 +12,7 @@
     <script src='https://cdn.jsdelivr.net/npm/simple-datatables@9.0.4'></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add" />
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/dashboard.js'])
 </head>
 <body class="bg-white inter">
     @include('components.dashboard')
@@ -23,7 +23,7 @@
         @include('components.footer_admin')
     </div>
     <!-- Scripts -->
-    @vite('resources/css/flowbite.min.js')
+    {{-- @vite('resources/js/flowbite.min.js') --}}
     <script src="../styles/flowbite.min.js"></script>
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 </body>

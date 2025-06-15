@@ -31,51 +31,52 @@ Route::get('/forget', function () {return view('pages.forget');});
 
 Route::get('/otp', function () {return view('pages.otp');});
 
-Route::middleware(['auth:user'])->group(function () {
+Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
     Route::get('/home', function () {
         return view('pages.home');
-    });
+    })->name('home');
     Route::get('/product', [ProductController::class, 'productPage'])->name('product');
 
     Route::get('/payment', function () {
         return view('pages.payment');
-    });
+    })->name('payment');
+
     Route::get('/topup', function () {
         return view('pages.topup');
-    });
+    })->name('topup');
+
     Route::get('/profile', function () {
         return view('pages.profile');
-    });
+    })->name('profile');
+
     Route::get('/profile/topup', function () {
         return view('pages.history_topup');
-    });
-    Route::get('/profile/topup/invoice', function () {
-        return view('pages.history_topup');
-    });
+    })->name('profile.history_topup');
+
     Route::get('/profile/rent', function () {
         return view('pages.history_rent');
-    });
+    })->name('profile.history_rent');
+
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');
-    });
-    Route::get('/profile/rent/invoice', function () {
-        return view('pages.change_pw');
-    });
+    })->name('profile.password');
+
     Route::get('/search', function () {
         return view('pages.search');
-    });
+    })->name('search');
+
     Route::get('/developer', function () {
         return view('pages.developer');
-    });
-    Route::get('/topup/history', function () {
-        return view('pages.history_topup');
-    });
+    })->name('developer');
+
     Route::get('/faq', function () {
         return view('pages.faq');
     })->name('faq');
+
     Route::get('/invoice', function () {
         return view('pages.invoice_pc');
-    });
+    })->name('invoice');
+
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
 });
 
@@ -110,9 +111,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
 
-    Route::get('/admin/monitoring_computer', function () {
-        return view('pages.admin_monitoring_computer');
-    })->name('admin.monitoring_computer');
+    Route::get('/admin/management_account', [UserController::class, 'readUserManagement'])->name('admin.management_account');
 
     Route::get('/admin/topup_report', function () {
         return view('pages.admin_topup_report');
@@ -137,4 +136,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::delete('/admin/management_computer/delete_product/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
     Route::get('/admin/monitoring_computer', [ProductController::class, 'monitoringComputer'])->name('admin.monitoring_computer');
+
+    Route::post('/admin/management_account/add_user', [UserController::class, 'simpanUserAdmin'])->name('admin.tambahUser');
+
+    Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
+
+    Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+
 });

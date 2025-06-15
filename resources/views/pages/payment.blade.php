@@ -32,7 +32,7 @@
 
     <!-- Tombol -->
     <div class="text-center mt-10">
-      <a href="/topup/history_rent" class="inline-block bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white px-6 py-3 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+      <a href="{{ route('profile.history_topup') }}" class="inline-block bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white px-6 py-3 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
         Lihat Riwayat Top Up
       </a>
     </div>

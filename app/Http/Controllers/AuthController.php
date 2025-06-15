@@ -76,8 +76,30 @@ class AuthController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // Cek jika user mencoba login pakai email guest
+        if (strtolower($request->login) === 'guest@matrix.com') {
+            return redirect()->back()
+                ->withErrors(['login' => 'Maaf login dengan email tamu tidak bisa dilakukan. Silahkan gunakan Username.'])
+                ->withInput();
+        }
+
         // Tentukan field login: apakah input berupa email atau username
         $login_type = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+
+        // Cek apakah user terdaftar
+        $user = User::where($login_type, $request->login)->first();
+
+        if ($user) {
+            // Cek apakah user diblokir
+            if ($user->is_block) {
+                return redirect()->back()
+                    ->withErrors(['login' => 'Akun Anda telah diblokir. Silakan hubungi admin.'])
+                    ->withInput();
+            }
+        }
+
         $credentials = [
             $login_type => $request->login,
             'password' => $request->password,
@@ -110,36 +132,63 @@ class AuthController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $googleUser  = Socialite::driver('google')->user();
-            // Proses login atau pendaftaran pengguna
+            $googleUser = Socialite::driver('google')->user();
         } catch (InvalidStateException $e) {
             return redirect('/login')->withErrors(['login' => 'Terjadi kesalahan saat login. Silakan coba lagi.']);
         }
-        // Cek apakah pengguna sudah terdaftar berdasarkan email
-        $user = User::where('email', $googleUser->getEmail())->first();
-        if (!$user) {
-            // Generate username berdasarkan nama atau email Google. Bisa disesuaikan
-            $baseUsername = Str::slug($googleUser->getName(), '') ?: explode('@', $googleUser->getEmail())[0];
-            // Pastikan username unik di tabel users
-            $username = $baseUsername;
-            $count = 1;
-            while (User::where('username', $username)->exists()) {
-                $username = $baseUsername . $count;
-                $count++;
-            }
-            // Buat user baru, phone kita set null atau kosong karena Google tidak menyediakan phone by default
-            $user = User::create([
-                'name' => $googleUser->getName(),
-                'username' => $username,
-                'email' => $googleUser->getEmail(),
-                'phone' => null, // atau '' jika kolom tidak nullable, sesuaikan migrasi
-                'password' => bcrypt(Str::random(16)), // password acak karena login pakai Google
-                'photo' => $googleUser->getAvatar(),
-                'token' => 0,
+
+        $email = strtolower($googleUser->getEmail());
+
+        if ($email === 'guest@matrix.com') {
+            return redirect('/login')->withErrors([
+                'login' => 'Maaf login dengan email tamu tidak bisa dilakukan. Silahkan gunakan Username.'
             ]);
         }
-        // Login user
+
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            // Jika akun sudah terdaftar tapi BUKAN via Google
+            if (!$user->is_google) {
+                return redirect('/login')->withErrors([
+                    'login' => 'Login dibatalkan karena email telah terdaftar sebelumnya.'
+                ]);
+            }
+
+            // Cek blokir
+            if ($user->is_block) {
+                return redirect('/login')->withErrors([
+                    'login' => 'Akun Anda telah diblokir. Silakan hubungi admin.'
+                ]);
+            }
+
+            // Login akun Google yang sudah ada
+            Auth::login($user, true);
+            return redirect()->intended('/home')->with('success', 'Login berhasil!');
+        }
+
+        // Buat akun baru via Google
+        $baseUsername = Str::slug($googleUser->getName(), '') ?: explode('@', $email)[0];
+        $username = $baseUsername;
+        $count = 1;
+        while (User::where('username', $username)->exists()) {
+            $username = $baseUsername . $count;
+            $count++;
+        }
+
+        $user = User::create([
+            'name' => $googleUser->getName(),
+            'username' => $username,
+            'email' => $email,
+            'phone' => null,
+            'password' => bcrypt(Str::random(16)),
+            'photo' => $googleUser->getAvatar(),
+            'token' => 0,
+            'is_google' => 1,
+        ]);
+
         Auth::login($user, true);
         return redirect()->intended('/home')->with('success', 'Login berhasil!');
     }
+
 }

@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'Matrix - Penyewaan komputer Warnet')
+
 @section('content')
 <div class="max-w-4xl mx-auto px-6 py-10">
     <h1 class="text-4xl font-bold text-center text-[#2F5F00] mb-10 animate-pulse">Frequently Asked Questions (FAQ)</h1>

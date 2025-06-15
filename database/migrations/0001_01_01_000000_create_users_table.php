@@ -16,13 +16,16 @@ return new class extends Migration
             $table->string('name');
             $table->string('username');
             $table->string('phone')->nullable();
-            $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
+            $table->string('email');
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->string('photo')->nullable();
-            $table->timestamps();
             $table->integer('token')->default(0);
+            $table->boolean('is_block')->default(false);
+            $table->boolean('is_google')->default(false);
+            $table->timestamp('last_online')->nullable();
+            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

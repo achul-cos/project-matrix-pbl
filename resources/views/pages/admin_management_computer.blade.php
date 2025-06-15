@@ -59,8 +59,8 @@
   </section>
 
   <section id="product-tools" class="flex flex-row flex-wrap gap-2 p-4 bg-gray-300 rounded-xl mb-10">
-    <div class="p-4 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div data-modal-target="add-modal" data-modal-toggle="add-modal" class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+    <div data-modal-target="add-modal" data-modal-toggle="add-modal" class="p-4 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
         <div class="inline-block relative scale-90 bg-gray-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-gray-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
@@ -193,12 +193,14 @@
             </td>
 
             <td class="p-3 space-x-2">
-              <div  data-modal-target="edit-modal-{{ $product->id }}"
+              <div  id="editButton"
+                    data-modal-target="edit-modal-{{ $product->id }}"
                     data-modal-toggle="edit-modal-{{ $product->id }}"
                     class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow active:scale-90">EDIT
               </div>
 
-              <button data-modal-target="delete-modal-{{ $product->id }}"
+              <button id="deleteButton"
+                      data-modal-target="delete-modal-{{ $product->id }}"
                       data-modal-toggle="delete-modal-{{ $product->id }}"
                       class="inline-block bg-red-800 px-3 py-2 text-white rounded-md shadow active:scale-90">
                 HAPUS
@@ -213,552 +215,553 @@
     <div class="mt-4">{{ $products->links() }}</div>
 
   </section>
-</div>
 
-@foreach ($products as $product)
-
-<!-- Delete Modal -->
-<div id="delete-modal-{{ $product->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                  Konfirmasi Hapus Data Komputer {{ $product->name }}
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $product->id }}">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    Perlu anda perhatikan, bahwa data data komputer {{ $product->name }} warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
-                </p>
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
-                </form>
-                <button data-modal-hide="delete-modal-{{ $product->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Delete All Modal -->
-<div id="delete-all-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                  Konfirmasi Hapus SEMUA Data Komputer
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-all-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    Perlu sangat anda perhatikan, bahwa data SELURUH data komputer warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
-                </p>
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <form action="{{ route('products.deleteAll') }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
-                </form>
-                <button data-modal-hide="delete-all-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Modal -->
-<div id="add-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-  <div class="relative p-4 w-full max-w-2xl max-h-full">
-    <!-- Modal content -->
-    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-      <!-- Modal header -->
-      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            Tambah Data Komputer
-        </h3>
-        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-modal">
-            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-            <span class="sr-only">Close modal</span>
-        </button>
-      </div>
-      <!-- Modal body -->
-      <div class="p-4 md:p-5 space-y-4">
-
-        {{-- Form Input Gambar --}}
-
-        <form id="yourFormID" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="">
-        @csrf
-        <div class="flex flex-col items-center gap-4 p-8">
-
-          <!-- Preview Gambar Input -->
-              <div class="w-auto mb-2">
-                  <img id="preview-image1"
-                      src="{{ asset('img/ad/placeholder2.png') }}"
-                      alt="Preview 1"
-                      class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+  <section id="modal">
+  <!-- Delete All Modal -->
+  <div id="delete-all-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Konfirmasi Hapus SEMUA Data Komputer
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-all-modal">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                  </button>
               </div>
-              <div class="flex flex-row mb-2 justify-between flex-wrap">
-                  <img id="preview-image2"
-                      src="{{ asset('img/ad/placeholder2.png') }}"
-                      alt="Preview 2"
-                      class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                  <img id="preview-image3"
-                      src="{{ asset('img/ad/placeholder2.png') }}"
-                      alt="Preview 3"
-                      class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                  <img id="preview-image4"
-                      src="{{ asset('img/ad/placeholder2.png') }}"
-                      alt="Preview 4"
-                      class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+              <!-- Modal body -->
+              <div class="p-4 md:p-5 space-y-4">
+                  <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                      Perlu sangat anda perhatikan, bahwa data SELURUH data komputer warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
+                  </p>
               </div>
-
-          <!-- Input Gambar -->
-          <div class="flex flex-row gap-4 mb-8">
-            <div class="">
-              <div class="">
-                <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
-                <input type="file"
-                      name="image1"
-                      id="image1"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      onchange="previewImage(event, 1)"
-                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                      required>
+              <!-- Modal footer -->
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <form action="{{ route('products.deleteAll') }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
+                  </form>
+                  <button data-modal-hide="delete-all-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
               </div>
-              <div class="mt-8">
-                <label for="image2" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 2</label>
-                <input type="file"
-                      name="image2"
-                      id="image2"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      onchange="previewImage(event, 2)"
-                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                      required>
-              </div>
-            </div>
-            <div class="">
-              <div class="">
-                <label for="image3" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 3</label>
-                <input type="file"
-                      name="image3"
-                      id="image3"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      onchange="previewImage(event, 3)"
-                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                      required>
-              </div>
-              <div class="mt-8">
-                <label for="image4" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 4</label>
-                <input type="file"
-                      name="image4"
-                      id="image4"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      onchange="previewImage(event, 4)"
-                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                      required>
-              </div>
-            </div>
           </div>
-
-          <!-- Input Name -->
-          <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Komputer</label>
-          <input  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Nama Komputer"
-                  value="{{ old('name') }}"
-                  class=" w-full rounded-full "
-                  required>
-          
-          <!-- Input RAM -->
-          <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
-          <input  type="number"
-                  id="ram"
-                  name="ram"
-                  placeholder="Jumlah Ram Komputer (Contoh: 8, 16)"
-                  value="{{ old('ram') }}"
-                  class=" w-full rounded-full "
-                  min="1"
-                  step="1"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                  required>
-
-          <!-- Input CPU -->
-          <label for="cpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis CPU Komputer</label>
-          <input  type="text"
-                  id="cpu"
-                  name="cpu"
-                  placeholder="Jenis CPU Komputer (Contoh: Intel i9-45000k, AMD Ryzen 5500H)"
-                  value="{{ old('cpu') }}"
-                  class=" w-full rounded-full "
-                  list="cpu-options"
-                  required>
-
-          <datalist id="cpu-options">
-            <option value="Intel Core i3">
-            <option value="Intel Core i5">
-            <option value="Intel Core i7">
-            <option value="Intel Core i9">
-            <option value="AMD Ryzen 3">
-            <option value="AMD Ryzen 5">
-            <option value="AMD Ryzen 7">
-            <option value="AMD Ryzen 9">
-          </datalist>
-
-          <!-- Input GPU -->
-          <label for="gpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis GPU Komputer</label>
-          <input  type="text"
-                  id="gpu"
-                  name="gpu"
-                  placeholder="Jenis GPU Komputer (Contoh: RTX 3060, GTX 1650 TI)"
-                  value="{{ old('gpu') }}"
-                  class=" w-full rounded-full "
-                  list="gpu-options"
-                  required>
-                  
-          <datalist id="gpu-options">
-            <option value="RTX">
-            <option value="GTX">
-          </datalist>
-
-          <!-- Input lantai -->
-          <label for="floor" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Lokasi Lantai Komputer</label>
-          <select id="floor"
-                  name="floor"
-                  placeholder="Lokasi Lantai Komputer (Contoh: 1 hingga 4)"
-                  value="{{ old('floor') }}"
-                  class=" w-full rounded-full"
-                  required>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          </select>
-
-          <!-- Input Biaya -->
-          <label for="price" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Biaya Sewa Komputer (Per Jam)</label>
-          <input  type="number"
-                  id="price"
-                  name="price"
-                  placeholder="Jumlah Biaya Sewa Komputer Per Jam (Contoh: 2, 4)"
-                  value="{{ old('price') }}"
-                  class=" w-full rounded-full "
-                  min="1"
-                  step="1"
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                  required>
-
-          <!-- Input Room -->
-          <label for="room" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Ruangan Komputer</label>
-          <select id="room"
-                  name="room"
-                  placeholder="Ruangan Komputer (Contoh: Public dan Private)"
-                  value="{{ old('room') }}"
-                  class=" w-full rounded-full"
-                  required>
-          <option>public</option>
-          <option>private</option>
-          </select>
-
-          <!-- Input Description -->
-          <label for="desc" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi Komputer</label>
-          <textarea id="desc"
-                    rows="4"
-                    name="desc"
-                    placeholder="Deskripsi Komputer..."
-                    value="{{ old('desc') }}"
-                    class="w-full rounded-2xl"
-                    required></textarea>
-        </div>
       </div>
-      <!-- Modal footer -->
-      <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Tambah</button>
-          <input data-modal-hide="add-modal" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-          </form>
-      </div>
-    </div>
   </div>
-</div>
 
-<!-- Edit Modal -->
-<div id="edit-modal-{{ $product->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <!-- Add Modal -->
+  <div id="add-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Edit Data Komputer {{ $product->name }}
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal-{{ $product->id }}">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Tambah Data Komputer
+          </h3>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-modal">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+              </svg>
+              <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5 space-y-4">
 
-              {{-- Form Input Gambar --}}
+          {{-- Form Input Gambar --}}
 
-              <form id="yourFormID" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="">
-              @csrf
-              @method('PUT')
-              <div class="flex flex-col items-center gap-4 p-8">
+          <form id="yourFormID" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="">
+          @csrf
+          <div class="flex flex-col items-center gap-4 p-8">
 
-                <!-- Preview Gambar Input -->
-                    <div class="w-auto mb-2">
-                        <img id="preview-image1"
-                            src="{{ asset("../" . $product->image1) }}"
-                            alt="Preview 1"
-                            class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                    </div>
-                    <div class="flex flex-row mb-2 justify-between flex-wrap">
-                        <img id="preview-image2"
-                            src="{{ asset("../" . $product->image2) }}"
-                            alt="Preview 2"
-                            class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                        <img id="preview-image3"
-                            src="{{ asset("../" . $product->image3) }}"
-                            alt="Preview 3"
-                            class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                        <img id="preview-image4"
-                            src="{{ asset("../" . $product->image4) }}"
-                            alt="Preview 4"
-                            class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                    </div>
-
-                <!-- Input Gambar -->
-                <div class="flex flex-row gap-4 mb-8">
-                  <div class="">
-                    <div class="">
-                      <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
-                      <input type="file"
-                            name="image1"
-                            id="image1"
-                            value="{{ $product->image1 }}"
-                            accept=".jpg,.jpeg,.png,.webp"
-                            onchange="previewImage(event, 1)"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
-                    </div>
-                    <div class="mt-8">
-                      <label for="image2" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 2</label>
-                      <input type="file"
-                            name="image2"
-                            id="image2"
-                            value="{{ $product->image2 }}"
-                            accept=".jpg,.jpeg,.png,.webp"
-                            onchange="previewImage(event, 2)"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
-                    </div>
-                  </div>
-                  <div class="">
-                    <div class="">
-                      <label for="image3" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 3</label>
-                      <input type="file"
-                            name="image3"
-                            id="image3"
-                            value="{{ $product->image3 }}"
-                            accept=".jpg,.jpeg,.png,.webp"
-                            onchange="previewImage(event, 3)"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
-                    </div>
-                    <div class="mt-8">
-                      <label for="image4" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 4</label>
-                      <input type="file"
-                            name="image4"
-                            id="image4"
-                            value="{{ $product->image4 }}"
-                            accept=".jpg,.jpeg,.png,.webp"
-                            onchange="previewImage(event, 4)"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
-                    </div>
-                  </div>
+            <!-- Preview Gambar Input -->
+                <div class="w-auto mb-2">
+                    <img id="preview-image1"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        alt="Preview 1"
+                        class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                </div>
+                <div class="flex flex-row mb-2 justify-between flex-wrap">
+                    <img id="preview-image2"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        alt="Preview 2"
+                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                    <img id="preview-image3"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        alt="Preview 3"
+                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                    <img id="preview-image4"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        alt="Preview 4"
+                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
                 </div>
 
-                <!-- Input Name -->
-                <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Komputer</label>
-                <input  type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Nama Komputer"
-                        value="{{ $product->name }}"
-                        class="w-full rounded-full"
+            <!-- Input Gambar -->
+            <div class="flex flex-row gap-4 mb-8">
+              <div class="">
+                <div class="">
+                  <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
+                  <input type="file"
+                        name="image1"
+                        id="image1"
+                        accept=".jpg,.jpeg,.png,.webp"
+                        onchange="previewImage(event, 1)"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
-                
-                <!-- Input RAM -->
-                <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
-                <input  type="number"
-                        id="ram"
-                        name="ram"
-                        placeholder="Jumlah Ram Komputer (Contoh: 8, 16)"
-                        value="{{ $product->ram }}"
-                        class=" w-full rounded-full "
-                        min="1"
-                        step="1"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                </div>
+                <div class="mt-8">
+                  <label for="image2" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 2</label>
+                  <input type="file"
+                        name="image2"
+                        id="image2"
+                        accept=".jpg,.jpeg,.png,.webp"
+                        onchange="previewImage(event, 2)"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
-
-                <!-- Input CPU -->
-                <label for="cpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis CPU Komputer</label>
-                <input  type="text"
-                        id="cpu"
-                        name="cpu"
-                        placeholder="Jenis CPU Komputer (Contoh: Intel i9-45000k, AMD Ryzen 5500H)"
-                        value="{{ $product->cpu }}"
-                        class="w-full rounded-full"
-                        list="cpu-options"
+                </div>
+              </div>
+              <div class="">
+                <div class="">
+                  <label for="image3" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 3</label>
+                  <input type="file"
+                        name="image3"
+                        id="image3"
+                        accept=".jpg,.jpeg,.png,.webp"
+                        onchange="previewImage(event, 3)"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
-
-                <datalist id="cpu-options">
-                  <option value="Intel Core i3">
-                  <option value="Intel Core i5">
-                  <option value="Intel Core i7">
-                  <option value="Intel Core i9">
-                  <option value="AMD Ryzen 3">
-                  <option value="AMD Ryzen 5">
-                  <option value="AMD Ryzen 7">
-                  <option value="AMD Ryzen 9">
-                </datalist>
-
-                <!-- Input GPU -->
-                <label for="gpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis GPU Komputer</label>
-                <input  type="text"
-                        id="gpu"
-                        name="gpu"
-                        placeholder="Jenis GPU Komputer (Contoh: RTX 3060, GTX 1650 TI)"
-                        value="{{ $product->gpu }}"
-                        class=" w-full rounded-full "
-                        list="gpu-options"
+                </div>
+                <div class="mt-8">
+                  <label for="image4" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 4</label>
+                  <input type="file"
+                        name="image4"
+                        id="image4"
+                        accept=".jpg,.jpeg,.png,.webp"
+                        onchange="previewImage(event, 4)"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
-                        
-                <datalist id="gpu-options">
-                  <option value="RTX">
-                  <option value="GTX">
-                </datalist>
-
-                <!-- Input lantai -->
-                <label for="floor" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Lokasi Lantai Komputer</label>
-                <select id="floor"
-                        name="floor"
-                        placeholder="Lokasi Lantai Komputer (Contoh: 1 hingga 4)"
-                        value="{{ $product->floor }}"
-                        class=" w-full rounded-full"
-                        required>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                </select>
-
-                <!-- Input Status -->
-                <label for="status" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Status Komputer</label>
-                <select id="status"
-                        name="status"
-                        placeholder="Status Komputer (Contoh: Available, Online, dll)"
-                        value="{{ $product->status }}"
-                        class=" w-full rounded-full"
-                        required>
-                <option value="available" @selected($product->status == 'available')>available</option>
-                <option value="online" @selected($product->status == 'online')>online</option>
-                <option value="offline" @selected($product->status == 'offline')>offline</option>
-                <option value="maintenance" @selected($product->status == 'maintenance')>maintenance</option>
-                <option value="prepare" @selected($product->status == 'prepare')>prepare</option>
-                </select>
-
-                <!-- Input Biaya -->
-                <label for="price" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Biaya Sewa Komputer (Per Jam)</label>
-                <input  type="number"
-                        id="price"
-                        name="price"
-                        placeholder="Jumlah Biaya Sewa Komputer Per Jam (Contoh: 2, 4)"
-                        value="{{ $product->price }}"
-                        class=" w-full rounded-full "
-                        min="1"
-                        step="1"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                        required>
-
-                <!-- Input Room -->
-                <label for="room" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Ruangan Komputer</label>
-                <select id="room"
-                        name="room"
-                        placeholder="Ruangan Komputer (Contoh: Public dan Private)"
-                        value="{{ $product->room }}"
-                        class=" w-full rounded-full"
-                        required>
-                <option>public</option>
-                <option>private</option>
-                </select>
-
-                <!-- Input Description -->
-                <label for="desc" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi Komputer</label>
-                <textarea id="desc"
-                          rows="4"
-                          name="desc"
-                          placeholder="Deskripsi Komputer..."
-                          class="w-full rounded-2xl"
-                          required>{{ $product->desc }}</textarea>
+                </div>
               </div>
             </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
-                <input data-modal-hide="edit-modal-{{ $product->id }}" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                </form>
-            </div>
+
+            <!-- Input Name -->
+            <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Komputer</label>
+            <input  type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Nama Komputer"
+                    value="{{ old('name') }}"
+                    class=" w-full rounded-full "
+                    required>
+            
+            <!-- Input RAM -->
+            <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
+            <input  type="number"
+                    id="ram"
+                    name="ram"
+                    placeholder="Jumlah Ram Komputer (Contoh: 8, 16)"
+                    value="{{ old('ram') }}"
+                    class=" w-full rounded-full "
+                    min="1"
+                    step="1"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                    required>
+
+            <!-- Input CPU -->
+            <label for="cpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis CPU Komputer</label>
+            <input  type="text"
+                    id="cpu"
+                    name="cpu"
+                    placeholder="Jenis CPU Komputer (Contoh: Intel i9-45000k, AMD Ryzen 5500H)"
+                    value="{{ old('cpu') }}"
+                    class=" w-full rounded-full "
+                    list="cpu-options"
+                    required>
+
+            <datalist id="cpu-options">
+              <option value="Intel Core i3">
+              <option value="Intel Core i5">
+              <option value="Intel Core i7">
+              <option value="Intel Core i9">
+              <option value="AMD Ryzen 3">
+              <option value="AMD Ryzen 5">
+              <option value="AMD Ryzen 7">
+              <option value="AMD Ryzen 9">
+            </datalist>
+
+            <!-- Input GPU -->
+            <label for="gpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis GPU Komputer</label>
+            <input  type="text"
+                    id="gpu"
+                    name="gpu"
+                    placeholder="Jenis GPU Komputer (Contoh: RTX 3060, GTX 1650 TI)"
+                    value="{{ old('gpu') }}"
+                    class=" w-full rounded-full "
+                    list="gpu-options"
+                    required>
+                    
+            <datalist id="gpu-options">
+              <option value="RTX">
+              <option value="GTX">
+            </datalist>
+
+            <!-- Input lantai -->
+            <label for="floor" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Lokasi Lantai Komputer</label>
+            <select id="floor"
+                    name="floor"
+                    placeholder="Lokasi Lantai Komputer (Contoh: 1 hingga 4)"
+                    value="{{ old('floor') }}"
+                    class=" w-full rounded-full"
+                    required>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            </select>
+
+            <!-- Input Biaya -->
+            <label for="price" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Biaya Sewa Komputer (Per Jam)</label>
+            <input  type="number"
+                    id="price"
+                    name="price"
+                    placeholder="Jumlah Biaya Sewa Komputer Per Jam (Contoh: 2, 4)"
+                    value="{{ old('price') }}"
+                    class=" w-full rounded-full "
+                    min="1"
+                    step="1"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                    required>
+
+            <!-- Input Room -->
+            <label for="room" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Ruangan Komputer</label>
+            <select id="room"
+                    name="room"
+                    placeholder="Ruangan Komputer (Contoh: Public dan Private)"
+                    value="{{ old('room') }}"
+                    class=" w-full rounded-full"
+                    required>
+            <option>public</option>
+            <option>private</option>
+            </select>
+
+            <!-- Input Description -->
+            <label for="desc" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi Komputer</label>
+            <textarea id="desc"
+                      rows="4"
+                      name="desc"
+                      placeholder="Deskripsi Komputer..."
+                      value="{{ old('desc') }}"
+                      class="w-full rounded-2xl"
+                      required></textarea>
+          </div>
         </div>
+        <!-- Modal footer -->
+        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Tambah</button>
+            <input data-modal-hide="add-modal" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            </form>
+        </div>
+      </div>
     </div>
-</div>
-
-@endforeach
-
-<!-- Loading Modal -->
-<div id="loadingModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-  <div class="bg-white rounded-lg p-6 w-96 text-center shadow">
-    <h3 class="mb-4 text-lg font-semibold text-gray-700">Meng-upload data…</h3>
-
-    <!-- progress wrapper -->
-    <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
-      <div id="progressBar"
-          class="bg-blue-600 h-3 rounded-full transition-all duration-200"
-          style="width:0%"></div>
-    </div>
-
-    <p id="progressText" class="text-sm text-gray-500">0 %</p>
   </div>
+
+  @foreach ($products as $product)
+
+  <!-- Delete Modal -->
+  <div id="delete-modal-{{ $product->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Konfirmasi Hapus Data Komputer {{ $product->name }}
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $product->id }}">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                  </button>
+              </div>
+              <!-- Modal body -->
+              <div class="p-4 md:p-5 space-y-4">
+                  <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                      Perlu anda perhatikan, bahwa data data komputer {{ $product->name }} warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
+                  </p>
+              </div>
+              <!-- Modal footer -->
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
+                  </form>
+                  <button data-modal-hide="delete-modal-{{ $product->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal-{{ $product->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+              <!-- Modal header -->
+              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                      Edit Data Komputer {{ $product->name }}
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal-{{ $product->id }}">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                  </button>
+              </div>
+              <!-- Modal body -->
+              <div class="p-4 md:p-5 space-y-4">
+
+                {{-- Form Input Gambar --}}
+
+                <form id="yourFormID" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="">
+                @csrf
+                @method('PUT')
+                <div class="flex flex-col items-center gap-4 p-8">
+
+                  <!-- Preview Gambar Input -->
+                      <div class="w-auto mb-2">
+                          <img id="preview-image1"
+                              src="{{ asset("../" . $product->image1) }}"
+                              alt="Preview 1"
+                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                      </div>
+                      <div class="flex flex-row mb-2 justify-between flex-wrap">
+                          <img id="preview-image2"
+                              src="{{ asset("../" . $product->image2) }}"
+                              alt="Preview 2"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                          <img id="preview-image3"
+                              src="{{ asset("../" . $product->image3) }}"
+                              alt="Preview 3"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                          <img id="preview-image4"
+                              src="{{ asset("../" . $product->image4) }}"
+                              alt="Preview 4"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                      </div>
+
+                  <!-- Input Gambar -->
+                  <div class="flex flex-row gap-4 mb-8">
+                    <div class="">
+                      <div class="">
+                        <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
+                        <input type="file"
+                              name="image1"
+                              id="image1"
+                              value="{{ $product->image1 }}"
+                              accept=".jpg,.jpeg,.png,.webp"
+                              onchange="previewImage(event, 1)"
+                              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                      </div>
+                      <div class="mt-8">
+                        <label for="image2" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 2</label>
+                        <input type="file"
+                              name="image2"
+                              id="image2"
+                              value="{{ $product->image2 }}"
+                              accept=".jpg,.jpeg,.png,.webp"
+                              onchange="previewImage(event, 2)"
+                              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="">
+                        <label for="image3" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 3</label>
+                        <input type="file"
+                              name="image3"
+                              id="image3"
+                              value="{{ $product->image3 }}"
+                              accept=".jpg,.jpeg,.png,.webp"
+                              onchange="previewImage(event, 3)"
+                              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                      </div>
+                      <div class="mt-8">
+                        <label for="image4" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 4</label>
+                        <input type="file"
+                              name="image4"
+                              id="image4"
+                              value="{{ $product->image4 }}"
+                              accept=".jpg,.jpeg,.png,.webp"
+                              onchange="previewImage(event, 4)"
+                              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Input Name -->
+                  <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Komputer</label>
+                  <input  type="text"
+                          id="name"
+                          name="name"
+                          placeholder="Nama Komputer"
+                          value="{{ $product->name }}"
+                          class="w-full rounded-full"
+                          required>
+                  
+                  <!-- Input RAM -->
+                  <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
+                  <input  type="number"
+                          id="ram"
+                          name="ram"
+                          placeholder="Jumlah Ram Komputer (Contoh: 8, 16)"
+                          value="{{ $product->ram }}"
+                          class=" w-full rounded-full "
+                          min="1"
+                          step="1"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                          required>
+
+                  <!-- Input CPU -->
+                  <label for="cpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis CPU Komputer</label>
+                  <input  type="text"
+                          id="cpu"
+                          name="cpu"
+                          placeholder="Jenis CPU Komputer (Contoh: Intel i9-45000k, AMD Ryzen 5500H)"
+                          value="{{ $product->cpu }}"
+                          class="w-full rounded-full"
+                          list="cpu-options"
+                          required>
+
+                  <datalist id="cpu-options">
+                    <option value="Intel Core i3">
+                    <option value="Intel Core i5">
+                    <option value="Intel Core i7">
+                    <option value="Intel Core i9">
+                    <option value="AMD Ryzen 3">
+                    <option value="AMD Ryzen 5">
+                    <option value="AMD Ryzen 7">
+                    <option value="AMD Ryzen 9">
+                  </datalist>
+
+                  <!-- Input GPU -->
+                  <label for="gpu" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jenis GPU Komputer</label>
+                  <input  type="text"
+                          id="gpu"
+                          name="gpu"
+                          placeholder="Jenis GPU Komputer (Contoh: RTX 3060, GTX 1650 TI)"
+                          value="{{ $product->gpu }}"
+                          class=" w-full rounded-full "
+                          list="gpu-options"
+                          required>
+                          
+                  <datalist id="gpu-options">
+                    <option value="RTX">
+                    <option value="GTX">
+                  </datalist>
+
+                  <!-- Input lantai -->
+                  <label for="floor" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Lokasi Lantai Komputer</label>
+                  <select id="floor"
+                          name="floor"
+                          placeholder="Lokasi Lantai Komputer (Contoh: 1 hingga 4)"
+                          value="{{ $product->floor }}"
+                          class=" w-full rounded-full"
+                          required>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  </select>
+
+                  <!-- Input Status -->
+                  <label for="status" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Status Komputer</label>
+                  <select id="status"
+                          name="status"
+                          placeholder="Status Komputer (Contoh: Available, Online, dll)"
+                          value="{{ $product->status }}"
+                          class=" w-full rounded-full"
+                          required>
+                  <option value="available" @selected($product->status == 'available')>available</option>
+                  <option value="online" @selected($product->status == 'online')>online</option>
+                  <option value="offline" @selected($product->status == 'offline')>offline</option>
+                  <option value="maintenance" @selected($product->status == 'maintenance')>maintenance</option>
+                  <option value="prepare" @selected($product->status == 'prepare')>prepare</option>
+                  </select>
+
+                  <!-- Input Biaya -->
+                  <label for="price" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Biaya Sewa Komputer (Per Jam)</label>
+                  <input  type="number"
+                          id="price"
+                          name="price"
+                          placeholder="Jumlah Biaya Sewa Komputer Per Jam (Contoh: 2, 4)"
+                          value="{{ $product->price }}"
+                          class=" w-full rounded-full "
+                          min="1"
+                          step="1"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                          required>
+
+                  <!-- Input Room -->
+                  <label for="room" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Ruangan Komputer</label>
+                  <select id="room"
+                          name="room"
+                          placeholder="Ruangan Komputer (Contoh: Public dan Private)"
+                          value="{{ $product->room }}"
+                          class=" w-full rounded-full"
+                          required>
+                  <option>public</option>
+                  <option>private</option>
+                  </select>
+
+                  <!-- Input Description -->
+                  <label for="desc" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi Komputer</label>
+                  <textarea id="desc"
+                            rows="4"
+                            name="desc"
+                            placeholder="Deskripsi Komputer..."
+                            class="w-full rounded-2xl"
+                            required>{{ $product->desc }}</textarea>
+                </div>
+              </div>
+              <!-- Modal footer -->
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                  <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
+                  <input data-modal-hide="edit-modal-{{ $product->id }}" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  @endforeach
+
+  <!-- Loading Modal -->
+  <div id="loadingModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+    <div class="bg-white rounded-lg p-6 w-96 text-center shadow">
+      <h3 class="mb-4 text-lg font-semibold text-gray-700">Meng-upload data…</h3>
+
+      <!-- progress wrapper -->
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+        <div id="progressBar"
+            class="bg-blue-600 h-3 rounded-full transition-all duration-200"
+            style="width:0%"></div>
+      </div>
+
+      <p id="progressText" class="text-sm text-gray-500">0 %</p>
+    </div>
+  </div>
+  </section>
 </div>
 
-
-<script>
+{{-- <script>
 if (document.getElementById("filter-table") && typeof simpleDatatables.DataTable !== 'undefined') {
     const dataTable = new simpleDatatables.DataTable("#filter-table", {
         tableRender: (_data, table, type) => {
@@ -911,7 +914,7 @@ function showToast(message, type = 'success') {
 
     setTimeout(() => toast.remove(), 4000);
 }
-</script>
+</script> --}}
 
 
 @endsection

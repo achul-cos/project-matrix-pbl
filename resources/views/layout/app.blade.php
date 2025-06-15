@@ -12,7 +12,7 @@
 </head>
 <body class="bg-white inter">
     @include('components.navbar')
-    <div class="pt-20 mi    n-h-dvh pb-10">
+    <div class="pt-20 min-h-dvh pb-10">
         @yield('content')
     </div>
     @include('components.footer')

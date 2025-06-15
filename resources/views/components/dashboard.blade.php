@@ -22,7 +22,7 @@
                   <div class="border-2 rounded-full border-white"><img class="w-10 h-10 rounded-full border-4 border-slate-800" src="https://static.wikitide.net/hoyodexwiki/3/30/Kaedehara_Kazuha_%28YS-MU%29.png" alt="user photo"></div>
                 </button>
               </div>
-              <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+              <div class="min-w-48 z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                 <div class="px-4 py-3" role="none">
                   <p class="text-base font-bold text-gray-900 dark:text-white" role="none">
                     {{ Auth::user()->name ?? "Lorem Ipsum"}}
@@ -33,21 +33,72 @@
                 </div>
                 <ul class="py-1" role="none">
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                     <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                        <svg class="w-2.5 h-2.5 rotate-180 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                        </svg>
+                        Computer
+                     </button>
+                     <div id="doubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-50 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton">
+                           <li>
+                              <a href="{{ route('admin.management_computer') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Management Computer</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('admin.monitoring_computer') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Monitoring Computer</a>
+                           </li>
+                        </ul>
+                     </div>
                   </li>
+
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
+                  <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown2" data-dropdown-placement="right-start" type="button" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                     <svg class="w-2.5 h-2.5 rotate-180 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                     </svg>
+                        Report
+                     </button>
+                     <div id="doubleDropdown2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-50 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton">
+                           <li>
+                              <a href="{{ route('admin.rent_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rent Report</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('admin.topup_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Top Up Report</a>
+                           </li>
+                        </ul>
+                     </div>
                   </li>
+
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
+                  <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown3" data-dropdown-placement="right-start" type="button" class="flex items-center w-full px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm">
+                     <svg class="w-2.5 h-2.5 rotate-180 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                     </svg>
+                        Management
+                     </button>
+                     <div id="doubleDropdown3" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-50 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton">
+                           <li>
+                              <a href="{{ route('admin.rent_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Management Account</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('admin.topup_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Management Admin</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('admin.topup_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Management Information</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('admin.topup_report') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Management Warnet</a>
+                           </li>
+                        </ul>
+                     </div>
                   </li>
-                  <li>
-                     <form action="{{ route('admin.logout') }}" method="POST" class="inline">
-                        @csrf <!-- Tambahkan token CSRF -->
-                        <button type="submit" class="px-4 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">Logout</button>
-                     </form>
-                  </li>
-                </ul>
+               </ul>
+               <form action="{{ route('admin.logout') }}" method="POST" class="block px-4 py-2 text-base text-red-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white rounded-b-xl">
+                  @csrf <!-- Tambahkan token CSRF -->
+                  <button type="submit" class="">Logout</button>
+               </form>
               </div>
             </div>
           </div>
@@ -93,14 +144,14 @@
                <span class="flex-1 ms-3 whitespace-nowrap">Rent Report</span>
             </a>
          </li>
-         <li>
+         {{-- <li>
             <a href="../admin/live_rent_report" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
             <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"/>
                </svg>                                
                <span class="flex-1 ms-3 whitespace-nowrap">Live Rent Report</span>
             </a>
-         </li>
+         </li> --}}
          <li>
             <a href="../admin/topup_report" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
             <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
