@@ -4,12 +4,73 @@
 
 @section('content')
 
+<div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeIn">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Sistem Manajemen Warnet</h1>
+        
+        <!-- Status Warnet -->
+        <div class="mb-8 p-4 border rounded-lg bg-gray-50">
+            <h2 class="text-xl font-semibold mb-4">Status Warnet</h2>
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600">Status saat ini:</p>
+                    <p id="warnet-status-text" class="text-lg font-semibold text-green-600">Sedang Buka</p>
+                    <p id="warnet-hours" class="text-sm text-gray-500 mt-1">Jam operasional: 08:00 - 22:00</p>
+                </div>
+                <button id="toggle-warnet" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                    Tutup Warnet
+                </button>
+            </div>
+        </div>
+        
+        <!-- Pengaturan Website -->
+        <div class="p-4 border rounded-lg bg-gray-50">
+            <h2 class="text-xl font-semibold mb-4">Pengaturan Website</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600">Status Website:</p>
+                        <p id="website-status-text" class="text-lg font-semibold text-green-600">Online</p>
+                        <p id="website-status-desc" class="text-sm text-gray-500 mt-1">Pengunjung dapat mengakses website</p>
+                    </div>
+                    <button id="toggle-website" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" disabled>
+                        Matikan Website
+                    </button>
+                </div>
+                
+                <!-- Pesan Maintenance -->
+                <div id="maintenance-section" class="hidden mt-4 space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Pesan Maintenance</label>
+                        <textarea id="maintenance-message" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Contoh: Website sedang dalam maintenance hingga pukul 14:00"></textarea>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button id="save-maintenance" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            Simpan & Aktifkan 
+                        </button>
+                        <button id="cancel-maintenance" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Log Status -->
+        <div class="mt-8 p-4 border rounded-lg bg-gray-50">
+            <h2 class="text-xl font-semibold mb-4">Riwayat Perubahan Status</h2>
+            <ul id="status-log" class="space-y-2">
+                <li class="text-sm text-gray-600">Sistem dimulai - <span class="font-medium">Warnet: Buka, Website: Online</span> - 10:00:42</li>
+            </ul>
+        </div>
+    </div>
+
+
 {{-- manajemen warnet --}}
 <div class="flex">
     <!-- Main Content -->
     <section class="flex-1 px-8 py-10">
       <h1 class="text-3xl font-bold mb-6">
-        <span class="text-slate-900">Sistem Manajemen Warnet</span>
+        <span class="text-slate-900"></span>
       </h1>
 
       <div class="bg-white p-6 rounded-2xl border-4 border-[#565885] shadow-xl">
@@ -243,67 +304,6 @@
             </button>
         </div>
     </div>
-
-    <div class="mt-8 mx-auto bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeIn">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Manajemen Warnet</h1>
-        
-        <!-- Status Warnet -->
-        <div class="mb-8 p-4 border rounded-lg bg-gray-50">
-            <h2 class="text-xl font-semibold mb-4">Status Warnet</h2>
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-600">Status saat ini:</p>
-                    <p id="warnet-status-text" class="text-lg font-semibold text-green-600">Sedang Buka</p>
-                    <p id="warnet-hours" class="text-sm text-gray-500 mt-1">Jam operasional: 08:00 - 22:00</p>
-                </div>
-                <button id="toggle-warnet" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
-                    Tutup Warnet
-                </button>
-            </div>
-        </div>
-        
-        <!-- Pengaturan Website -->
-        <div class="p-4 border rounded-lg bg-gray-50">
-            <h2 class="text-xl font-semibold mb-4">Pengaturan Website</h2>
-            <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600">Status Website:</p>
-                        <p id="website-status-text" class="text-lg font-semibold text-green-600">Online</p>
-                        <p id="website-status-desc" class="text-sm text-gray-500 mt-1">Pengunjung dapat mengakses website</p>
-                    </div>
-                    <button id="toggle-website" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" disabled>
-                        Matikan Website
-                    </button>
-                </div>
-                
-                <!-- Pesan Maintenance -->
-                <div id="maintenance-section" class="hidden mt-4 space-y-4">
-                    <div>
-                        <label class="block text-gray-700 mb-2">Pesan Maintenance</label>
-                        <textarea id="maintenance-message" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Contoh: Website sedang dalam maintenance hingga pukul 14:00"></textarea>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button id="save-maintenance" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                            Simpan & Aktifkan 
-                        </button>
-                        <button id="cancel-maintenance" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                            Batal
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Log Status -->
-        <div class="mt-8 p-4 border rounded-lg bg-gray-50">
-            <h2 class="text-xl font-semibold mb-4">Riwayat Perubahan Status</h2>
-            <ul id="status-log" class="space-y-2">
-                <li class="text-sm text-gray-600">Sistem dimulai - <span class="font-medium">Warnet: Buka, Website: Online</span> - 10:00:42</li>
-            </ul>
-        </div>
-    </div>
-
 
 
     <script>
