@@ -43,157 +43,41 @@
     </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
         <div class="transition-transform transform hover:scale-102">
-            <a href="#"><img src="img/ad/placeholder1.png" alt="" class="rounded-xl shadow-xl aspect-video object-fit"></a>
+            <a href="#"><img src="{{ asset('img/ad/banner1.png') }}" alt="" class="rounded-xl shadow-xl aspect-video object-fit"></a>
         </div>
         <div class="transition-transform transform hover:scale-102">
-            <a href="#"><img src="img/ad/placeholder1.png" alt="" class="rounded-xl shadow-xl aspect-video object-fit"></a>
+            <a href="#"><img src="{{ asset('img/ad/banner2.png') }}" alt="" class="rounded-xl shadow-xl aspect-video object-fit"></a>
         </div>
     </div>
-    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4 justify-items-center">
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
+    <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-14 p-4 justify-items-center">
+        @foreach ($productTopList as $product)
+            <div class="transition-transform transform hover:scale-102 relative">
+                <img src="{{ asset('img/icon/terlaris.gif') }}" alt="" class="absolute h-20 w-auto -top-10 -left-8">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <a href="{{ route('productPage.show', $product->id) }}">
+                        <img class="rounded-t-lg aspect-1/1 object-cover" 
+                            src="{{ asset($product->image1 ?? 'img/ad/placeholder1.png') }}" 
+                            alt="{{ $product->name }}" />
+                    </a>
+                    <a href="{{ route('productPage.show', $product->id) }}">
+                        <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700">
+                            {{ $product->name }}
+                        </h5>
+                    </a>
+                    <div class="p-5">
+                        <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">
+                            {{ \Illuminate\Support\Str::limit($product->desc, 60, '...') }}
+                        </p>
+                        <div class="py-2 px-5 flex items-center justify-center h-full">
+                            <a href="{{ route('productPage.show', $product->id) }}" 
+                            class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
+                                SEWA
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="transition-transform transform hover:scale-102">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="rounded-t-lg aspect-1/1 object-cover" src="img/ad/placeholder1.png" alt="" />
-                </a>
-                <a href="#">
-                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700 ">Komputer A</h5>
-                </a>
-                <div class="p-5">
-                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">Lorem Ipsum Dolor Sit Amet</p>
-                    <div class="py-2 px-5 flex items-center justify-center h-full">
-                        <a href="#" class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                            SEWA
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
     
 </section>
@@ -208,7 +92,7 @@
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                        <!-- Item 1 -->
+                    <!-- Item 1 -->
                     <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10" data-carousel-item="">
                         <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
@@ -317,7 +201,7 @@
         <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
     </div>
     <div class="grid grid-cols-12 gap-0 bg-white rounded-xl shadow-xl mx-8 mt-4 max-sm:hidden">
-        <div class="col-span-6 rounded-l-xl" style="background-image: url(img/ad/placeholder1.png); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+        <img src="{{ asset('img/ad/banner2.png') }}" class="col-span-6 rounded-l-xl">
         <div class="col-span-6 p-8 grid grid-row-4 gap-4">
             <div class="row-span-1">
                 <p class="font-bold text-2xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit</p>
@@ -338,7 +222,7 @@
         </div>
     </div>
     <div class="grid grid-rows-12 gap-0 bg-white rounded-xl shadow-xl mx-8 mt-4 min-sm:hidden">
-        <div class="row-span-6 rounded-t-xl" style="background-image: url(img/ad/placeholder1.png); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+        <img src="{{ asset('img/ad/banner1.png') }}" class="row-span-6 rounded-t-xl">
         <div class="row-span-6 p-8">
             <div class="row-span-1">
                 <p class="font-bold text-2xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit</p>
@@ -353,9 +237,9 @@
             <div class="row-span-1">
                 <p class="pt-4 text-md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet.</p>
             </div>
-            <div class="row-span-1 mt-8 pb-4">
+            {{-- <div class="row-span-1 mt-8 pb-4">
                 <a href="#" class="font-bold text-md p-4 bg-lime-800 text-white rounded-md">Baca Selengkapnya</a>
-            </div> 
+            </div>  --}}
         </div>
     </div> 
 </section>

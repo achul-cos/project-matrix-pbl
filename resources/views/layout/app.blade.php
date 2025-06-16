@@ -7,7 +7,8 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <title>@yield('title', 'Laravel app')</title>
     <!-- Stylesheets -->
-    <link href="styles/flowbite.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" /> --}}
+    <link href="../styles/flowbite.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>
 <body class="bg-white inter">
@@ -17,10 +18,10 @@
     </div>
     @include('components.footer')
     <!-- Scripts -->
-    <script src="styles/flowbite.min.js"></script>
-    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    {{-- <script src="styles/flowbite.min.js"></script> --}}
+    {{-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> --}}
     @vite('resources/js/app.js')
     <!-- Flowbite JS -->
-    <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 </html>     

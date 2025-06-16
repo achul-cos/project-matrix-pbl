@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -92,7 +93,7 @@ class ProductController extends Controller
     }
     public function readProductManagement()
     {
-        $products = Product::latest()->paginate(25);
+        $products = Product::latest()->get();
 
         // Peta warna status → badge
         $statusColorMap = [
@@ -312,5 +313,374 @@ class ProductController extends Controller
             ]);
         }
     }
+    public function show($id)
+    {
+        // Ambil produk berdasarkan ID untuk detail
+        $product = Product::findOrFail($id);
+
+        // Ambil semua produk untuk ditampilkan dalam komponen monitor
+        $allProducts = Product::orderBy('floor')
+            ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
+            ->get();
+
+        // Mapping ulang data produk ke format komponen monitor
+        $monitors = $allProducts->map(function ($p) {
+            return [
+                'id_komputer'     => $p->id,
+                'nama_komputer'   => $p->name,
+                'kode_komputer'   => $p->code,
+                'cpu_komputer'    => $p->cpu,
+                'gpu_komputer'    => $p->gpu,
+                'ram_komputer'    => $p->ram,
+                'lantai_komputer' => $p->floor,
+                'room_komputer'   => $p->room,
+                'biaya_komputer'  => $p->price,
+                'status_komputer' => $p->status,
+                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
+                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+            ];
+        });
+
+        // Kirim detail produk + data monitor ke view
+        return view('pages.product', compact('product', 'monitors'));
+    }
+    // public function showSearchPage()
+    // {
+    //     $products = Product::latest()->get();
+
+    //     return view('pages.search', compact('products'));
+    // }
+    // public function showSearchPage(Request $request)
+    // {
+    //     $query = Product::query();
+        
+    //     // Search berdasarkan nama (dari parameter search)
+    //     if ($request->has('search') && !empty($request->search)) {
+    //         $searchTerm = $request->search;
+    //         $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+    //     }
+        
+    //     // Filter berdasarkan CPU
+    //     if ($request->has('cpu') && !empty($request->cpu)) {
+    //         $cpuFilter = $request->cpu;
+    //         if ($cpuFilter === 'cpu-intel') {
+    //             $query->where('cpu', 'LIKE', '%intel%');
+    //         } elseif ($cpuFilter === 'cpu-amd') {
+    //             $query->where('cpu', 'LIKE', '%amd%');
+    //         }
+    //     }
+        
+    //     // Filter berdasarkan GPU
+    //     if ($request->has('gpu') && !empty($request->gpu)) {
+    //         $gpuFilter = $request->gpu;
+    //         if ($gpuFilter === 'gpu-rtx') {
+    //             $query->where('gpu', 'LIKE', '%rtx%');
+    //         } elseif ($gpuFilter === 'gpu-gtx') {
+    //             $query->where('gpu', 'LIKE', '%gtx%');
+    //         }
+    //     }
+        
+    //     // Filter berdasarkan Room
+    //     if ($request->has('room') && !empty($request->room)) {
+    //         $roomFilter = $request->room;
+    //         if ($roomFilter === 'room-public') {
+    //             $query->where('room', 'public');
+    //         } elseif ($roomFilter === 'room-private') {
+    //             $query->where('room', 'private');
+    //         }
+    //     }
+        
+    //     // Filter berdasarkan RAM
+    //     if ($request->has('ram') && !empty($request->ram)) {
+    //         $ramFilter = (int)$request->ram;
+    //         if ($ramFilter === 8) {
+    //             $query->where('ram', '>=', 8)->where('ram', '<', 16);
+    //         } elseif ($ramFilter === 16) {
+    //             $query->where('ram', '>=', 16);
+    //         }
+    //     }
+        
+    //     // Filter berdasarkan Token (price)
+    //     if ($request->has('token') && !empty($request->token)) {
+    //         $tokenFilter = (int)$request->token;
+    //         if ($tokenFilter > 1) {
+    //             $query->where('price', '<=', $tokenFilter);
+    //         }
+    //     }
+        
+    //     // Ambil data products dengan filter yang diterapkan
+    //     $products = $query->latest()->get();
+        
+    //     // Transform data untuk menambahkan cpu_formatted dan gpu_formatted
+    //     $products = $products->map(function ($product) {
+    //         // Deteksi CPU formatted
+    //         $cpuLower = strtolower($product->cpu ?? '');
+    //         if (strpos($cpuLower, 'intel') !== false) {
+    //             $product->cpu_formatted = 'intel';
+    //         } elseif (strpos($cpuLower, 'amd') !== false) {
+    //             $product->cpu_formatted = 'amd';
+    //         } else {
+    //             $product->cpu_formatted = 'unknown';
+    //         }
+            
+    //         // Deteksi GPU formatted
+    //         $gpuLower = strtolower($product->gpu ?? '');
+    //         if (strpos($gpuLower, 'rtx') !== false) {
+    //             $product->gpu_formatted = 'rtx';
+    //         } elseif (strpos($gpuLower, 'gtx') !== false) {
+    //             $product->gpu_formatted = 'gtx';
+    //         } else {
+    //             $product->gpu_formatted = 'unknown';
+    //         }
+            
+    //         return $product;
+    //     });
+        
+    //     return view('pages.search', compact('products'));
+    // }
+
+    // Method tambahan untuk AJAX filter (opsional) 
+
+    // public function filterProducts(Request $request)
+    // {
+    //     $query = Product::query();
+        
+    //     // Terapkan semua filter yang sama seperti di atas
+    //     if ($request->has('search') && !empty($request->search)) {
+    //         $searchTerm = $request->search;
+    //         $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+    //     }
+        
+    //     if ($request->has('cpu') && !empty($request->cpu)) {
+    //         $cpuFilter = $request->cpu;
+    //         if ($cpuFilter === 'cpu-intel') {
+    //             $query->where('cpu', 'LIKE', '%intel%');
+    //         } elseif ($cpuFilter === 'cpu-amd') {
+    //             $query->where('cpu', 'LIKE', '%amd%');
+    //         }
+    //     }
+        
+    //     if ($request->has('gpu') && !empty($request->gpu)) {
+    //         $gpuFilter = $request->gpu;
+    //         if ($gpuFilter === 'gpu-rtx') {
+    //             $query->where('gpu', 'LIKE', '%rtx%');
+    //         } elseif ($gpuFilter === 'gpu-gtx') {
+    //             $query->where('gpu', 'LIKE', '%gtx%');
+    //         }
+    //     }
+        
+    //     if ($request->has('room') && !empty($request->room)) {
+    //         $roomFilter = $request->room;
+    //         if ($roomFilter === 'room-public') {
+    //             $query->where('room', 'public');
+    //         } elseif ($roomFilter === 'room-private') {
+    //             $query->where('room', 'private');
+    //         }
+    //     }
+        
+    //     if ($request->has('ram') && !empty($request->ram)) {
+    //         $ramFilter = (int)$request->ram;
+    //         if ($ramFilter === 8) {
+    //             $query->where('ram', '>=', 8)->where('ram', '<', 16);
+    //         } elseif ($ramFilter === 16) {
+    //             $query->where('ram', '>=', 16);
+    //         }
+    //     }
+        
+    //     if ($request->has('token') && !empty($request->token)) {
+    //         $tokenFilter = (int)$request->token;
+    //         if ($tokenFilter > 1) {
+    //             $query->where('price', '<=', $tokenFilter);
+    //         }
+    //     }
+        
+    //     $products = $query->latest()->get();
+        
+    //     // Transform data
+    //     $products = $products->map(function ($product) {
+    //         $cpuLower = strtolower($product->cpu ?? '');
+    //         if (strpos($cpuLower, 'intel') !== false) {
+    //             $product->cpu_formatted = 'intel';
+    //         } elseif (strpos($cpuLower, 'amd') !== false) {
+    //             $product->cpu_formatted = 'amd';
+    //         } else {
+    //             $product->cpu_formatted = 'unknown';
+    //         }
+            
+    //         $gpuLower = strtolower($product->gpu ?? '');
+    //         if (strpos($gpuLower, 'rtx') !== false) {
+    //             $product->gpu_formatted = 'rtx';
+    //         } elseif (strpos($gpuLower, 'gtx') !== false) {
+    //             $product->gpu_formatted = 'gtx';
+    //         } else {
+    //             $product->gpu_formatted = 'unknown';
+    //         }
+            
+    //         return $product;
+    //     });
+        
+    //     return response()->json([
+    //         'success' => true,
+    //         'products' => $products,
+    //         'count' => $products->count()
+    //     ]);
+    // }
+// public function showSearchPage(Request $request)
+// {
+//     // Get the search query from the request
+//     $searchQuery = $request->input('search');
+
+//     // Initialize the query
+//     $query = Product::query();
+
+//     // Apply search filter
+//     if ($searchQuery) {
+//         $query->where('name', 'LIKE', '%' . $searchQuery . '%');
+//     }
+
+//     // Apply CPU filter
+//     if ($request->input('cpu')) {
+//         $cpuFilter = $request->input('cpu');
+//         if ($cpuFilter === 'cpu-intel') {
+//             $query->where('cpu', 'LIKE', '%Intel%');
+//         } elseif ($cpuFilter === 'cpu-amd') {
+//             $query->where('cpu', 'LIKE', '%AMD%');
+//         }
+//     }
+
+//     // Apply GPU filter
+//     if ($request->input('gpu')) {
+//         $gpuFilter = $request->input('gpu');
+//         if ($gpuFilter === 'gpu-rtx') {
+//             $query->where('gpu', 'LIKE', '%RTX%');
+//         } elseif ($gpuFilter === 'gpu-gtx') {
+//             $query->where('gpu', 'LIKE', '%GTX%');
+//         }
+//     }
+
+//     // Apply Room filter
+//     if ($request->input('room')) {
+//         $roomFilter = $request->input('room');
+//         if ($roomFilter === 'room-public') {
+//             $query->where('room', 'public');
+//         } elseif ($roomFilter === 'room-private') {
+//             $query->where('room', 'private');
+//         }
+//     }
+
+//     // Apply RAM filter (assuming you have a ram column in your products table)
+//     if ($request->input('ram')) {
+//         $ramValue = (int)$request->input('ram');
+//         $query->where('ram', '>=', $ramValue);
+//     }
+
+//     // Apply Token filter (assuming you have a token column in your products table)
+//     if ($request->input('token')) {
+//         $tokenValue = (int)$request->input('token');
+//         $query->where('token', '>=', $tokenValue);
+//     }
+
+//     // Fetch the filtered products
+//     $products = $query->latest()->get();
+
+//     // Format CPU and GPU data
+//     foreach ($products as $product) {
+//         $product->cpu_formatted = $this->formatCpu($product->cpu);
+//         $product->gpu_formatted = $this->formatGpu($product->gpu);
+//     }
+
+//     return view('pages.search', compact('products'));
+// }
+// private function formatCpu($cpu)
+// {
+//     if (strpos($cpu, 'Intel') !== false) {
+//         return 'intel';
+//     } elseif (strpos($cpu, 'AMD') !== false) {
+//         return 'amd';
+//     }
+//     return 'unknown';
+// }
+// private function formatGpu($gpu)
+// {
+//     if (strpos($gpu, 'RTX') !== false) {
+//         return 'rtx';
+//     } elseif (strpos($gpu, 'GTX') !== false) {
+//         return 'gtx';
+//     }
+//     return 'unknown';
+// }
+
+public function showSearchPage(Request $request)
+{
+    $searchTerm = $request->input('search');
+
+    // Query pencarian jika ada input 'search', jika tidak ambil semua
+    $query = Product::query();
+
+    if ($searchTerm) {
+        $query->where(function ($q) use ($searchTerm) {
+            $q->where('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('cpu', 'like', '%' . $searchTerm . '%')
+            ->orWhere('gpu', 'like', '%' . $searchTerm . '%')
+            ->orWhere('code', 'like', '%' . $searchTerm . '%');
+        });
+    }
+
+    $products = $query->latest()->get();
+
+    // Tambahkan cpu_formatted dan gpu_formatted
+    $products->transform(function ($product) {
+        // CPU formatted
+        if (stripos($product->cpu, 'intel') !== false) {
+            $product->cpu_formatted = 'Intel';
+        } elseif (stripos($product->cpu, 'amd') !== false) {
+            $product->cpu_formatted = 'AMD';
+        } else {
+            $product->cpu_formatted = 'Unknown';
+        }
+
+        // GPU formatted
+        if (stripos($product->gpu, 'rtx') !== false) {
+            $product->gpu_formatted = 'RTX';
+        } elseif (stripos($product->gpu, 'gtx') !== false) {
+            $product->gpu_formatted = 'GTX';
+        } else {
+            $product->gpu_formatted = 'Unknown';
+        }
+
+        return $product;
+    });
+
+    $products = $products->map(function ($product) {
+        $product->cpu_formatted = $this->formatCpu($product->cpu);
+        $product->gpu_formatted = $this->formatGpu($product->gpu);
+        return $product;
+    });
+
+    return view('pages.search', compact('products'));
+}
+private function formatCpu($cpu)
+{
+    return Str::contains(strtolower($cpu), 'intel') ? 'intel' : (Str::contains(strtolower($cpu), 'amd') ? 'amd' : 'unknown');
+}
+
+private function formatGpu($gpu)
+{
+    return Str::contains(strtolower($gpu), 'rtx') ? 'rtx' : (Str::contains(strtolower($gpu), 'gtx') ? 'gtx' : 'unknown');
+}
+
+
+public function homePage()
+{
+    $productTopList = Product::orderByDesc('rent')->take(8)->get(); // Ambil 8 produk dengan penyewaan terbanyak
+
+    return view('pages.home', compact('productTopList'));
+}
+
+public function showTop($id)
+{
+    $product = Product::findOrFail($id);
+    return view('pages.product', compact('product'));
+}
 
 }

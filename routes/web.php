@@ -32,10 +32,13 @@ Route::get('/forget', function () {return view('pages.forget');});
 Route::get('/otp', function () {return view('pages.otp');});
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
-    Route::get('/home', function () {
-        return view('pages.home');
-    })->name('home');
-    Route::get('/product', [ProductController::class, 'productPage'])->name('product');
+    // Route::get('/home', function () {
+    //     return view('pages.home');
+    // })->name('home');
+
+    Route::get('/home', [ProductController::class, 'homePage'])->name('home'); 
+
+    Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
 
     Route::get('/payment', function () {
         return view('pages.payment');
@@ -61,9 +64,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.change_pw');
     })->name('profile.password');
 
-    Route::get('/search', function () {
-        return view('pages.search');
-    })->name('search');
+    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');   
 
     Route::get('/developer', function () {
         return view('pages.developer');
@@ -78,6 +79,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     })->name('invoice');
 
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
+
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
+
 });
 
 // Route untuk authentication admin
