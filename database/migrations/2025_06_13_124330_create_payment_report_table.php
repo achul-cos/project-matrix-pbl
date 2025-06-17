@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('user_username');
             $table->string('midtrans_id')->nullable();
             $table->integer('qty_bill');
-            $table->string('payment_method');
+            $table->string('payment_method')->nullable();
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->timestamp('payment_start');
             $table->timestamp('payment_end');
