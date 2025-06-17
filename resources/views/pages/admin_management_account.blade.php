@@ -192,9 +192,9 @@
             <td class="p-3 capitalize">{{ $user->formatted_last_online }}</td>
 
             <td class="p-3 gap-4 flex">
-              <button  data-modal-target="edit-modal-{{ $user->id }}"
-                    data-modal-toggle="edit-modal-{{ $user->id }}"
-                    class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow transform transition-transform active:scale-85">EDIT
+              <button data-modal-target="edit-modal-{{ $user->id }}"
+                      data-modal-toggle="edit-modal-{{ $user->id }}"
+                      class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow transform transition-transform active:scale-85">EDIT
               </button>
 
               <button data-modal-target="delete-modal-{{ $user->id }}"
@@ -235,11 +235,11 @@
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
           <!-- Modal header -->
-          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                Tambah Data Komputer
+          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-slate-800 border-gray-200">
+            <h3 class="text-xl font-bold text-white">
+                Topup
             </h3>
-            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="topup-modal">
+            <button type="button" class="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="topup-modal">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                 </svg>
@@ -259,12 +259,6 @@
                 <label for="name" class="font-medium">Username / Email:</label>
                 <input type="text" name="login" placeholder="Username atau Email Akun Pengguna" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ old('login') }}" />
 
-                <label for="qty_token" class="font-medium">Jumlah Token:</label>
-                <input type="number" name="qty_token" placeholder="Jumlah Token yang Ditopup" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ old('qty_token') }}" />
-
-                <label for="qty_bill" class="font-medium">Biaya Total:</label>
-                <input type="number" name="qty_bill" placeholder="Biaya Total yang dibayarkan pengguna" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ old('qty_bill') }}" />
-
                 <!-- Input Payment Method -->
                 <label for="payment_method" class="font-medium">Metode Pembayaran:</label>
                 <select id="payment_method"
@@ -279,6 +273,37 @@
                 <option value="cuopon">Kupon (Vocher, Promo dll)</option>
                 </select>
 
+                <div class="hidden" id="inputTokenBill">
+                  <!-- Input Token -->
+                  <label for="qty_token" class="font-medium">Jumlah Token:</label>
+                  <input id="qty_token" type="number" name="qty_token" placeholder="Jumlah Token yang Ditopup" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ old('qty_token') }}" />
+  
+                  <!-- Input Bill -->
+                  <label for="qty_bill" class="font-medium">Biaya Total:</label>
+                  <div class="relative">
+                    <button id="buttonBill" type="button" class="absolute right-3 top-2.5 px-2 py-1 shadow-md rounded-lg border-slate-600 bg-slate-400 text-white transform transition-transform active:scale-80">
+                      Auto
+                    </button>
+                    <p class="absolute text-base left-3 font-semibold top-3 text-gray-700">Rp.</p>
+                    <input id="qty_bill" type="number" name="qty_bill" placeholder="Biaya total yang dibayarkan..." class="w-full ps-10 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ old('qty_bill') }}" />
+                    <p class="text-xs mt-2 text-gray-400">Harga 1 Token/Maxcoin = Rp. 2,000</p>
+                  </div>
+                </div>
+
+
+                <!-- Input Coupon -->
+                <div class="hidden" id="inputCoupon">
+                  <label for="coupon" class="font-medium">Kode Kupon:</label>
+                  <input id="coupon" type="text" name="coupon" placeholder="Kode Coupon..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition mt-3" />  
+                </div>
+
+                <!-- Input Note -->
+                <label for="note" class="font-medium">Note/Catatan:</label>
+                <textarea id="note"
+                          rows="2"
+                          name="note"
+                          placeholder="Note atau catatan khusus pembayaran..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition"></textarea>
               </div>
   
               <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8">
@@ -818,6 +843,45 @@
   phoneInput.addEventListener('input', function () {
     if (phoneInput.value !== guestPhone) {
       alertPhone.style.display = "none";
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const paymentSelect = document.getElementById('payment_method');
+    const couponDiv = document.getElementById('inputCoupon');
+    const tokenbillDiv = document.getElementById('inputTokenBill');
+    const buttonBill = document.getElementById('buttonBill');
+    const qtyToken = document.getElementById('qty_token');
+    const qtyBill = document.getElementById('qty_bill');
+
+    function togglePaymentInputs(method) {
+      if (method === 'cuopon') {
+        couponDiv.classList.remove('hidden');
+        tokenbillDiv.classList.add('hidden');
+      } else if (method === 'cash' || method === 'transfer') {
+        couponDiv.classList.add('hidden');
+        tokenbillDiv.classList.remove('hidden');
+      } else {
+        couponDiv.classList.add('hidden');
+        tokenbillDiv.classList.add('hidden');
+      }
+    }
+
+    // Trigger awal saat halaman load (untuk old('payment_method'))
+    togglePaymentInputs(paymentSelect.value);
+
+    // Trigger saat ada perubahan
+    paymentSelect.addEventListener('change', function () {
+      togglePaymentInputs(this.value);
+    });
+
+    // Tombol Auto: Hitung jumlah bill = token x 2000
+    if (buttonBill) {
+      buttonBill.addEventListener('click', function () {
+        const tokenValue = parseInt(qtyToken.value) || 0;
+        const totalBill = tokenValue * 2000;
+        qtyBill.value = totalBill;
+      });
     }
   });
 </script>

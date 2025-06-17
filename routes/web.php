@@ -7,7 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {return view('pages.landing');});
+Route::get('/', function () {
+    return view('pages.landing');
+});
 
 Route::get('/register', [AuthController::class, 'register']);
 
@@ -25,17 +27,26 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::get('/reset', function () {return view('pages.reset');});
+Route::get('/reset', function () {
+    return view('pages.reset');
+});
 
-Route::get('/forget', function () {return view('pages.forget');});
+Route::get('/forget', function () {
+    return view('pages.forget');
+});
 
-Route::get('/otp', function () {return view('pages.otp');});
+Route::get('/otp', function () {
+    return view('pages.otp');
+});
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
-    Route::get('/home', function () {
-        return view('pages.home');
-    })->name('home');
-    Route::get('/product', [ProductController::class, 'productPage'])->name('product');
+    // Route::get('/home', function () {
+    //     return view('pages.home');
+    // })->name('home');
+
+    Route::get('/home', [ProductController::class, 'homePage'])->name('home'); 
+
+    Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
 
     Route::get('/payment', function () {
         return view('pages.payment');
@@ -61,9 +72,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.change_pw');
     })->name('profile.password');
 
-    Route::get('/search', function () {
-        return view('pages.search');
-    })->name('search');
+    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');   
 
     Route::get('/developer', function () {
         return view('pages.developer');
@@ -78,6 +87,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     })->name('invoice');
 
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
+
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
+
 });
 
 // Route untuk authentication admin
@@ -142,5 +154,14 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
-
 });
+
+<<<<<<< HEAD
+});
+=======
+use App\Http\Controllers\PaymentController;
+Route::middleware('auth')->group(function () {
+Route::get('/payment', [PaymentController::class, 'index']);
+Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+});
+>>>>>>> a8bc7fdfe7b99236f216204879f91bef222a5266
