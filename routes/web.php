@@ -7,7 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {return view('pages.landing');});
+Route::get('/', function () {
+    return view('pages.landing');
+});
 
 Route::get('/register', [AuthController::class, 'register']);
 
@@ -25,11 +27,17 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-Route::get('/reset', function () {return view('pages.reset');});
+Route::get('/reset', function () {
+    return view('pages.reset');
+});
 
-Route::get('/forget', function () {return view('pages.forget');});
+Route::get('/forget', function () {
+    return view('pages.forget');
+});
 
-Route::get('/otp', function () {return view('pages.otp');});
+Route::get('/otp', function () {
+    return view('pages.otp');
+});
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
     // Route::get('/home', function () {
@@ -146,5 +154,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+});
 
+use App\Http\Controllers\PaymentController;
+Route::middleware('auth')->group(function () {
+Route::get('/payment', [PaymentController::class, 'index']);
+Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 });
