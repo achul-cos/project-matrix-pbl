@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->string('sponsor');
-            $table->text('desc');
+            $table->string('sponsor')->nullable();
+            $table->text('desc')->nullable();
             $table->integer('qty_use');
             $table->integer('qty_can_use');
             $table->integer('qty_token');

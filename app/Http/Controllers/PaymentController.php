@@ -41,4 +41,6 @@ class PaymentController extends Controller
     return view('pages.payment');
 }
 
+
+
 }
