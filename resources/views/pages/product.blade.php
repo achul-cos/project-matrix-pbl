@@ -83,7 +83,7 @@
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
           <h3 class="text-xl font-semibold text-gray-900">
-              Tambah/Daftar Akun Pengguna
+              Sewa/Booking {{ $product->name }}
           </h3>
           <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="rent-modal">
               <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -125,65 +125,19 @@
                 <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('phone') }}" />
                 <p class="text-xs mt-2 text-gray-400" id="alertPhoneGuest">Nomor Telepon Default Tamu</p>
               </div>
-              
-              <label for="name" class="font-medium">Kata Sandi:</label>
-              <div class="mb-4 relative">
-                  <input id="password" type="password" name="password" placeholder="Kata Sandi" minlength="8" required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" />
-                  <button type="button" 
-                      class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
-                      onclick="togglePasswordVisibility('password', 'eye-icon-password')"
-                      aria-label="Toggle password visibility"
-                  >
-                      <svg id="eye-icon-password" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                          </path>
-                      </svg>
-                  </button>
-              </div>
-  
-              <div class="mb-4 relative">
-                  <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" minlength="8" required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" />
-                  <button type="button" 
-                      class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
-                      onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirmation')"
-                      aria-label="Toggle password visibility"
-                  >
-                      <svg id="eye-icon-confirmation" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                          </path>
-                      </svg>
-                  </button>
-              </div>
             </div>
 
             <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8">
-              <img id="profilePhoto" src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder2.png') }}"
+              <p class="text-lg text-center text-white font-bold inline-block px-2 py-1 bg-lime-800 "> {{ $product->name }} </p>
+              <img id="profilePhoto" src="{{ asset($product->image1) ?? asset('img/ad/placeholder2.png') }}"
               class="w-full h-auto aspect-square rounded-xl border-4 border-green-400 object-cover" alt="Foto Profil" />
-              <p class="text-xs text-center text-gray-500">*Opsional <br />Format: PNG, JPG, JPEG, GIF<br />Rekomendasi: 1000x1000 px</p>
-
-              <input type="file" id="photoInput" accept="image/*" class="hidden" />
-              <button type="button" onclick="document.getElementById('photoInput').click()"
-                  class="px-4 py-2 bg-green-400 text-white rounded shadow hover:bg-green-800 transition">Upload File</button>
-
-              <!-- Input tersembunyi untuk gambar yang sudah di-crop -->
-              <input type="hidden" name="cropped_image" id="croppedImageData" />
-
+              <p class="text-xs text-center text-gray-500">Note: <br />Foto produk kemungkinan berbeda dengan produk di Warnet,<br />Konfirmasi dan tanyakan kembali ke operator dan cek kembali kode komputernya.</p>
             </div>
           </div>
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Tambah/Daftar</button>
+            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Sewa</button>
             <input data-modal-hide="rent-modal" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
             </form>
         </div>
