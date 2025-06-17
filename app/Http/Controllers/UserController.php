@@ -152,5 +152,4 @@ class UserController extends Controller
 
         return back()->with('success', 'Akun berhasil diaktifkan kembali.');
     }
-
-}
+   }
