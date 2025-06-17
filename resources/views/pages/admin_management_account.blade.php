@@ -192,9 +192,9 @@
             <td class="p-3 capitalize">{{ $user->formatted_last_online }}</td>
 
             <td class="p-3 gap-4 flex">
-              <button  data-modal-target="edit-modal-{{ $user->id }}"
-                    data-modal-toggle="edit-modal-{{ $user->id }}"
-                    class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow transform transition-transform active:scale-85">EDIT
+              <button data-modal-target="edit-modal-{{ $user->id }}"
+                      data-modal-toggle="edit-modal-{{ $user->id }}"
+                      class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow transform transition-transform active:scale-85">EDIT
               </button>
 
               <button data-modal-target="delete-modal-{{ $user->id }}"

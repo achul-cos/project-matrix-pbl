@@ -212,7 +212,7 @@
     </table>
 
     {{-- Paginate link --}}
-    <div class="mt-4">{{ $products->links() }}</div>
+    {{-- <div class="mt-4">{{ $products->links() }}</div> --}}
 
   </section>
 

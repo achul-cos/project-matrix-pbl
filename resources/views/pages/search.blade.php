@@ -150,8 +150,8 @@
    </div>
 </div>
 
- <section class="p-4 pt-8 pb-14 content-center">
-    <p class="text-center text-xl max-md:text-lg">Hasil Pencarian "<span class="font-black">{{ request('search') ?? "error"}}</span>"</p>
+<section class="p-4 pt-8 pb-14 content-center">
+    <p class="text-center text-xl max-md:text-lg">Hasil Pencarian "<span class="font-black">{{ request('search') ?? " "}}</span>"</p>
     <p class="text-center text-lg max-md:text-md mt-2 text-gray-700 font-light italic">Filter Pencarian "<span class="font-bold">Semua Produk</span>"</p>
 </section>
 <div class="gap-4 grid grid-cols-12 w-(screen)">
@@ -160,317 +160,127 @@
     <div class="col-span-8"><hr class="w-auto h-1.75 bg-stone-700 border-0"></div>
 </div>
 
-<section id="list-produk" class="mt-10 p-4 flex flex-wrap gap-8 gap-y-12 justify-center">
-   @php
-      $cards = [
-         [
-            'nama_produk' => 'Asus ROG Z1',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/8de393d6-90a8-406a-a603-a947025b7ee4.jpg',
-         ],
-         [
-            'nama_produk' => 'MSI Stealth 16',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://asset.msi.com/resize/image/global/product/product_172016309252e4eeaa75b78a6f56a682acadce8c72.png62405b38c58fe0f07fcef2367d8a9ba1/400.png',
-         ],
-         [
-            'nama_produk' => 'Acer Predator X',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://gizmologi.id/wp-content/uploads/2021/05/PREDATORT-ORION-3000-PO3-630_01.jpg',
-         ],
-         [
-            'nama_produk' => 'Lenovo Legion 7',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/12/1/80ff5f72-7595-4097-a6e9-f64196fb6e32.jpg',
-         ],
-         [
-            'nama_produk' => 'HP Omen 15',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://www.hp.com/wcsstore/hpusstore/Treatment/mdps/Q2FY22_OMEN45L/hero_45l_1.png',
-         ],
-         [
-            'nama_produk' => 'Asus ROG Z1',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/8de393d6-90a8-406a-a603-a947025b7ee4.jpg',
-         ],
-         [
-            'nama_produk' => 'MSI Stealth 16',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://asset.msi.com/resize/image/global/product/product_172016309252e4eeaa75b78a6f56a682acadce8c72.png62405b38c58fe0f07fcef2367d8a9ba1/400.png',
-         ],
-         [
-            'nama_produk' => 'Acer Predator X',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://gizmologi.id/wp-content/uploads/2021/05/PREDATORT-ORION-3000-PO3-630_01.jpg',
-         ],
-         [
-            'nama_produk' => 'Lenovo Legion 7',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/12/1/80ff5f72-7595-4097-a6e9-f64196fb6e32.jpg',
-         ],
-         [
-            'nama_produk' => 'HP Omen 15',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://www.hp.com/wcsstore/hpusstore/Treatment/mdps/Q2FY22_OMEN45L/hero_45l_1.png',
-         ],
-         [
-            'nama_produk' => 'Asus ROG Z1',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/8de393d6-90a8-406a-a603-a947025b7ee4.jpg',
-         ],
-         [
-            'nama_produk' => 'MSI Stealth 16',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://asset.msi.com/resize/image/global/product/product_172016309252e4eeaa75b78a6f56a682acadce8c72.png62405b38c58fe0f07fcef2367d8a9ba1/400.png',
-         ],
-         [
-            'nama_produk' => 'Acer Predator X',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://gizmologi.id/wp-content/uploads/2021/05/PREDATORT-ORION-3000-PO3-630_01.jpg',
-         ],
-         [
-            'nama_produk' => 'Lenovo Legion 7',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/12/1/80ff5f72-7595-4097-a6e9-f64196fb6e32.jpg',
-         ],
-         [
-            'nama_produk' => 'HP Omen 15',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://www.hp.com/wcsstore/hpusstore/Treatment/mdps/Q2FY22_OMEN45L/hero_45l_1.png',
-         ],
-         [
-            'nama_produk' => 'Asus ROG Z1',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/3/17/8de393d6-90a8-406a-a603-a947025b7ee4.jpg',
-         ],
-         [
-            'nama_produk' => 'MSI Stealth 16',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://asset.msi.com/resize/image/global/product/product_172016309252e4eeaa75b78a6f56a682acadce8c72.png62405b38c58fe0f07fcef2367d8a9ba1/400.png',
-         ],
-         [
-            'nama_produk' => 'Acer Predator X',
-            'harga_sewa' => '2',
-            'foto_produk' => 'https://gizmologi.id/wp-content/uploads/2021/05/PREDATORT-ORION-3000-PO3-630_01.jpg',
-         ],
-         [
-            'nama_produk' => 'Lenovo Legion 7',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://images.tokopedia.net/img/cache/700/VqbcmM/2023/12/1/80ff5f72-7595-4097-a6e9-f64196fb6e32.jpg',
-         ],
-         [
-            'nama_produk' => 'HP Omen 15',
-            'harga_sewa' => '3',
-            'foto_produk' => 'https://www.hp.com/wcsstore/hpusstore/Treatment/mdps/Q2FY22_OMEN45L/hero_45l_1.png',
-         ],
-      ];
-   @endphp
+<section id="product-list" class="mt-10 p-4 flex flex-wrap gap-8 gap-y-12 justify-center">
 
-   @foreach ($cards as $card)
+   @foreach ($products as $product)
       @include('components.search_card', [
-         'nama_produk' => $card['nama_produk'],
-         'harga_sewa' => $card['harga_sewa'],
-         'foto_produk' => $card['foto_produk'],
+         'id'              => $product['id'],
+         'name'            => $product['name'],
+         'price'           => $product['price'],
+         'image1'          => $product['image1'],
+         'cpu_formatted'   => $product['cpu_formatted'],
+         'gpu_formatted'   => $product['gpu_formatted'],
+         'room'            => $product['room'],
+         'floor'           => $product['floor'],
+         'ram'             => $product['ram'],
       ])
    @endforeach
 
 </section>
 
 <script>
-   // JavaScript to update filter display text based on selected filters
-   document.addEventListener('DOMContentLoaded', function() {
-      // Get reference to the filter display span
-      const filterDisplaySpan = document.querySelector('.text-center.text-lg span.font-bold');
-      
-      // Function to update filter display text
-      function updateFilterDisplay() {
-         let activeFilters = [];
-         
-         // Check CPU filters
-         const cpuIntel = document.getElementById('cpu-intel').checked;
-         const cpuAmd = document.getElementById('cpu-amd').checked;
-         if (cpuIntel) activeFilters.push('Intel');
-         if (cpuAmd) activeFilters.push('AMD');
-         
-         // Check GPU filters
-         const gpuGtx = document.getElementById('gpu-gtx').checked;
-         const gpuRtx = document.getElementById('gpu-rtx').checked;
-         if (gpuGtx) activeFilters.push('GTX');
-         if (gpuRtx) activeFilters.push('RTX');
-         
-         // Check Room filters
-         const roomPublic = document.getElementById('room-public').checked;
-         const roomPrivate = document.getElementById('room-private').checked;
-         if (roomPublic) activeFilters.push('Public');
-         if (roomPrivate) activeFilters.push('Private');
-         
-         // Check RAM filters (range input)
-         const ramRange = document.querySelector('input[type="range"][min="0"][max="16"]').value;
-         if (ramRange == 8) activeFilters.push('8GB RAM');
-         if (ramRange == 16) activeFilters.push('16GB RAM');
-         
-         // Check Token filters (range input)
-         const tokenRange = document.querySelector('input[type="range"][min="1"][max="6"]').value;
-         if (tokenRange > 1) activeFilters.push(`${tokenRange} Token`);
-         
-         // Update display text
-         if (activeFilters.length > 0) {
-               filterDisplaySpan.textContent = activeFilters.join(', ');
-         } else {
-               filterDisplaySpan.textContent = 'Semua Produk'; // Default text when no filters are active
-         }
-      }
-      
-      // Add event listeners to all filter inputs
-      const radioInputs = document.querySelectorAll('input[type="radio"]');
-      radioInputs.forEach(input => {
-         input.addEventListener('change', updateFilterDisplay);
-      });
-      
-      // Add event listeners to range inputs
-      const rangeInputs = document.querySelectorAll('input[type="range"]');
-      rangeInputs.forEach(input => {
-         input.addEventListener('input', updateFilterDisplay);
-      });
-      
-      // Initialize display
-      updateFilterDisplay();
-   });
+document.addEventListener('DOMContentLoaded', function () {
+   const filterDisplaySpan = document.querySelector('.text-center.text-lg span.font-bold');
 
-   // JavaScript to update filter display text based on selected filters
-   document.addEventListener('DOMContentLoaded', function() {
-      // Get reference to the filter display span
-      const filterDisplaySpan = document.querySelector('.text-center.text-lg span.font-bold');
-      
-      // Get references to filter inputs
-      const cpuIntel = document.getElementById('cpu-intel');
-      const cpuAmd = document.getElementById('cpu-amd');
-      const gpuGtx = document.getElementById('gpu-gtx');
-      const gpuRtx = document.getElementById('gpu-rtx');
-      const roomPublic = document.getElementById('room-public');
-      const roomPrivate = document.getElementById('room-private');
-      const ramRange = document.getElementById('ram-range');
-      const tokenRange = document.getElementById('token-range');
-      
-      // Get references to action buttons
-      const resetButton = document.getElementById('reset-filters');
-      const applyButton = document.getElementById('apply-filters');
-      
-      let activeFilters = [];
-      let pendingFilters = [];
-      
-      // Function to update filter display text
-      function updateFilterDisplay(filtersArray) {
-         if (filtersArray.length > 0) {
-               filterDisplaySpan.textContent = filtersArray.join(', ');
-         } else {
-               filterDisplaySpan.textContent = 'Semua Produk'; // Default text when no filters are active
-         }
-      }
-      
-      // Function to collect current filter values
-      function collectFilterValues() {
-         let filters = [];
-         
-         // Check CPU filters
-         if (cpuIntel.checked) filters.push('Intel');
-         if (cpuAmd.checked) filters.push('AMD');
-         
-         // Check GPU filters
-         if (gpuGtx.checked) filters.push('GTX');
-         if (gpuRtx.checked) filters.push('RTX');
-         
-         // Check Room filters
-         if (roomPublic.checked) filters.push('Public');
-         if (roomPrivate.checked) filters.push('Private');
-         
-         // Check RAM filters (range input)
-         if (ramRange.value == 8) filters.push('8GB RAM');
-         if (ramRange.value == 16) filters.push('16GB RAM');
-         
-         // Check Token filters (range input)
-         if (tokenRange.value > 1) filters.push(`${tokenRange.value} Token`);
-         
-         return filters;
-      }
-      
-      // Function to handle input changes (collect pending filters but don't apply yet)
-      function handleInputChange() {
-         pendingFilters = collectFilterValues();
-      }
-      
-      // Function to apply filters
-      function applyFilters() {
-         activeFilters = pendingFilters;
-         updateFilterDisplay(activeFilters);
-         
-         // Here you would typically also update the product list based on filters
-         console.log('Filters applied:', activeFilters);
-         
-         // Close the drawer after applying filters
-         const drawerElement = document.getElementById('drawer-disabled-backdrop');
-         if (typeof window.Flowbite !== 'undefined' && drawerElement) {
-               const drawer = window.Flowbite.getInstance('Drawer', drawerElement);
-               if (drawer) drawer.hide();
-         }
-      }
-      
-      // Function to reset filters
-      function resetFilters() {
-         // Reset radio inputs
-         cpuIntel.checked = false;
-         cpuAmd.checked = false;
-         gpuGtx.checked = false;
-         gpuRtx.checked = false;
-         roomPublic.checked = false;
-         roomPrivate.checked = false;
-         
-         // Reset range inputs
-         ramRange.value = 0;
-         tokenRange.value = 1;
-         
-         // Update pending filters
-         pendingFilters = [];
-         
-         // Also update active filters and display immediately
-         activeFilters = [];
-         updateFilterDisplay(activeFilters);
-         
-         console.log('Filters reset');
-      }
-      
-      // Add event listeners to all filter inputs
-      const radioInputs = document.querySelectorAll('input[type="radio"]');
-      radioInputs.forEach(input => {
-         input.addEventListener('change', handleInputChange);
-      });
-      
-      // Add event listeners to range inputs
-      const rangeInputs = document.querySelectorAll('input[type="range"]');
-      rangeInputs.forEach(input => {
-         input.addEventListener('input', handleInputChange);
-      });
-      
-      // Add event listeners to buttons
-      if (resetButton) resetButton.addEventListener('click', resetFilters);
-      if (applyButton) applyButton.addEventListener('click', applyFilters);
-      
-      // Initialize filters
-      pendingFilters = collectFilterValues();
-      activeFilters = pendingFilters;
+   // Get all filter inputs
+   const cpuIntel = document.getElementById('cpu-intel');
+   const cpuAmd = document.getElementById('cpu-amd');
+   const gpuGtx = document.getElementById('gpu-gtx');
+   const gpuRtx = document.getElementById('gpu-rtx');
+   const roomPublic = document.getElementById('room-public');
+   const roomPrivate = document.getElementById('room-private');
+   const ramRange = document.getElementById('ram-range');
+   const tokenRange = document.getElementById('token-range');
+
+   const resetButton = document.getElementById('reset-filters');
+   const applyButton = document.getElementById('apply-filters');
+
+   const productCards = document.querySelectorAll('.product-card');
+
+   function collectFilterValues() {
+      const filters = [];
+
+      if (cpuIntel?.checked) filters.push('Intel');
+      if (cpuAmd?.checked) filters.push('AMD');
+      if (gpuGtx?.checked) filters.push('GTX');
+      if (gpuRtx?.checked) filters.push('RTX');
+      if (roomPublic?.checked) filters.push('Public');
+      if (roomPrivate?.checked) filters.push('Private');
+      if (ramRange?.value == 8) filters.push('8GB RAM');
+      if (ramRange?.value == 16) filters.push('16GB RAM');
+      if (tokenRange?.value > 1) filters.push(`${tokenRange.value} Token`);
+
+      return filters;
+   }
+
+   function updateFilterDisplay(filters) {
+      filterDisplaySpan.textContent = filters.length > 0 ? filters.join(', ') : 'Semua Produk';
+   }
+
+   function applyFilters() {
+      const activeFilters = collectFilterValues();
       updateFilterDisplay(activeFilters);
-      
-      // If using Flowbite, initialize the drawer
-      if (typeof window.Flowbite !== 'undefined') {
-         const drawerElement = document.getElementById('drawer-disabled-backdrop');
-         if (drawerElement) {
-               const drawer = window.Flowbite.getInstance('Drawer', drawerElement);
-               if (!drawer) {
-                  new window.Flowbite.Drawer(drawerElement);
-               }
-         }
-      }
-   });
+
+      productCards.forEach(card => {
+         const cpu = card.dataset.cpu;
+         const gpu = card.dataset.gpu;
+         const room = card.dataset.room;
+         const ram = parseInt(card.dataset.ram);
+         const token = parseInt(card.dataset.token);
+
+         const matchesCpu = (!cpuIntel.checked && !cpuAmd.checked) ||
+            (cpuIntel.checked && cpu === 'intel') ||
+            (cpuAmd.checked && cpu === 'amd');
+
+         const matchesGpu = (!gpuGtx.checked && !gpuRtx.checked) ||
+            (gpuGtx.checked && gpu === 'gtx') ||
+            (gpuRtx.checked && gpu === 'rtx');
+
+         const matchesRoom = (!roomPublic.checked && !roomPrivate.checked) ||
+            (roomPublic.checked && room === 'public') ||
+            (roomPrivate.checked && room === 'private');
+
+         const matchesRam = ramRange.value == 0 || ram >= parseInt(ramRange.value);
+         const matchesToken = tokenRange.value == 1 || token <= parseInt(tokenRange.value);
+
+         const visible = matchesCpu && matchesGpu && matchesRoom && matchesRam && matchesToken;
+
+         card.style.display = visible ? '' : 'none';
+      });
+
+      console.log('Filters applied:', activeFilters);
+   }
+
+   function resetFilters() {
+      cpuIntel.checked = false;
+      cpuAmd.checked = false;
+      gpuGtx.checked = false;
+      gpuRtx.checked = false;
+      roomPublic.checked = false;
+      roomPrivate.checked = false;
+      ramRange.value = 0;
+      tokenRange.value = 1;
+
+      updateFilterDisplay([]);
+      productCards.forEach(card => card.style.display = '');
+      console.log('Filters reset');
+   }
+
+   // Tambahkan event listeners
+   const allInputs = document.querySelectorAll('input[type="radio"], input[type="range"]');
+   allInputs.forEach(input => input.addEventListener('change', () => updateFilterDisplay(collectFilterValues())));
+
+   if (applyButton) applyButton.addEventListener('click', applyFilters);
+   if (resetButton) resetButton.addEventListener('click', resetFilters);
+
+   updateFilterDisplay(collectFilterValues());
+});
+
+// Fungsi untuk buka halaman produk
+function openProductPage(id) {
+   window.location.href = `/product/${id}`;
+}
 </script>
+
 
 @endsection
