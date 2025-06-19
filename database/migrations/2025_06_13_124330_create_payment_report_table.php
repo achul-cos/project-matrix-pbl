@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('payment_report', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained(table: 'users')->onDelete('cascade')->nullOnDelete();// //foreign key table users (id);
+            $table->foreignId('user_id')->nullable()->constrained(table: 'users')->onDelete('cascade')->nullOnDelete(); // //foreign key table users (id);
             $table->string('user_username');
             $table->string('midtrans_id')->nullable();
             $table->integer('qty_bill');
             $table->string('payment_method')->nullable();
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->timestamp('payment_start');
-            $table->timestamp('payment_end');
+            $table->timestamp('payment_end')->nullable();
             $table->text('note')->nullable();
             $table->string('payment_photo')->nullable();
             $table->timestamps();

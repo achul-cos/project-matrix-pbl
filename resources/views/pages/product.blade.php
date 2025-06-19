@@ -75,7 +75,7 @@
     @include('components/computer-monitor')
   </section>
 
-  <!-- Add Modal -->
+  <!-- Rent Modal -->
   <div id="rent-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-4xl max-h-full">
       <!-- Modal content -->
@@ -101,30 +101,28 @@
             <div class="w-1/2">
               <form action="{{ route('admin.tambahUser') }}" class="space-y-4 flex flex-col" method="POST" enctype="multipart/form-data">
               @csrf
+    
+              <label for="username" class="font-medium">Username:</label>
+              <input readonly required type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ Auth::user()->username }}" />
   
-              <label for="name" class="font-medium">Nama Pengguna:</label>
-              <input type="text" name="name" placeholder="Nama Pengguna" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('name') }}" />
-  
-              <label for="name" class="font-medium">Username:</label>
-              <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('username') }}" />
-  
-              <label for="name" class="font-medium">Email:</label>
-              <div class="relative">
-                <button id="emailGuest" type="button" class="absolute right-5 top-2.5 px-2 py-1 shadow-md rounded-lg border-green-600 bg-green-400 text-white transform transition-transform active:scale-80">
-                  Guest
-                </button>
-                <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('email') }}" />
-                <p class="text-xs mt-2 text-gray-400" id="alertEmailGuest">Email Default Tamu</p>
+              <div class="flex flex-col gap-4">
+                <!-- Input: Sewa Dari -->
+                <div>
+                  <label for="booked_start" class="font-medium block mb-1">Sewa Dari (Jam):</label>
+                  <select id="booked_start" name="booked_start" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition">
+                    <!-- Diisi oleh JavaScript -->
+                  </select>
+                </div>
+
+                <!-- Input: Sewa Hingga -->
+                <div>
+                  <label for="booked_end" class="font-medium block mb-1">Sewa Hingga (Jam):</label>
+                  <select id="booked_end" name="booked_end" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition">
+                    <!-- Diisi oleh JavaScript -->
+                  </select>
+                </div>
               </div>
-              
-              <label for="phone" class="font-medium">Nomor Telepon:</label>
-              <div class="relative">
-                <button id="phoneGuest" type="button" class="absolute right-5 top-2.5 px-2 py-1 shadow-md rounded-lg border-green-600 bg-green-400 text-white transform transition-transform active:scale-80">
-                  Guest
-                </button>
-                <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('phone') }}" />
-                <p class="text-xs mt-2 text-gray-400" id="alertPhoneGuest">Nomor Telepon Default Tamu</p>
-              </div>
+
             </div>
 
             <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8">
@@ -145,6 +143,76 @@
     </div>
   </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bookedStart = document.getElementById('booked_start');
+    const bookedEnd = document.getElementById('booked_end');
+
+    const sekarang = new Date();
+
+    // Bulatkan ke jam berikutnya jika sekarang belum jam bulat
+    const mulaiDari = new Date(sekarang);
+    if (mulaiDari.getMinutes() > 0 || mulaiDari.getSeconds() > 0) {
+      mulaiDari.setHours(mulaiDari.getHours() + 1);
+      mulaiDari.setMinutes(0, 0, 0);
+    }
+
+    // Format waktu + tanggal bahasa Indonesia
+    const formatWaktuTanggal = (tanggal) => {
+      const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      const jam = tanggal.getHours().toString().padStart(2, '0');
+      const menit = tanggal.getMinutes().toString().padStart(2, '0');
+      const periode = getWaktuHari(tanggal.getHours()); // Pagi, Siang, Sore, Malam
+
+      const hariText = hari[tanggal.getDay()];
+      const tanggalText = tanggal.getDate();
+      const bulanText = bulan[tanggal.getMonth()];
+      const tahun = tanggal.getFullYear();
+
+      return `${jam}:${menit} ${periode} - ${hariText}, ${tanggalText} ${bulanText} ${tahun}`;
+    };
+
+    // Menentukan apakah jam itu Pagi / Siang / Sore / Malam
+    const getWaktuHari = (jam) => {
+      if (jam >= 4 && jam < 11) return "Pagi";
+      if (jam >= 11 && jam < 15) return "Siang";
+      if (jam >= 15 && jam < 18) return "Sore";
+      return "Malam";
+    };
+
+    // Buat pilihan jam (drop-down)
+    const buatPilihanJam = (mulai, jumlah = 24) => {
+      const opsi = [];
+      const waktu = new Date(mulai);
+
+      for (let i = 0; i < jumlah; i++) {
+        const jam = waktu.getHours().toString().padStart(2, '0');
+        const menit = waktu.getMinutes().toString().padStart(2, '0');
+        const value = `${waktu.toISOString().slice(0, 10)}T${jam}:${menit}`;
+        const label = formatWaktuTanggal(waktu);
+
+        opsi.push(`<option value="${value}">${label}</option>`);
+        waktu.setHours(waktu.getHours() + 1);
+      }
+
+      return opsi;
+    };
+
+    const perbaruiBookedEnd = () => {
+      const dari = new Date(bookedStart.value);
+      const hingga = buatPilihanJam(new Date(dari.getTime() + 60 * 60 * 1000), 24);
+      bookedEnd.innerHTML = hingga.join('');
+    };
+
+    const opsiMulai = buatPilihanJam(mulaiDari, 24);
+    bookedStart.innerHTML = opsiMulai.join('');
+    perbaruiBookedEnd();
+
+    bookedStart.addEventListener('change', perbaruiBookedEnd);
+  });
+</script>
 
 
 @endsection
