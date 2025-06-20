@@ -157,7 +157,15 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 });
 
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TopupController;
+
 Route::middleware('auth')->group(function () {
-Route::get('/payment', [PaymentController::class, 'index']);
-Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+    Route::get('/payment', [PaymentController::class, 'index']);
+    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+    
+    // Ini redirect ke halaman sukses, bawa ID
+    Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+
+    // Unduh struk
+    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
 });

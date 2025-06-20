@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('qty_bill');
             $table->string('payment_method')->nullable();
             $table->enum('status', ['pending', 'success', 'failed']);
-            $table->timestamp('payment_start');
+            $table->timestamp('payment_start')->nullable();
             $table->timestamp('payment_end')->nullable();
             $table->text('note')->nullable();
             $table->string('payment_photo')->nullable();
