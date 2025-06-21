@@ -10,3 +10,6 @@
     npm install
 5.
     npm run dev
+
+powershell -ExecutionPolicy Bypass -Command "npm run dev"
+

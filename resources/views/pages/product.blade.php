@@ -75,7 +75,7 @@
     @include('components/computer-monitor')
   </section>
 
-  <!-- Add Modal -->
+  <!-- Rent Modal -->
   <div id="rent-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-4xl max-h-full">
       <!-- Modal content -->
@@ -83,7 +83,7 @@
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
           <h3 class="text-xl font-semibold text-gray-900">
-              Tambah/Daftar Akun Pengguna
+              Sewa/Booking {{ $product->name }}
           </h3>
           <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="rent-modal">
               <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -101,89 +101,41 @@
             <div class="w-1/2">
               <form action="{{ route('admin.tambahUser') }}" class="space-y-4 flex flex-col" method="POST" enctype="multipart/form-data">
               @csrf
+    
+              <label for="username" class="font-medium">Username:</label>
+              <input readonly required type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ Auth::user()->username }}" />
   
-              <label for="name" class="font-medium">Nama Pengguna:</label>
-              <input type="text" name="name" placeholder="Nama Pengguna" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('name') }}" />
-  
-              <label for="name" class="font-medium">Username:</label>
-              <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('username') }}" />
-  
-              <label for="name" class="font-medium">Email:</label>
-              <div class="relative">
-                <button id="emailGuest" type="button" class="absolute right-5 top-2.5 px-2 py-1 shadow-md rounded-lg border-green-600 bg-green-400 text-white transform transition-transform active:scale-80">
-                  Guest
-                </button>
-                <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('email') }}" />
-                <p class="text-xs mt-2 text-gray-400" id="alertEmailGuest">Email Default Tamu</p>
+              <div class="flex flex-col gap-4">
+                <!-- Input: Sewa Dari -->
+                <div>
+                  <label for="booked_start" class="font-medium block mb-1">Sewa Dari (Jam):</label>
+                  <select id="booked_start" name="booked_start" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition">
+                    <!-- Diisi oleh JavaScript -->
+                  </select>
+                </div>
+
+                <!-- Input: Sewa Hingga -->
+                <div>
+                  <label for="booked_end" class="font-medium block mb-1">Sewa Hingga (Jam):</label>
+                  <select id="booked_end" name="booked_end" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition">
+                    <!-- Diisi oleh JavaScript -->
+                  </select>
+                </div>
               </div>
-              
-              <label for="phone" class="font-medium">Nomor Telepon:</label>
-              <div class="relative">
-                <button id="phoneGuest" type="button" class="absolute right-5 top-2.5 px-2 py-1 shadow-md rounded-lg border-green-600 bg-green-400 text-white transform transition-transform active:scale-80">
-                  Guest
-                </button>
-                <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" value="{{ old('phone') }}" />
-                <p class="text-xs mt-2 text-gray-400" id="alertPhoneGuest">Nomor Telepon Default Tamu</p>
-              </div>
-              
-              <label for="name" class="font-medium">Kata Sandi:</label>
-              <div class="mb-4 relative">
-                  <input id="password" type="password" name="password" placeholder="Kata Sandi" minlength="8" required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" />
-                  <button type="button" 
-                      class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
-                      onclick="togglePasswordVisibility('password', 'eye-icon-password')"
-                      aria-label="Toggle password visibility"
-                  >
-                      <svg id="eye-icon-password" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                          </path>
-                      </svg>
-                  </button>
-              </div>
-  
-              <div class="mb-4 relative">
-                  <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" minlength="8" required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 transition" />
-                  <button type="button" 
-                      class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
-                      onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirmation')"
-                      aria-label="Toggle password visibility"
-                  >
-                      <svg id="eye-icon-confirmation" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                          </path>
-                      </svg>
-                  </button>
-              </div>
+
             </div>
 
             <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8">
-              <img id="profilePhoto" src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder2.png') }}"
+              <p class="text-lg text-center text-white font-bold inline-block px-2 py-1 bg-lime-800 "> {{ $product->name }} </p>
+              <img id="profilePhoto" src="{{ asset($product->image1) ?? asset('img/ad/placeholder2.png') }}"
               class="w-full h-auto aspect-square rounded-xl border-4 border-green-400 object-cover" alt="Foto Profil" />
-              <p class="text-xs text-center text-gray-500">*Opsional <br />Format: PNG, JPG, JPEG, GIF<br />Rekomendasi: 1000x1000 px</p>
-
-              <input type="file" id="photoInput" accept="image/*" class="hidden" />
-              <button type="button" onclick="document.getElementById('photoInput').click()"
-                  class="px-4 py-2 bg-green-400 text-white rounded shadow hover:bg-green-800 transition">Upload File</button>
-
-              <!-- Input tersembunyi untuk gambar yang sudah di-crop -->
-              <input type="hidden" name="cropped_image" id="croppedImageData" />
-
+              <p class="text-xs text-center text-gray-500">Note: <br />Foto produk kemungkinan berbeda dengan produk di Warnet,<br />Konfirmasi dan tanyakan kembali ke operator dan cek kembali kode komputernya.</p>
             </div>
           </div>
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Tambah/Daftar</button>
+            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Sewa</button>
             <input data-modal-hide="rent-modal" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
             </form>
         </div>
@@ -191,6 +143,76 @@
     </div>
   </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bookedStart = document.getElementById('booked_start');
+    const bookedEnd = document.getElementById('booked_end');
+
+    const sekarang = new Date();
+
+    // Bulatkan ke jam berikutnya jika sekarang belum jam bulat
+    const mulaiDari = new Date(sekarang);
+    if (mulaiDari.getMinutes() > 0 || mulaiDari.getSeconds() > 0) {
+      mulaiDari.setHours(mulaiDari.getHours() + 1);
+      mulaiDari.setMinutes(0, 0, 0);
+    }
+
+    // Format waktu + tanggal bahasa Indonesia
+    const formatWaktuTanggal = (tanggal) => {
+      const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      const jam = tanggal.getHours().toString().padStart(2, '0');
+      const menit = tanggal.getMinutes().toString().padStart(2, '0');
+      const periode = getWaktuHari(tanggal.getHours()); // Pagi, Siang, Sore, Malam
+
+      const hariText = hari[tanggal.getDay()];
+      const tanggalText = tanggal.getDate();
+      const bulanText = bulan[tanggal.getMonth()];
+      const tahun = tanggal.getFullYear();
+
+      return `${jam}:${menit} ${periode} - ${hariText}, ${tanggalText} ${bulanText} ${tahun}`;
+    };
+
+    // Menentukan apakah jam itu Pagi / Siang / Sore / Malam
+    const getWaktuHari = (jam) => {
+      if (jam >= 4 && jam < 11) return "Pagi";
+      if (jam >= 11 && jam < 15) return "Siang";
+      if (jam >= 15 && jam < 18) return "Sore";
+      return "Malam";
+    };
+
+    // Buat pilihan jam (drop-down)
+    const buatPilihanJam = (mulai, jumlah = 24) => {
+      const opsi = [];
+      const waktu = new Date(mulai);
+
+      for (let i = 0; i < jumlah; i++) {
+        const jam = waktu.getHours().toString().padStart(2, '0');
+        const menit = waktu.getMinutes().toString().padStart(2, '0');
+        const value = `${waktu.toISOString().slice(0, 10)}T${jam}:${menit}`;
+        const label = formatWaktuTanggal(waktu);
+
+        opsi.push(`<option value="${value}">${label}</option>`);
+        waktu.setHours(waktu.getHours() + 1);
+      }
+
+      return opsi;
+    };
+
+    const perbaruiBookedEnd = () => {
+      const dari = new Date(bookedStart.value);
+      const hingga = buatPilihanJam(new Date(dari.getTime() + 60 * 60 * 1000), 24);
+      bookedEnd.innerHTML = hingga.join('');
+    };
+
+    const opsiMulai = buatPilihanJam(mulaiDari, 24);
+    bookedStart.innerHTML = opsiMulai.join('');
+    perbaruiBookedEnd();
+
+    bookedStart.addEventListener('change', perbaruiBookedEnd);
+  });
+</script>
 
 
 @endsection
