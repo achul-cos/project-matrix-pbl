@@ -64,9 +64,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
 
-    Route::get('/payment', function () {
-        return view('pages.payment');
-    })->name('payment');
+    // Route::get('/payment', function () {
+    //     return view('pages.payment');
+    // })->name('payment');
 
     Route::get('/topup', function () {
         return view('pages.topup');
@@ -88,7 +88,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.change_pw');
     })->name('profile.password');
 
-    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');  
+    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
     Route::get('/developer', function () {
         return view('pages.developer');
@@ -106,6 +106,16 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
 
+    Route::get('/payment', [PaymentController::class, 'index']);
+
+    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+
+    // Ini redirect ke halaman sukses, bawa ID
+    Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+
+    // Unduh struk
+    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+    Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
 });
 
 
@@ -193,16 +203,16 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     // Topup melalui admin
     Route::post('/admin/topup', [TopupController::class, 'adminTopup'])->name('admin.topup');
-    
+
     // Validasi kupon dari admin
     Route::post('/admin/validate-coupon', [TopupController::class, 'validateCoupon'])->name('admin.validate-coupon');
-    
+
     // Lihat pembayaran pending
     Route::get('/admin/pending-payments', [TopupController::class, 'getPendingPayments'])->name('admin.pending-payments');
-    
+
     // Konfirmasi pembayaran
     Route::post('/admin/confirm-payment/{paymentId}', [TopupController::class, 'confirmPayment'])->name('admin.confirm-payment');
-    
+
     // History topup
     Route::get('/admin/topup-history', [TopupController::class, 'getTopupHistory'])->name('admin.topup-history');
 
@@ -213,17 +223,16 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
-
 });
 
 // API Routes untuk AJAX
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
     // Check user by username/email (untuk admin)
-    Route::post('/api/check-user', function(Request $request) {
+    Route::post('/api/check-user', function (Request $request) {
         $user = \App\Models\User::where('username', $request->login)
-                                ->orWhere('email', $request->login)
-                                ->first();
-        
+            ->orWhere('email', $request->login)
+            ->first();
+
         if ($user) {
             return response()->json([
                 'found' => true,
@@ -236,22 +245,21 @@ Route::middleware(['auth'])->group(function() {
                 ]
             ]);
         }
-        
+
         return response()->json(['found' => false]);
     })->name('api.check-user');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/payment', [PaymentController::class, 'index']);
-    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
-   
-    // Ini redirect ke halaman sukses, bawa ID
-    Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+// Route::middleware('auth')->group(function () {
+//     Route::get('/payment', [PaymentController::class, 'index']);
+//     Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 
+//     // Ini redirect ke halaman sukses, bawa ID
+//     Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
 
-    // Unduh struk
-    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
-});
+//     // Unduh struk
+//     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+// });
 
 Route::get('/test-log', function () {
     Log::info('✅ Log jalan dari route test-log');
