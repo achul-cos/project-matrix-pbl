@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InformasiController;
 
 Route::get('/', function () {return view('pages.landing');});
 
@@ -111,6 +113,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_management_admin');
     })->name('admin.management_admin');
 
+    Route::resource('/admin/management_admin', AdminController::class);
+
+    Route::put('/admin/management_admin/edit_admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
@@ -121,9 +127,9 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_topup_report');
     })->name('admin.topup_report');
 
-    Route::get('/admin/management_information', function () {
-        return view('pages.admin_management_information');
-    })->name('admin.management_information');
+    // Route::get('/admin/management_information', function () {
+    //     return view('pages.admin_management_information');
+    // })->name('admin.management_information');
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -146,5 +152,14 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+
+    Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
+
+// Route::get('/konfirmasi-hapus', function () {
+//     return view('pages/confirm_delete');
+// })->name('konfirmasi.hapus')->middleware('auth');
+
+    Route::get('/pages/admin_management_information', [InformasiController::class, 'index'])
+        ->name('pages.admin_management_information');
 
 });
