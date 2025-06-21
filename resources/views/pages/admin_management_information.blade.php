@@ -54,7 +54,7 @@
 <div class="flex-1 px-8 py-10">
   <section id="title">
     <h1 class="text-3xl font-bold mb-6">
-      <span class="text-slate-900">Managament Informasi</span>
+      <span class="text-slate-900">Managament Information</span>
     </h1>
   </section>
 
