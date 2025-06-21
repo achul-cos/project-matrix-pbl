@@ -7,6 +7,13 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\TopupController;
+use App\Http\Controllers\PaymentController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -149,6 +156,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_management_admin');
     })->name('admin.management_admin');
 
+    Route::resource('/admin/management_admin', AdminController::class);
+
+    Route::put('/admin/management_admin/edit_admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
@@ -165,6 +176,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_information', function () {
         return view('pages.admin_management_information');
     })->name('admin.management_information');
+
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -195,6 +207,77 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
 
+    Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
+
+    // Route::get('/konfirmasi-hapus', function () {
+    //     return view('pages/confirm_delete');
+    // })->name('konfirmasi.hapus')->middleware('auth');
+
+    Route::get('/pages/admin_management_information', [InformasiController::class, 'index'])->name('pages.admin_management_information');
+
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
+    Route::put('/admin/management_account/edit_user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
+
+    Route::delete('/admin/management_account/delete_user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
+
+    Route::delete('/admin/management_account/delete-all_user', [UserController::class, 'deleteAllUsers'])->name('admin.users.deleteAll');
+
+    // Topup melalui admin
+    Route::post('/admin/topup', [TopupController::class, 'adminTopup'])->name('admin.topup');
+    
+    // Validasi kupon dari admin
+    Route::post('/admin/validate-coupon', [TopupController::class, 'validateCoupon'])->name('admin.validate-coupon');
+    
+    // Lihat pembayaran pending
+    Route::get('/admin/pending-payments', [TopupController::class, 'getPendingPayments'])->name('admin.pending-payments');
+    
+    // Konfirmasi pembayaran
+    Route::post('/admin/confirm-payment/{paymentId}', [TopupController::class, 'confirmPayment'])->name('admin.confirm-payment');
+    
+    // History topup
+    Route::get('/admin/topup-history', [TopupController::class, 'getTopupHistory'])->name('admin.topup-history');
+
+});
+
+// API Routes untuk AJAX
+Route::middleware(['auth'])->group(function() {
+    // Check user by username/email (untuk admin)
+    Route::post('/api/check-user', function(Request $request) {
+        $user = \App\Models\User::where('username', $request->login)
+                                ->orWhere('email', $request->login)
+                                ->first();
+        
+        if ($user) {
+            return response()->json([
+                'found' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'token' => $user->token
+                ]
+            ]);
+        }
+        
+        return response()->json(['found' => false]);
+    })->name('api.check-user');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/payment', [PaymentController::class, 'index']);
+    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+   
+    // Ini redirect ke halaman sukses, bawa ID
+    Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+
+
+    // Unduh struk
+    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+});
+
+Route::get('/test-log', function () {
+    Log::info('✅ Log jalan dari route test-log');
+    return 'Cek laravel.log sekarang';
 });
