@@ -54,7 +54,7 @@
 <div class="flex-1 px-8 py-10">
   <section id="title">
     <h1 class="text-3xl font-bold mb-6">
-      <span class="text-slate-900">Managament info</span>
+      <span class="text-slate-900">Managament Informasi</span>
     </h1>
   </section>
 
@@ -137,7 +137,7 @@
 
       <tbody>
         
-        @foreach ($informasi as $info)
+        @foreach ($events as $info)
           @php
               $badgeClass = match($info->status) {
                   'aktif' => 'bg-green-100 text-green-800',
@@ -308,7 +308,7 @@
     </div>
   </div>
 
-  @foreach ($infos as $info)
+  @foreach ($events as $info)
 
   <!-- Delete Modal -->
   <div id="delete-modal-{{ $info->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

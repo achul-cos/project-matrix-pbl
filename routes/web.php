@@ -161,9 +161,9 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_topup_report');
     })->name('admin.topup_report');
 
-    Route::get('/admin/management_information', function () {
-        return view('pages.admin_management_information');
-    })->name('admin.management_information');
+    // Route::get('/admin/management_information', function () {
+    //     return view('pages.admin_management_information');
+    // })->name('admin.management_information');
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -191,7 +191,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     //     return view('pages/confirm_delete');
     // })->name('konfirmasi.hapus')->middleware('auth');
 
-    Route::get('/pages/admin_management_information', [InformasiController::class, 'index'])->name('pages.admin_management_information');
+    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
@@ -218,7 +218,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
 
-    Route::get('/admin/saran-kritik', [SuggestController::class, 'index'])->name('suggest.index');
+    Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
