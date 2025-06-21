@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SuggestController;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -154,11 +155,16 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+
+     Route::get('/admin/saran-kritik', [SuggestController::class, 'index'])->name('suggest.index');
+    Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
+    Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
 });
+
 
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopupController;
-
+use App\Http\Controllers\SuggestController;
 Route::middleware('auth')->group(function () {
     Route::get('/payment', [PaymentController::class, 'index']);
     Route::post('/payment-process', [PaymentController::class, 'makePayment']);
@@ -168,4 +174,6 @@ Route::middleware('auth')->group(function () {
 
     // Unduh struk
     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+    Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
+   
 });

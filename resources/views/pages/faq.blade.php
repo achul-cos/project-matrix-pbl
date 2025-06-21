@@ -64,6 +64,53 @@
         </div>
         @endforeach
     </div>
+
+    {{-- Notifikasi sukses --}}
+    @if(session('success'))
+        <div class="mt-10 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- Form Saran & Kritik --}}
+    <div class="mt-10 border-t border-gray-300 pt-10">
+        <h2 class="text-2xl font-bold text-[#2F5F00] mb-4">Berikan Saran & Kritik</h2>
+        <form action="{{ route('suggest.store') }}" method="POST" class="space-y-4">
+            @csrf
+            <textarea name="message" rows="4" required class="w-full border border-[#A3C57C] p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3C57C]" placeholder="Tulis saran atau kritik Anda di sini..."></textarea>
+            <button type="submit" class="bg-[#2F5F00] text-white px-6 py-2 rounded-lg hover:bg-[#3A7500] transition">Kirim</button>
+        </form>
+    </div>
+
+    {{-- Kontak Developer & Lokasi --}}
+    <div class="mt-10 text-sm text-gray-700">
+        <h2 class="text-xl font-bold text-[#2F5F00] mb-2">Kontak Developer</h2>
+        <p>Nama: Tim Matrix Developer</p>
+        <p>Email: matrixpolibatam@gmail.com</p>
+
+        <h2 class="text-xl font-bold text-[#2F5F00] mt-6 mb-2">Kontak Pihak Warnet</h2>
+        <p>Nama: Matrix Warnet </p>
+        <p>Contact person: +6289668914466 </p>
+
+        <h2 class="text-xl font-bold text-[#2F5F00] mt-6 mb-2">Lokasi Warnet</h2>
+        <p>Politeknik negeri BATAM</p>
+        <!-- Location Section -->
+    <section class="max-w-6xl mx-auto p-4 md:p-6">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl md:text-2xl font-bold text-gray-800 uppercase tracking-wider">LOKASI KAMI</h2>
+        </div>
+        <div class="w-full h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
+            <iframe
+                class="w-full h-full"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127504.44013558096!2d104.00053436241162!3d1.1281182612964378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d98c2ff37f7f47%3A0xf4ccdc7f01170586!2sBatam%2C%20Kota%20Batam%2C%20Kepulauan%20Riau!5e0!3m2!1sid!2sid!4v1650450987654!5m2!1sid!2sid"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+    </div>
 </div>
 
 <script>
@@ -83,6 +130,4 @@
         });
     });
 </script>
-
-
 @endsection
