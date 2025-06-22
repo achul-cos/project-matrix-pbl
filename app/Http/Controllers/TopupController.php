@@ -281,14 +281,17 @@ class TopupController extends Controller
             $coupon = Coupon::where('code', $request->coupon)->first();
 
             if (!$coupon) {
+                Log::warning("❌ Kupon tidak ditemukan: {$request->coupon}");
                 return back()->withErrors(['coupon' => 'Kode kupon tidak ditemukan.']);
             }
 
             if ($coupon->expired < now()) {
+                Log::warning("⏰ Kupon expired: {$coupon->code}");
                 return back()->withErrors(['coupon' => 'Kupon sudah expired.']);
             }
 
             if ($coupon->qty_use >= $coupon->qty_can_use) {
+                Log::warning("⚠️ Kupon limit: {$coupon->code}");
                 return back()->withErrors(['coupon' => 'Kupon sudah mencapai batas penggunaan.']);
             }
 
@@ -297,10 +300,10 @@ class TopupController extends Controller
                 ->exists();
 
             if ($alreadyUsed) {
+                Log::info("ℹ️ Kupon sudah digunakan oleh user {$user->username}");
                 return back()->withErrors(['coupon' => 'Kamu sudah pernah menggunakan kupon ini.']);
             }
 
-            // Buat payment report
             $paymentReport = PaymentReport::create([
                 'user_id' => $user->id,
                 'user_username' => $user->username,
@@ -314,23 +317,22 @@ class TopupController extends Controller
                 'payment_photo' => null
             ]);
 
-            // Increment kupon
             Coupon::where('id', $coupon->id)->increment('qty_use');
 
-            // Catat laporan kupon
             CouponReport::create([
                 'coupon_id' => $coupon->id,
                 'user_id' => $user->id
             ]);
 
-            // Tambah token ke user
             $this->completeTopup($paymentReport, $user, $coupon->qty_token, 'online');
 
             DB::commit();
 
+            Log::info("✅ Kupon berhasil diredeem oleh {$user->username}, token +{$coupon->qty_token}");
             return back()->with('success', 'Berhasil redeem! Token berhasil ditambahkan ke akunmu.');
         } catch (\Exception $e) {
             DB::rollback();
+            Log::error('❌ Error saat redeem kupon: ' . $e->getMessage());
             return back()->withErrors(['coupon' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
