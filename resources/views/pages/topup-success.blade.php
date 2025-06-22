@@ -61,10 +61,10 @@
 
         <!-- Tombol -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-medium text-sm">
-            <a href="/" class="transition transform hover:scale-105 active:scale-95 bg-lime-950 hover:bg-lime-800 text-white py-3 rounded-xl shadow-md text-center">
+            <a href="{{route('home')}}" class="transition transform hover:scale-105 active:scale-95 bg-lime-950 hover:bg-lime-800 text-white py-3 rounded-xl shadow-md text-center">
                 Kembali ke Beranda
             </a>
-            <a href="/topup-history" class="transition transform hover:scale-105 active:scale-95 bg-lime-800 hover:bg-lime-700 text-white py-3 rounded-xl shadow-md text-center">
+            <a href="{{route('profile.history_topup')}}" class="transition transform hover:scale-105 active:scale-95 bg-lime-800 hover:bg-lime-700 text-white py-3 rounded-xl shadow-md text-center">
                 Lihat Riwayat
             </a>
             <a href="{{ route('download.receipt', ['id' => $transactionId]) }}" class="transition transform hover:scale-105 active:scale-95 bg-lime-700 hover:bg-lime-600 text-white py-3 rounded-xl shadow-md text-center">

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use App\Models\TopupReport;
 
 
 class UserController extends Controller
@@ -29,6 +30,7 @@ class UserController extends Controller
 
 
         // Ambil user yang sedang login
+        /** @var \App\Models\User|null $user */
         $user = Auth::user();
 
 
@@ -263,5 +265,13 @@ class UserController extends Controller
             Log::error('Gagal menghapus semua user: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Gagal menghapus semua user: ' . $e->getMessage());
         }
+    }
+    public function showRiwayat()
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->guard()->user();
+        $riwayats = TopupReport::where('user_id', $user->id)->latest()->get();
+
+        return view('user.topup-riwayat', compact('riwayats'));
     }
 }

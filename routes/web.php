@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\SuggestController;
+use App\Http\Middleware\VerifyCsrfToken;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -57,6 +58,11 @@ Route::get('/otp', function () {
     return view('pages.otp');
 });
 
+// Route::middleware(['csrf'])->group(function () {
+//     Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback']);
+// });
+
+Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback'])->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
 
@@ -72,6 +78,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.topup');
     })->name('topup');
 
+
     Route::get('/profile', function () {
         return view('pages.profile');
     })->name('profile');
@@ -83,6 +90,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/profile/rent', function () {
         return view('pages.history_rent');
     })->name('profile.history_rent');
+
+    Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
+
 
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');
@@ -113,7 +123,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 
     // Ini redirect ke halaman sukses, bawa ID
-    Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+    Route::get('/topup-success/{paymentId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
 
     // Unduh struk
     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
@@ -199,6 +209,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
+
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
 });
 
@@ -241,4 +252,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/test-log', function () {
     Log::info('✅ Log jalan dari route test-log');
     return 'Cek laravel.log sekarang';
+});
+
+Route::get('/cek-session', function () {
+    session(['coba' => 'testing']);
+    return session('coba', 'tidak ada session');
 });

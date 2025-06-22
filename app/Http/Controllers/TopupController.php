@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
+
 
 class TopupController extends Controller
 {
@@ -26,14 +29,14 @@ class TopupController extends Controller
      * Tampilkan halaman sukses setelah pembayaran,
      * dan kirim data transaksi ke view.
      */
-    public function showSuccessPage($transactionId)
+    public function showSuccessPage($paymentId)
     {
-        $transaction = Transaction::findOrFail($transactionId);
+        $payment = PaymentReport::findOrFail($paymentId);
 
         return view('pages.topup-success', [
-            'transactionId' => $transaction->id,
-            'tokens' => $transaction->token_amount,
-            'total' => $transaction->total_price,
+            'transactionId' => $payment->id, // boleh ganti nama variabel kalau mau
+            'tokens' => $payment->token_amount,
+            'total' => $payment->qty_bill,
         ]);
     }
 
@@ -69,12 +72,12 @@ class TopupController extends Controller
         ]);
 
         DB::beginTransaction();
-        
+
         try {
             // Cari user berdasarkan username atau email
             $user = User::where('username', $request->login)
-                       ->orWhere('email', $request->login)
-                       ->first();
+                ->orWhere('email', $request->login)
+                ->first();
 
             if (!$user) {
                 return redirect()->back()->with('error', ['message' => 'User tidak ditemukan']);
@@ -85,7 +88,6 @@ class TopupController extends Controller
             } else {
                 return $this->processRegularTopup($request, $user, true);
             }
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
@@ -106,7 +108,7 @@ class TopupController extends Controller
         ]);
 
         DB::beginTransaction();
-        
+
         try {
             $user = Auth::user();
 
@@ -115,7 +117,6 @@ class TopupController extends Controller
             } else {
                 return $this->processRegularTopup($request, $user, false);
             }
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
@@ -129,11 +130,11 @@ class TopupController extends Controller
     {
         $qtyToken = $request->qty_token;
         $qtyBill = $request->qty_bill ?? ($qtyToken * self::TOKEN_PRICE);
-        
+
         // Upload foto bukti pembayaran
         $photoPath = null;
         $imageField = $isAdmin ? 'image1' : 'payment_photo';
-        
+
         // Setelah simpan foto
         if ($request->hasFile($imageField)) {
             $photoPath = $request->file($imageField)->store('payment_proofs', 'public');
@@ -175,12 +176,11 @@ class TopupController extends Controller
         // Jika admin topup, langsung success dan tambah token
         if ($isAdmin) {
             $this->completeTopup($paymentReport, $user, $qtyToken, 'offline');
-            
+
             DB::commit();
             Log::info("✅ DB Commit sukses untuk user: $user->username");
 
             return redirect()->back()->with('success', 'Topup berhasil! Token telah ditambahkan ke akun ' . $user->username);
-            
         } else {
             DB::commit();
             return redirect()->back()->with('success', 'Permintaan topup berhasil dibuat. Silakan tunggu konfirmasi pembayaran.');
@@ -193,7 +193,7 @@ class TopupController extends Controller
     private function processCouponTopup(Request $request, User $user, bool $isAdmin)
     {
         $coupon = Coupon::where('code', $request->coupon)->first();
-        
+
         if (!$coupon) {
             throw new \Exception('Kode kupon tidak ditemukan');
         }
@@ -210,8 +210,8 @@ class TopupController extends Controller
 
         // Cek apakah user sudah pernah menggunakan kupon ini
         $hasUsed = CouponReport::where('coupon_id', $coupon->id)
-                              ->where('user_id', $user->id)
-                              ->exists();
+            ->where('user_id', $user->id)
+            ->exists();
 
         if ($hasUsed) {
             throw new \Exception('Anda sudah pernah menggunakan kupon ini sebelumnya');
@@ -251,27 +251,27 @@ class TopupController extends Controller
     /**
      * Selesaikan proses topup
      */
-private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
-{
-    // Buat topup report
-    TopupReport::create([
-        'user_id' => $user->id,
-        'payment_id' => $paymentReport->id,
-        'qty_token' => $qtyToken,
-        'qty_bill' => $paymentReport->qty_bill,
-        'topup_method' => $topupMethod,
-        'payment_method' => $paymentReport->payment_method,
-        'note' => $paymentReport->note,
-        'paid_at' => now()
-    ]);
+    private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
+    {
+        // Buat topup report
+        TopUpReport::create([
+            'user_id' => $user->id,
+            'payment_id' => $paymentReport->id,
+            'qty_token' => $qtyToken,
+            'qty_bill' => $paymentReport->qty_bill,
+            'topup_method' => $topupMethod,
+            'payment_method' => $paymentReport->payment_method,
+            'note' => $paymentReport->note,
+            'paid_at' => now()
+        ]);
 
-    // Tambah token ke user
-    $before = $user->token;
-    $user->increment('token', $qtyToken);
-    $after = $user->fresh()->token;
+        // Tambah token ke user
+        $before = $user->token;
+        $user->increment('token', $qtyToken);
+        $after = $user->fresh()->token;
 
-    Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
-}
+        Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
+    }
 
 
     /**
@@ -280,16 +280,16 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
     public function confirmPayment(Request $request, $paymentId)
     {
         DB::beginTransaction();
-        
+
         try {
             $paymentReport = PaymentReport::findOrFail($paymentId);
-            
+
             if ($paymentReport->status !== 'pending') {
                 return redirect()->back()->withErrors(['error' => 'Pembayaran sudah dikonfirmasi atau dibatalkan']);
             }
 
             $user = User::findOrFail($paymentReport->user_id);
-            
+
             if ($request->action === 'approve') {
                 $paymentReport->update([
                     'status' => 'success',
@@ -298,24 +298,22 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
 
                 // Hitung token berdasarkan bill
                 $qtyToken = intval($paymentReport->qty_bill / self::TOKEN_PRICE);
-                
+
                 $this->completeTopup($paymentReport, $user, $qtyToken, 'online');
-                
+
                 DB::commit();
                 Log::info("✅ DB Commit sukses untuk user: $user->username");
 
                 return redirect()->back()->with('success', 'Pembayaran dikonfirmasi dan token telah ditambahkan');
-                
             } else {
                 $paymentReport->update([
                     'status' => 'failed',
                     'payment_end' => now()
                 ]);
-                
+
                 DB::commit();
                 return redirect()->back()->with('success', 'Pembayaran ditolak');
             }
-            
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
@@ -328,10 +326,10 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
     public function getPendingPayments()
     {
         $pendingPayments = PaymentReport::with('user')
-                                      ->where('status', 'pending')
-                                      ->orderBy('payment_start', 'desc')
-                                      ->get();
-        
+            ->where('status', 'pending')
+            ->orderBy('payment_start', 'desc')
+            ->get();
+
         return view('admin.pending-payments', compact('pendingPayments'));
     }
 
@@ -340,15 +338,153 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
      */
     public function getTopupHistory(Request $request)
     {
-        $query = TopupReport::with(['user', 'paymentReport']);
-        
+        $query = TopUpReport::with(['user', 'paymentReport']);
+
         if ($request->user_id) {
             $query->where('user_id', $request->user_id);
         }
-        
+
         $topups = $query->orderBy('paid_at', 'desc')->paginate(20);
-        
+
         return view('admin.topup-history', compact('topups'));
+    }
+
+    public function makePayment(Request $request)
+    {
+        $user = Auth::user();
+
+        $orderId = 'TOPUP-' . Str::uuid();
+
+        // Simpan dulu ke database, status masih pending
+        TopUpreport::create([
+            'user_id' => $user->id,
+            'amount' => $request->amount,
+            'tokens_added' => $request->amount / 1000, // contoh 1000 rupiah = 1 token
+            'status' => 'pending',
+            'midtrans_order_id' => $orderId
+        ]);
+
+        // Buat Snap Midtrans
+        $params = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $request->amount,
+            ],
+            'customer_details' => [
+                'email' => $user->email,
+            ],
+            'callbacks' => [
+                'finish' => url('/topup-success')
+            ]
+        ];
+
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
+        \Midtrans\Config::$isProduction = false;
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        return response()->json(['snapToken' => $snapToken]);
+    }
+
+    // public function midtransCallback(Request $request)
+    // {
+    //     Log::info('📩 Callback Midtrans masuk', $request->all());
+    //     $serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
+    //     $signature = hash(
+    //         'sha512',
+    //         $request->order_id .
+    //             $request->status_code .
+    //             $request->gross_amount .
+    //             $serverKey
+    //     );
+
+    //     if ($signature !== $request->signature_key) {
+    //         return response()->json(['message' => 'Invalid signature'], 403);
+    //     }
+
+    //     if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
+    //         $history = TopUpReport::where('midtrans_order_id', $request->order_id)->first();
+    //         if ($history && $history->status != 'success') {
+    //             $history->status = 'success';
+    //             $history->save();
+
+    //             // Tambah token ke user
+    //             $user = $history->user;
+    //             $user->token += $history->tokens_added;
+    //             $user->save();
+    //         }
+    //     }
+
+    //     return response()->json(['message' => 'Callback handled']);
+    // }
+
+    public function midtransCallback(Request $request)
+    {
+        Log::info('📩 Callback Midtrans masuk', $request->all());
+
+        $serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
+        $signature = hash(
+            'sha512',
+            $request->order_id .
+                $request->status_code .
+                $request->gross_amount .
+                $serverKey
+        );
+
+        if ($signature !== $request->signature_key) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        // Cek status berhasil
+        if (in_array($request->transaction_status, ['capture', 'settlement'])) {
+            $payment = PaymentReport::where('midtrans_id', $request->order_id)->first();
+
+            if ($payment) {
+                if ($payment->status !== 'success') {
+                    $payment->status = 'success';
+                    $payment->payment_end = now();
+                    $payment->midtrans_payment_type = $request->payment_type ?? null;
+                    $payment->save();
+                }
+
+                // Cek apakah sudah ada entri topup_report
+                $alreadyExists = TopUpReport::where('payment_id', $payment->id)->exists();
+
+                if (!$alreadyExists) {
+                    $jumlahToken = $this->hitungToken($payment->qty_bill);
+
+                    TopUpReport::create([
+                        'user_id' => $payment->user_id,
+                        'payment_id' => $payment->id,
+                        'qty_token' => $jumlahToken,
+                        'qty_bill' => $payment->qty_bill,
+                        'topup_method' => 'online',
+                        'payment_method' => 'transfer',
+                        'note' => 'Topup otomatis dari Midtrans',
+                        'paid_at' => now(),
+                    ]);
+
+                    // ✅ INI DIA FIX-NYA
+                    $user = User::find($payment->user_id);
+                    if ($user) {
+                        $before = $user->token;
+                        $user->increment('token', $jumlahToken);
+                        $after = $user->fresh()->token;
+
+                        Log::info("✅ Token user $user->username: sebelum $before, tambah $jumlahToken, setelah: $after");
+                    } else {
+                        Log::error("❌ User dengan ID {$payment->user_id} tidak ditemukan saat proses token topup.");
+                    }
+                }
+            }
+        }
+
+        return response()->json(['message' => 'Callback handled']);
+    }
+
+    private function hitungToken($bill)
+    {
+        return intval($bill / 2000); // Misal: Rp.2000 = 1 token
     }
 
     /**
@@ -357,7 +493,7 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
     public function validateCoupon(Request $request)
     {
         $coupon = Coupon::where('code', $request->code)->first();
-        
+
         if (!$coupon) {
             return response()->json(['valid' => false, 'message' => 'Kode kupon tidak ditemukan']);
         }
@@ -371,15 +507,15 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
         }
 
         $hasUsed = CouponReport::where('coupon_id', $coupon->id)
-                              ->where('user_id', Auth::id())
-                              ->exists();
+            ->where('user_id', Auth::id())
+            ->exists();
 
         if ($hasUsed) {
             return response()->json(['valid' => false, 'message' => 'Anda sudah pernah menggunakan kupon ini']);
         }
 
         return response()->json([
-            'valid' => true, 
+            'valid' => true,
             'coupon' => [
                 'name' => $coupon->name,
                 'qty_token' => $coupon->qty_token,
@@ -388,4 +524,3 @@ private function completeTopup(PaymentReport $paymentReport, User $user, int $qt
         ]);
     }
 }
-

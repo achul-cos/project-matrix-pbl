@@ -18,10 +18,19 @@ return Application::configure(basePath: dirname(__DIR__))
         // Middleware global (seluruh request)
         $middleware->append(UpdateLastOnline::class);
 
+        // $middleware->append([
+        //     \App\Http\Middleware\VerifyCsrfToken::class,
+        //     UpdateLastOnline::class,
+        // ]);
+
+        $middleware->validateCsrfTokens(except: [
+            '/midtrans/callback',
+        ]);
+
         $middleware->alias([
             'is_admin' => IsAdmin::class,
             'update_last_online' => UpdateLastOnline::class,
-
+            'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
