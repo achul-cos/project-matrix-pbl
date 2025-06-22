@@ -61,15 +61,26 @@ class TopupController extends Controller
     public function adminTopup(Request $request)
     {
         Log::info('📥 Memasuki fungsi adminTopup', $request->all());
-        $request->validate([
+        Log::info("🪪 Nilai coupon sebelum validasi: " . print_r($request->coupon, true));
+
+        $rules = [
             'login' => 'required|string',
             'payment_method' => 'required|in:cash,transfer,coupon',
-            'qty_token' => 'required_unless:payment_method,coupon|integer|min:1',
-            'qty_bill' => 'required_unless:payment_method,coupon|integer|min:1',
-            'coupon' => 'nullable|required_if:payment_method,coupon|string',
             'note' => 'nullable|string',
+            'coupon' => 'nullable|required_if:payment_method,coupon|string',
             'image1' => 'required_unless:payment_method,coupon|image|mimes:jpeg,png,jpg,webp|max:2048'
-        ]);
+        ];
+
+        if ($request->payment_method !== 'coupon') {
+            $rules['qty_token'] = 'required|integer|min:1';
+            $rules['qty_bill'] = 'required|integer|min:1';
+        }
+
+        $request->validate($rules);
+
+        Log::info("🔍 Tipe data coupon: " . gettype($request->coupon));
+        Log::info("🎟️ Nilai coupon string mentah: " . $request->coupon);
+
 
         DB::beginTransaction();
 
@@ -192,7 +203,10 @@ class TopupController extends Controller
      */
     private function processCouponTopup(Request $request, User $user, bool $isAdmin)
     {
+        Log::info("🔍 Memulai proses kupon", ['coupon' => $request->coupon]);
+
         $coupon = Coupon::where('code', $request->coupon)->first();
+        Log::info("🎟️ Coupon ditemukan?", ['coupon_found' => $coupon ? true : false]);
 
         if (!$coupon) {
             throw new \Exception('Kode kupon tidak ditemukan');
@@ -232,7 +246,10 @@ class TopupController extends Controller
         ]);
 
         // Update penggunaan kupon
-        $coupon->increment('qty_use');
+        Log::info("❗ expired sebelum increment: " . $coupon->expired);
+        Log::info('💣 Perubahan attribute model:', $coupon->getDirty());
+        Coupon::where('id', $coupon->id)->increment('qty_use');
+        Log::info("✅ expired setelah increment: " . $coupon->fresh()->expired);
 
         // Catat penggunaan kupon
         CouponReport::create([
@@ -246,6 +263,76 @@ class TopupController extends Controller
 
         DB::commit();
         return redirect()->back()->with('success', 'Topup dengan kupon berhasil! ' . $coupon->qty_token . ' token telah ditambahkan ke akun Anda');
+    }
+
+    /**
+     * Redeem Token Dari Sisi user
+     */
+    public function redeemCoupon(Request $request)
+    {
+        $request->validate([
+            'coupon' => 'required|string'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $user = Auth::user();
+            $coupon = Coupon::where('code', $request->coupon)->first();
+
+            if (!$coupon) {
+                return back()->withErrors(['coupon' => 'Kode kupon tidak ditemukan.']);
+            }
+
+            if ($coupon->expired < now()) {
+                return back()->withErrors(['coupon' => 'Kupon sudah expired.']);
+            }
+
+            if ($coupon->qty_use >= $coupon->qty_can_use) {
+                return back()->withErrors(['coupon' => 'Kupon sudah mencapai batas penggunaan.']);
+            }
+
+            $alreadyUsed = CouponReport::where('coupon_id', $coupon->id)
+                ->where('user_id', $user->id)
+                ->exists();
+
+            if ($alreadyUsed) {
+                return back()->withErrors(['coupon' => 'Kamu sudah pernah menggunakan kupon ini.']);
+            }
+
+            // Buat payment report
+            $paymentReport = PaymentReport::create([
+                'user_id' => $user->id,
+                'user_username' => $user->username,
+                'midtrans_id' => null,
+                'qty_bill' => 0,
+                'payment_method' => 'coupon',
+                'status' => 'success',
+                'payment_start' => now(),
+                'payment_end' => now(),
+                'note' => 'Redeem kupon user: ' . $coupon->code,
+                'payment_photo' => null
+            ]);
+
+            // Increment kupon
+            Coupon::where('id', $coupon->id)->increment('qty_use');
+
+            // Catat laporan kupon
+            CouponReport::create([
+                'coupon_id' => $coupon->id,
+                'user_id' => $user->id
+            ]);
+
+            // Tambah token ke user
+            $this->completeTopup($paymentReport, $user, $coupon->qty_token, 'online');
+
+            DB::commit();
+
+            return back()->with('success', 'Berhasil redeem! Token berhasil ditambahkan ke akunmu.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withErrors(['coupon' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -272,7 +359,6 @@ class TopupController extends Controller
 
         Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
     }
-
 
     /**
      * Konfirmasi pembayaran oleh admin (untuk topup online yang pending)
@@ -386,38 +472,6 @@ class TopupController extends Controller
         return response()->json(['snapToken' => $snapToken]);
     }
 
-    // public function midtransCallback(Request $request)
-    // {
-    //     Log::info('📩 Callback Midtrans masuk', $request->all());
-    //     $serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
-    //     $signature = hash(
-    //         'sha512',
-    //         $request->order_id .
-    //             $request->status_code .
-    //             $request->gross_amount .
-    //             $serverKey
-    //     );
-
-    //     if ($signature !== $request->signature_key) {
-    //         return response()->json(['message' => 'Invalid signature'], 403);
-    //     }
-
-    //     if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
-    //         $history = TopUpReport::where('midtrans_order_id', $request->order_id)->first();
-    //         if ($history && $history->status != 'success') {
-    //             $history->status = 'success';
-    //             $history->save();
-
-    //             // Tambah token ke user
-    //             $user = $history->user;
-    //             $user->token += $history->tokens_added;
-    //             $user->save();
-    //         }
-    //     }
-
-    //     return response()->json(['message' => 'Callback handled']);
-    // }
-
     public function midtransCallback(Request $request)
     {
         Log::info('📩 Callback Midtrans masuk', $request->all());
@@ -522,5 +576,50 @@ class TopupController extends Controller
                 'expired' => $coupon->expired->format('d/m/Y H:i')
             ]
         ]);
+    }
+
+    /**
+     * Get pending payments untuk admin
+     */
+    // public function getPendingPayments()
+    // {
+    //     $pendingPayments = PaymentReport::with('user')
+    //                                   ->where('status', 'pending')
+    //                                   ->orderBy('payment_start', 'desc')
+    //                                   ->get();
+
+    //     return view('pages.admin_topup_report', compact('pendingPayments'));
+    // }
+
+    /**
+     * Get topup history
+     */
+    // public function getTopupHistory(Request $request)
+    // {
+    //     $query = TopupReport::with(['user', 'paymentReport']);
+
+    //     if ($request->user_id) {
+    //         $query->where('user_id', $request->user_id);
+    //     }
+
+    //     $topups = $query->orderBy('paid_at', 'desc')->paginate(20);
+
+    //     return view('pages.admin_topup_report', compact('topups'));
+    // }
+
+    /**
+     * Read Topup and Payment Report
+     */
+    public function getAllTopupAndPayments(Request $request)
+    {
+        $topups = TopupReport::with(['user', 'paymentReport'])
+            ->orderByDesc('paid_at')
+            ->get();
+
+        $payments = PaymentReport::with('user')
+            ->orderByDesc('payment_start')
+            ->get();
+
+        return view('pages.admin_topup_report', compact('topups', 'payments'));
     }
 }

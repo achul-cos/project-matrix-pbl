@@ -249,266 +249,149 @@
 
   <section id="modal">
     <!-- Top Up Modal -->
-<!-- Modal Topup Admin -->
-<div id="topup-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-  <div class="relative p-4 w-full max-w-3xl max-h-full">
-    <!-- Modal content -->
-    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-      <!-- Modal header -->
-      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-slate-800 border-gray-200">
-        <h3 class="text-xl font-bold text-white">
-            Topup Token User
-        </h3>
-        <button type="button" class="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="topup-modal">
-            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-            <span class="sr-only">Close modal</span>
-        </button>
-      </div>
-      
-      <!-- Modal body -->
-      <div class="p-4 md:p-5 space-y-4">
-        @if ($errors->any())
-            <div class="p-4 bg-red-100 text-red-700 rounded-xl mb-4">
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <form action="{{ route('admin.topup') }}" class="space-y-4" method="POST" enctype="multipart/form-data" id="topupForm">
-        @csrf
-        <div class="flex flex-row gap-8">
-          <div class="w-1/2">
-            <!-- Input Username/Email -->
-            <label for="login" class="font-medium text-gray-700">Username / Email:</label>
-            <input type="text" 
-                   name="login" 
-                   id="login"
-                   placeholder="Username atau Email Akun Pengguna" 
-                   required 
-                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
-                   value="{{ old('login') }}" />
-
-            <!-- Input Payment Method -->
-            <label for="payment_method" class="font-medium text-gray-700 mt-4 block">Metode Pembayaran:</label>
-            <select id="payment_method"
-                    name="payment_method"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition"
-                    required>
-            <option disabled selected>Pilih Metode Pembayaran</option>
-            <option value="cash">Cash (Uang Tunai)</option>
-            <option value="transfer">Transfer (QRIS, Transfer Bank dll)</option>
-            <option value="coupon">Kupon (Voucher, Promo dll)</option>
-            </select>
-
-            <!-- Input untuk Cash dan Transfer -->
-            <div class="hidden" id="inputTokenBill">
-              <!-- Input Token -->
-              <label for="qty_token" class="font-medium text-gray-700 mt-4 block">Jumlah Token:</label>
-              <input id="qty_token" 
-                     type="number" 
-                     name="qty_token" 
-                     placeholder="Jumlah Token yang Ditopup" 
-                     class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
-                     value="{{ old('qty_token') }}" 
-                     min="1" />
-
-              <!-- Input Bill -->
-              <label for="qty_bill" class="font-medium text-gray-700 mt-4 block">Biaya Total:</label>
-              <div class="relative">
-                <button id="buttonBill" type="button" class="absolute right-3 top-2.5 px-2 py-1 shadow-md rounded-lg border-slate-600 bg-slate-400 text-white transform transition-transform active:scale-95 hover:bg-slate-500">
-                  Auto
-                </button>
-                <p class="absolute text-base left-3 font-semibold top-3 text-gray-700">Rp.</p>
-                <input id="qty_bill" 
-                       type="number" 
-                       name="qty_bill" 
-                       placeholder="Biaya total yang dibayarkan..." 
-                       class="w-full ps-10 pr-16 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
-                       value="{{ old('qty_bill') }}" 
-                       min="1" />
-                <p class="text-xs mt-2 text-gray-400">Harga 1 Token = Rp. 2,000</p>
-              </div>
-            </div>
-
-            <!-- Input Coupon -->
-            <div class="hidden" id="inputCoupon">
-              <label for="coupon" class="font-medium text-gray-700 mt-4 block">Kode Kupon:</label>
-              <div class="relative">
-                <input id="coupon" 
-                       type="text" 
-                       name="coupon" 
-                       placeholder="Masukkan kode kupon..." 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
-                <button type="button" id="validateCoupon" class="absolute right-3 top-2.5 px-3 py-1 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition">
-                  Cek
-                </button>
-              </div>
-              <div id="couponInfo" class="mt-2 text-sm hidden"></div>
-            </div>
-
-            <!-- Input Note -->
-            <label for="note" class="font-medium text-gray-700 mt-4 block">Note/Catatan:</label>
-            <textarea id="note"
-                      rows="2"
-                      name="note"
-                      placeholder="Note atau catatan khusus pembayaran..."
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition">{{ old('note') }}</textarea>
+    <div id="topup-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-3xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+          <!-- Modal header -->
+          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-slate-800 border-gray-200">
+            <h3 class="text-xl font-bold text-white">
+                Topup Token User
+            </h3>
+            <button type="button" class="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="topup-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
           </div>
+          
+          <!-- Modal body -->
+          <div class="p-4 md:p-5 space-y-4">
+            @if ($errors->any())
+                <div class="p-4 bg-red-100 text-red-700 rounded-xl mb-4">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form action="{{ route('admin.topup') }}" class="space-y-4" method="POST" enctype="multipart/form-data" id="topupForm">
+            @csrf
+            <div class="flex flex-row gap-8">
+              <div class="w-1/2">
+                <!-- Input Username/Email -->
+                <label for="login" class="font-medium text-gray-700">Username / Email:</label>
+                <input type="text" 
+                      name="login" 
+                      id="login"
+                      placeholder="Username atau Email Akun Pengguna" 
+                      required 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
+                      value="{{ old('login') }}" />
 
-          <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8" id="imageUploadSection">
-            <p class="text-lg text-center text-gray-500 mb-2 font-bold">Bukti Pembayaran</p>
-            <div class="w-auto mb-2">
-              <img id="preview-image1"
-                  src="{{ asset('img/ad/placeholder2.png') }}"
-                  alt="Preview 1"
-                  class="object-cover w-full h-full aspect-square border rounded-2xl border-gray-300 shadow-sm">
+                <!-- Input Payment Method -->
+                <label for="payment_method" class="font-medium text-gray-700 mt-4 block">Metode Pembayaran:</label>
+                <select id="payment_method"
+                        name="payment_method"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition"
+                        required>
+                <option disabled selected>Pilih Metode Pembayaran</option>
+                <option value="cash">Cash (Uang Tunai)</option>
+                <option value="transfer">Transfer (QRIS, Transfer Bank dll)</option>
+                <option value="coupon">Kupon (Voucher, Promo dll)</option>
+                </select>
 
-              <label for="image1" class="block text-sm text-center my-4 font-medium text-gray-700">Format: PNG, JPG, JPEG dan WEBP</label>
-              <input type="file"
-                    name="image1"
-                    id="image1"
-                    accept=".jpg,.jpeg,.png,.webp"
-                    onchange="previewImage(event, 1)"
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-slate-500">
+                <!-- Input untuk Cash dan Transfer -->
+                <div class="hidden" id="inputTokenBill">
+                  <!-- Input Token -->
+                  <label for="qty_token" class="font-medium text-gray-700 mt-4 block">Jumlah Token:</label>
+                  <input id="qty_token" 
+                        type="number" 
+                        name="qty_token" 
+                        placeholder="Jumlah Token yang Ditopup" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
+                        value="{{ old('qty_token') }}" 
+                        min="1" />
+
+                  <!-- Input Bill -->
+                  <label for="qty_bill" class="font-medium text-gray-700 mt-4 block">Biaya Total:</label>
+                  <div class="relative">
+                    <button id="buttonBill" type="button" class="absolute right-3 top-2.5 px-2 py-1 shadow-md rounded-lg border-slate-600 bg-slate-400 text-white transform transition-transform active:scale-95 hover:bg-slate-500">
+                      Auto
+                    </button>
+                    <p class="absolute text-base left-3 font-semibold top-3 text-gray-700">Rp.</p>
+                    <input id="qty_bill" 
+                          type="number" 
+                          name="qty_bill" 
+                          placeholder="Biaya total yang dibayarkan..." 
+                          class="w-full ps-10 pr-16 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" 
+                          value="{{ old('qty_bill') }}" 
+                          min="1" />
+                    <p class="text-xs mt-2 text-gray-400">Harga 1 Token = Rp. 2,000</p>
+                  </div>
+                </div>
+
+                <!-- Input Coupon -->
+                <div class="hidden" id="inputCoupon">
+                  <label for="coupon" class="font-medium text-gray-700 mt-4 block">Kode Kupon:</label>
+                  <div class="relative">
+                    <input id="coupon" 
+                          type="text" 
+                          name="coupon" 
+                          placeholder="Masukkan kode kupon..." 
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
+                    <button type="button" id="validateCoupon" class="absolute right-3 top-2.5 px-3 py-1 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition">
+                      Cek
+                    </button>
+                  </div>
+                  <div id="couponInfo" class="mt-2 text-sm hidden"></div>
+                </div>
+
+                <!-- Input Note -->
+                <label for="note" class="font-medium text-gray-700 mt-4 block">Note/Catatan:</label>
+                <textarea id="note"
+                          rows="2"
+                          name="note"
+                          placeholder="Note atau catatan khusus pembayaran..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition">{{ old('note') }}</textarea>
+              </div>
+
+              <div class="w-1/2 items-center my-auto gap-4 flex flex-col p-8" id="imageUploadSection">
+                <p class="text-lg text-center text-gray-500 mb-2 font-bold">Bukti Pembayaran</p>
+                <div class="w-auto mb-2">
+                  <img id="preview-image1"
+                      src="{{ asset('img/ad/placeholder2.png') }}"
+                      alt="Preview 1"
+                      class="object-cover w-full h-full aspect-square border rounded-2xl border-gray-300 shadow-sm">
+
+                  <label for="image1" class="block text-sm text-center my-4 font-medium text-gray-700">Format: PNG, JPG, JPEG dan WEBP</label>
+                  <input type="file"
+                        name="image1"
+                        id="image1"
+                        accept=".jpg,.jpeg,.png,.webp"
+                        onchange="previewImage(event, 1)"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-slate-500">
+                </div>
+              </div>
             </div>
+            
+            </form>
+          </div>
+          
+          <!-- Modal footer -->
+          <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <button type="submit" form="topupForm" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">
+                Proses Topup
+              </button>
+              <button data-modal-hide="topup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                Batal
+              </button>
           </div>
         </div>
-        
-        </form>
-      </div>
-      
-      <!-- Modal footer -->
-      <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="submit" form="topupForm" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">
-            Proses Topup
-          </button>
-          <button data-modal-hide="topup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-            Batal
-          </button>
       </div>
     </div>
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentMethodSelect = document.getElementById('payment_method');
-    const inputTokenBill = document.getElementById('inputTokenBill');
-    const inputCoupon = document.getElementById('inputCoupon');
-    const imageUploadSection = document.getElementById('imageUploadSection');
-    const image1Input = document.getElementById('image1');
-    const qtyTokenInput = document.getElementById('qty_token');
-    const qtyBillInput = document.getElementById('qty_bill');
-    const buttonBill = document.getElementById('buttonBill');
-    const validateCouponBtn = document.getElementById('validateCoupon');
-    const couponInput = document.getElementById('coupon');
-    const couponInfo = document.getElementById('couponInfo');
-
-    // Handle perubahan metode pembayaran
-    paymentMethodSelect.addEventListener('change', function() {
-        const method = this.value;
-        
-        // Reset semua input
-        inputTokenBill.classList.add('hidden');
-        inputCoupon.classList.add('hidden');
-        imageUploadSection.style.display = 'flex';
-        image1Input.required = true;
-
-        if (method === 'coupon') {
-            inputCoupon.classList.remove('hidden');
-            imageUploadSection.style.display = 'none';
-            image1Input.required = false;
-            qtyTokenInput.required = false;
-            qtyBillInput.required = false;
-        } else if (method === 'cash' || method === 'transfer') {
-            inputTokenBill.classList.remove('hidden');
-            qtyTokenInput.required = true;
-            qtyBillInput.required = true;
-        }
-    });
-
-    // Auto calculate bill
-    qtyTokenInput.addEventListener('input', function() {
-        const tokens = parseInt(this.value) || 0;
-        qtyBillInput.value = tokens * 2000;
-    });
-
-    // Auto button untuk menghitung bill
-    buttonBill.addEventListener('click', function() {
-        const tokens = parseInt(qtyTokenInput.value) || 0;
-        qtyBillInput.value = tokens * 2000;
-    });
-
-    // Validate coupon
-    validateCouponBtn.addEventListener('click', function() {
-        const couponCode = couponInput.value.trim();
-        if (!couponCode) {
-            showCouponInfo('Masukkan kode kupon terlebih dahulu', 'error');
-            return;
-        }
-
-        // Disable button sementara
-        this.disabled = true;
-        this.textContent = '...';
-
-        fetch('{{ route("admin.validate-coupon") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ code: couponCode })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.valid) {
-                showCouponInfo(`
-                    <div class="text-green-600">
-                        <strong>✓ Kupon Valid!</strong><br>
-                        Nama: ${data.coupon.name}<br>
-                        Token: ${data.coupon.qty_token}<br>
-                        Expired: ${data.coupon.expired}
-                    </div>
-                `, 'success');
-            } else {
-                showCouponInfo(data.message, 'error');
-            }
-        })
-        .catch(error => {
-            showCouponInfo('Terjadi kesalahan saat validasi kupon', 'error');
-        })
-        .finally(() => {
-            this.disabled = false;
-            this.textContent = 'Cek';
-        });
-    });
-
-    function showCouponInfo(message, type) {
-        couponInfo.innerHTML = message;
-        couponInfo.className = `mt-2 text-sm p-2 rounded ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
-        couponInfo.classList.remove('hidden');
-    }
-});
-
-// Function untuk preview image
-function previewImage(event, number) {
-    const file = event.target.files[0];
-    const preview = document.getElementById(`preview-image${number}`);
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-}
-</script>
-
 
     <!-- Delete All Modal -->
     <div id="delete-all-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -545,7 +428,6 @@ function previewImage(event, number) {
             </div>
         </div>
     </div>
-
 
     <!-- Add Modal -->
     <div id="add-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -691,9 +573,7 @@ function previewImage(event, number) {
       </div>
     </div>
 
-
     @foreach ($users as $user)
-
 
     <!-- Delete Modal -->
     <div id="delete-modal-{{ $user->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -766,7 +646,6 @@ function previewImage(event, number) {
         </div>
     </div>
 
-
     <!-- Unban Modal -->
     <div id="unban-modal-{{ $user->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -802,7 +681,6 @@ function previewImage(event, number) {
             </div>
         </div>
     </div>
-
 
     <!-- Edit Modal -->
     <div id="edit-modal-{{ $user->id }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -948,9 +826,7 @@ function previewImage(event, number) {
         </div>
     </div>
 
-
     @endforeach
-
 
     <!-- Loading Modal -->
     <div id="loadingModal"
@@ -970,7 +846,6 @@ function previewImage(event, number) {
         <p id="progressText" class="text-sm text-gray-500">0 %</p>
       </div>
     </div>
-
 
     <!-- Modal Cropper -->
     <div id="cropperModal" tabindex="-1" aria-hidden="true"
@@ -1053,49 +928,121 @@ function previewImage(event, number) {
     }
   });
 
+</script>
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const paymentSelect = document.getElementById('payment_method');
-    const couponDiv = document.getElementById('inputCoupon');
-    const tokenbillDiv = document.getElementById('inputTokenBill');
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethodSelect = document.getElementById('payment_method');
+    const inputTokenBill = document.getElementById('inputTokenBill');
+    const inputCoupon = document.getElementById('inputCoupon');
+    const imageUploadSection = document.getElementById('imageUploadSection');
+    const image1Input = document.getElementById('image1');
+    const qtyTokenInput = document.getElementById('qty_token');
+    const qtyBillInput = document.getElementById('qty_bill');
     const buttonBill = document.getElementById('buttonBill');
-    const qtyToken = document.getElementById('qty_token');
-    const qtyBill = document.getElementById('qty_bill');
+    const validateCouponBtn = document.getElementById('validateCoupon');
+    const couponInput = document.getElementById('coupon');
+    const couponInfo = document.getElementById('couponInfo');
 
+    // Handle perubahan metode pembayaran
+    paymentMethodSelect.addEventListener('change', function() {
+        const method = this.value;
+        
+        // Reset semua input
+        inputTokenBill.classList.add('hidden');
+        inputCoupon.classList.add('hidden');
+        imageUploadSection.style.display = 'flex';
+        image1Input.required = true;
 
-    function togglePaymentInputs(method) {
-      if (method === 'cuopon') {
-        couponDiv.classList.remove('hidden');
-        tokenbillDiv.classList.add('hidden');
-      } else if (method === 'cash' || method === 'transfer') {
-        couponDiv.classList.add('hidden');
-        tokenbillDiv.classList.remove('hidden');
-      } else {
-        couponDiv.classList.add('hidden');
-        tokenbillDiv.classList.add('hidden');
-      }
-    }
-
-
-    // Trigger awal saat halaman load (untuk old('payment_method'))
-    togglePaymentInputs(paymentSelect.value);
-
-
-    // Trigger saat ada perubahan
-    paymentSelect.addEventListener('change', function () {
-      togglePaymentInputs(this.value);
+        if (method === 'coupon') {
+            inputCoupon.classList.remove('hidden');
+            imageUploadSection.style.display = 'none';
+            image1Input.required = false;
+            qtyTokenInput.required = false;
+            qtyBillInput.required = false;
+        } else if (method === 'cash' || method === 'transfer') {
+            inputTokenBill.classList.remove('hidden');
+            qtyTokenInput.required = true;
+            qtyBillInput.required = true;
+        }
     });
 
+    // Auto calculate bill
+    qtyTokenInput.addEventListener('input', function() {
+        const tokens = parseInt(this.value) || 0;
+        qtyBillInput.value = tokens * 2000;
+    });
 
-    // Tombol Auto: Hitung jumlah bill = token x 2000
-    if (buttonBill) {
-      buttonBill.addEventListener('click', function () {
-        const tokenValue = parseInt(qtyToken.value) || 0;
-        const totalBill = tokenValue * 2000;
-        qtyBill.value = totalBill;
-      });
+    // Auto button untuk menghitung bill
+    buttonBill.addEventListener('click', function() {
+        const tokens = parseInt(qtyTokenInput.value) || 0;
+        qtyBillInput.value = tokens * 2000;
+    });
+
+    // Validate coupon
+    validateCouponBtn.addEventListener('click', function() {
+        const couponCode = couponInput.value.trim();
+        if (!couponCode) {
+            showCouponInfo('Masukkan kode kupon terlebih dahulu', 'error');
+            return;
+        }
+
+        // Disable button sementara
+        this.disabled = true;
+        this.textContent = '...';
+
+        fetch('{{ route("admin.validate-coupon") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ code: couponCode })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                showCouponInfo(`
+                    <div class="text-green-600">
+                        <strong>✓ Kupon Valid!</strong><br>
+                        Nama: ${data.coupon.name}<br>
+                        Token: ${data.coupon.qty_token}<br>
+                        Expired: ${data.coupon.expired}
+                    </div>
+                `, 'success');
+            } else {
+                showCouponInfo(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showCouponInfo('Terjadi kesalahan saat validasi kupon', 'error');
+        })
+        .finally(() => {
+            this.disabled = false;
+            this.textContent = 'Cek';
+        });
+    });
+
+    function showCouponInfo(message, type) {
+        couponInfo.innerHTML = message;
+        couponInfo.className = `mt-2 text-sm p-2 rounded ${type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+        couponInfo.classList.remove('hidden');
     }
-  });
+});
+
+// Function untuk preview image
+function previewImage(event, number) {
+    const file = event.target.files[0];
+    const preview = document.getElementById(`preview-image${number}`);
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
 </script>
 
 

@@ -23,10 +23,18 @@ class Coupon extends Model
         'expired'
     ];
 
+    // protected $guarded = ['qty_use'];
 
     protected $casts = [
         'expired' => 'datetime',
     ];
+
+    // protected function casts(): array
+    // {
+    //     return [
+    //         'expired' => 'datetime',
+    //     ];
+    // }
 
 
     public function couponReports()

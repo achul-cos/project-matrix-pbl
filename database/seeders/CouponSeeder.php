@@ -20,7 +20,7 @@ class CouponSeeder extends Seeder
                 'code' => 'WELCOME2025',
                 'sponsor' => 'Admin',
                 'desc' => 'Kupon selamat datang untuk pengguna baru',
-                'qty_use' => 0,
+                'qty_use' => 99,
                 'qty_can_use' => 100,
                 'qty_token' => 10,
                 'expired' => Carbon::now()->addDays(30),

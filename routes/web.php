@@ -20,19 +20,19 @@ Route::get('/', function () {
     return view('pages.landing');
 });
 
-Route::get('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 
-Route::post('/simpanuser', [AuthController::class, 'simpanuser']);
+Route::post('/simpanuser', [AuthController::class, 'simpanuser'])->name('registerAccount');
 
 
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
 
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logoutAccount');
 
 
 Route::post('/settingacount', [UserController::class, 'updateAccount'])->middleware('auth')->name('update.account');
@@ -69,10 +69,6 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/home', [ProductController::class, 'homePage'])->name('home');
 
     Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
-
-    // Route::get('/payment', function () {
-    //     return view('pages.payment');
-    // })->name('payment');
 
     Route::get('/topup', function () {
         return view('pages.topup');
@@ -128,6 +124,8 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     // Unduh struk
     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
     Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
+
+    Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
 });
 
 
@@ -147,10 +145,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
-
-    Route::get('/admin/topup_report', function () {
-        return view('pages.admin_topup_report');
-    })->name('admin.topup_report');
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -178,32 +172,27 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
-    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
-
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
-
-    Route::put('/admin/management_account/edit_user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
-
+    
     Route::delete('/admin/management_account/delete_user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
 
     Route::delete('/admin/management_account/delete-all_user', [UserController::class, 'deleteAllUsers'])->name('admin.users.deleteAll');
+    
+    Route::put('/admin/management_account/edit_user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
+    
+    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     // Topup melalui admin
-    Route::post('/admin/topup', [TopupController::class, 'adminTopup'])->name('admin.topup');
+    Route::post('/admin/management_account/topup_user', [TopupController::class, 'adminTopup'])->name('admin.topup');
 
     // Validasi kupon dari admin
-    Route::post('/admin/validate-coupon', [TopupController::class, 'validateCoupon'])->name('admin.validate-coupon');
-
-    // Lihat pembayaran pending
-    Route::get('/admin/pending-payments', [TopupController::class, 'getPendingPayments'])->name('admin.pending-payments');
-
+    Route::post('/admin/management_account/validate-coupon', [TopupController::class, 'validateCoupon'])->name('admin.validate-coupon');
+    
     // Konfirmasi pembayaran
     Route::post('/admin/confirm-payment/{paymentId}', [TopupController::class, 'confirmPayment'])->name('admin.confirm-payment');
 
-    // History topup
-    Route::get('/admin/topup-history', [TopupController::class, 'getTopupHistory'])->name('admin.topup-history');
-
-    Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+    // Lihat Riwayat Topup dan Pembayaran
+    Route::get('/admin/topup_report', [TopupController::class, 'getAllTopupAndPayments'])->name('admin.topup_report');
 
     Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 
