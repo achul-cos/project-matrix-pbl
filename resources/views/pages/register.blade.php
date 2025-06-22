@@ -53,7 +53,7 @@
             </div>
         @endif
 
-        <form action="/simpanuser" class="space-y-4" method="POST">
+        <form action="{{ route('registerAccount') }}" class="space-y-4" method="POST">
             @csrf
             <input type="text" name="name" placeholder="Nama Lengkap" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('name') }}" />
 
@@ -64,7 +64,7 @@
             <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('phone') }}" />
           
             {{-- Input Password & Password Confirmation --}}
-            <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-between gap-x-2">
 
                 {{-- Input Password --}}
                 <div class="relative">
