@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OtpController;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -44,7 +45,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     //     return view('pages.home');
     // })->name('home');
 
-    Route::get('/home', [ProductController::class, 'homePage'])->name('home'); 
+    Route::get('/home', [ProductController::class, 'homePage'])->name('home');
 
     Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
 
@@ -72,7 +73,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.change_pw');
     })->name('profile.password');
 
-    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');   
+    Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
+
+    Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
 
     Route::get('/developer', function () {
         return view('pages.developer');
@@ -89,6 +92,22 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
 
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
+
+    Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
+
+    Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
+    Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
+
+    Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
+    Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
+
+    Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
+    Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
+
+    Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
+    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
+
+
 
 });
 
@@ -154,14 +173,13 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/account/unban/{id}', [UserController::class, 'unban'])->name('account.unban');
+
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->middleware('auth')->name('profile.destroy');
+
 });
 
-<<<<<<< HEAD
-});
-=======
 use App\Http\Controllers\PaymentController;
 Route::middleware('auth')->group(function () {
 Route::get('/payment', [PaymentController::class, 'index']);
 Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 });
->>>>>>> a8bc7fdfe7b99236f216204879f91bef222a5266

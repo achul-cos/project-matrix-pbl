@@ -8,6 +8,8 @@
         <li><a href="../profile">Pengaturan Akun</a></li>
         <li><a href="../profile/change_password">Ganti Password</a></li>
         <li class="text-red-600 font-semibold"><a href="/logout">Keluar Akun</a></li>
-         <li class="text-red-700 font-bold"><a href="/">Hapus Akun</a></li>
+         <li class="text-red-600 font-semibold">
+    <a href="/profile" onclick="openHapusModal(); return false;">Hapus Akun</a>
+</li>
     </ul>
 </div>

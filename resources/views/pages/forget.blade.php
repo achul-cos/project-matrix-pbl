@@ -3,18 +3,23 @@
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
 @section('content')
-
 <div class="pb-0">
     <div class="flex justify-center items-center min-h-screen px-4 py-12">
-        <!-- Card Anda dengan beberapa perbaikan -->
         <div class="w-full md:max-w-xl p-6 bg-white border border-gray-200 rounded-2xl shadow-xl sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form class="space-y-6" action="#">
 
-               <a href="/login">
-                <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
-                    <
-                </button>
-               </a>
+            <!-- Icon atau Ilustrasi -->
+            <div class="flex justify-center mb-5">
+                <svg class="w-full h-40 text-gray-800 dark:text-white" viewBox="0 0 700 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- (Potong bagian <path> di sini jika tidak perlu ditampilkan semua) -->
+                </svg>
+            </div>
+
+            <!-- Header -->
+            <h5 class="text-2xl font-bold text-[#556B2F] mb-3 text-center">Lupa Kata Sandi Anda?</h5>
+
+            <!-- Form -->
+            <form method="POST" action="{{ route('forgot.submit') }}">
+                @csrf
 
                <div class="flex justify-center">
                <svg class="w-full  items-center mb-5 h-40 text-gray-800 dark:text-white" aria-hidden="true" width="700" height="600" viewBox="0 0 700 600" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,26 +77,36 @@
 </svg>
 </div>
 
-                <h5 class="text-2xl font-bold text-[#556B2F] mb-3 text-center">Lupa Kata Sandi Anda?</h5>
-
-                <div>
+                <div class="mb-4">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Masukkan email untuk menerima link atur ulang kata sandi
+                        Masukkan Gmail untuk menerima kode OTP
                     </label>
-                    <input type="email" name="email" id="email" class="mt-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 
-                        dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Email" required/>
+                    <input type="email" name="email" id="email"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5
+                        dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        placeholder="contoh@gmail.com" required>
                 </div>
-                
-                <a href="/otp">
-                <button 
-                    type="submit" class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-                    dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Kirim Email
-                </button>
-                </a>
 
+                <button type="submit"
+                    class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                    dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    Kirim OTP
+                </button>
             </form>
+
+            <!-- Pesan sukses -->
+            @if(session('success'))
+                <div class="mt-4 text-green-600 text-center">{{ session('success') }}</div>
+            @endif
+
+            <!-- Tombol kembali -->
+            <div class="mt-6 text-center">
+                <a href="{{ route('login') }}"
+                    class="inline-flex items-center text-sm text-gray-600 dark:text-gray-300 hover:underline">
+                    &larr; Kembali ke Login
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
 @endsection
