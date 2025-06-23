@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('qty_use');
             $table->integer('qty_can_use');
             $table->integer('qty_token');
-            $table->timestamp('expired');
+            $table->timestamp('expired')->nullable(false)->default('2030-01-01 00:00:00');
             $table->timestamps();
         });
     }

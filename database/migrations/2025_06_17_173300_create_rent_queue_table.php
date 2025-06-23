@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('rent_queue', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
-            $table->timestamp('booked_start');
-            $table->timestamp('booked_end');
+            $table->timestamp('booked_start')->nullable();
+            $table->timestamp('booked_end')->nullable();
             $table->string('user_id');
             $table->timestamps();
         });

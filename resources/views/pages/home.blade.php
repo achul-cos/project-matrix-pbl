@@ -7,15 +7,21 @@
 <section class="flex flex-col p-4 space-y-4" id="welcome">
     <div class="mt-4 bg-white rounded-xl shadow-xl overflow-hidden transition-transform transform hover:scale-101">
         <div class="px-8 pt-8 pb-4 gap-4 grid grid-cols-12">
-            <div class="col-span-2"><hr class="w-auto h-1.75 bg-lime-600 border-0 rounded-lg"></div>
-            <div class="col-span-2"><hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg"></div>
-            <div class="col-span-8"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+            <div class="col-span-2">
+                <hr class="w-auto h-1.75 bg-lime-600 border-0 rounded-lg">
+            </div>
+            <div class="col-span-2">
+                <hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg">
+            </div>
+            <div class="col-span-8">
+                <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+            </div>
         </div>
         <div class="p-8 gap-4 grid grid-cols-2 content-start">
             <div class="grid justify-start pl-2 mr-2 grid-rows-2">
                 <div class="">
                     <h3 class="text-5xl font-bold">Halo, <span class="text-lime-600">{{ Auth::user()->username ?? "Lorem Ipsum"}}</span> </h3>
-                    <p class="text-xl mt-4 text-gray-500">Hari ini sewa komputer apa ya?</p>                        
+                    <p class="text-xl mt-4 text-gray-500">Hari ini sewa komputer apa ya?</p>
                 </div>
                 <div class="flex items-end content-end gap-2">
                     <div class="bg-lime-600 w-5 h-5"></div>
@@ -30,16 +36,20 @@
                 <div class="flex gap-8 justify-end">
                     <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/search"><img src="img/ui/tombol_rtx.png" alt="" class="shadow-md rounded-lg"></a></div>
                     <div class="w-1/5 h-1/5 min-h-2/5 min-w-2/5 transition-transform transform hover:scale-110"><a href="/topup"><img src="img/ui/tombol_isi_token.png" alt="" class="shadow-md rounded-lg"></a></div>
-                </div>    
-            </div>   
+                </div>
+            </div>
         </div>
     </div>
 </section>
 <section class="flex flex-col p-4 space-y-4 mt-4" id="rekomendasi produk">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
         <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Rekomendasi Untukmu</span></div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
     </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
         <div class="transition-transform transform hover:scale-102">
@@ -51,41 +61,45 @@
     </div>
     <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-14 p-4 justify-items-center">
         @foreach ($productTopList as $product)
-            <div class="transition-transform transform hover:scale-102 relative">
-                <img src="{{ asset('img/icon/terlaris.gif') }}" alt="" class="absolute h-20 w-auto -top-10 -left-8">
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                    <a href="{{ route('productPage.show', $product->id) }}">
-                        <img class="rounded-t-lg aspect-1/1 object-cover" 
-                            src="{{ asset($product->image1 ?? 'img/ad/placeholder1.png') }}" 
-                            alt="{{ $product->name }}" />
-                    </a>
-                    <a href="{{ route('productPage.show', $product->id) }}">
-                        <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700">
-                            {{ $product->name }}
-                        </h5>
-                    </a>
-                    <div class="p-5">
-                        <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">
-                            {{ \Illuminate\Support\Str::limit($product->desc, 60, '...') }}
-                        </p>
-                        <div class="py-2 px-5 flex items-center justify-center h-full">
-                            <a href="{{ route('productPage.show', $product->id) }}" 
+        <div class="transition-transform transform hover:scale-102 relative">
+            <img src="{{ asset('img/icon/terlaris.gif') }}" alt="" class="absolute h-20 w-auto -top-10 -left-8">
+            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                <a href="{{ route('productPage.show', $product->id) }}">
+                    <img class="rounded-t-lg aspect-1/1 object-cover"
+                        src="{{ asset($product->image1 ?? 'img/ad/placeholder1.png') }}"
+                        alt="{{ $product->name }}" />
+                </a>
+                <a href="{{ route('productPage.show', $product->id) }}">
+                    <h5 class="mb-2 text-2xl p-3 font-bold text-center tracking-tight text-white dark:text-white bg-lime-700">
+                        {{ $product->name }}
+                    </h5>
+                </a>
+                <div class="p-5">
+                    <p class="mb-5 font-normal text-gray-700 dark:text-gray-400">
+                        {{ \Illuminate\Support\Str::limit($product->desc, 60, '...') }}
+                    </p>
+                    <div class="py-2 px-5 flex items-center justify-center h-full">
+                        <a href="{{ route('productPage.show', $product->id) }}"
                             class="inline-flex items-center px-3 py-2 text-lg font-medium text-center text-white bg-lime-700 rounded-lg hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-900 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring--800">
-                                SEWA
-                            </a>
-                        </div>
+                            SEWA
+                        </a>
                     </div>
                 </div>
             </div>
+        </div>
         @endforeach
     </div>
-    
+
 </section>
 <section class="flex flex-col p-4 space-y-4 mt-4" id="event">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
         <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Event Terbaru</span></div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
     </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
         <div class="">
@@ -144,7 +158,7 @@
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                        <!-- Item 1 -->
+                    <!-- Item 1 -->
                     <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10" data-carousel-item="">
                         <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                     </div>
@@ -196,25 +210,35 @@
 </section>
 <section class="flex flex-col p-4 space-y-4 mt-4" id="artikel">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
         <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Kamu Perlu Tahu Nih</span></div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
     </div>
     <div class="grid grid-cols-12 gap-0 bg-white rounded-xl shadow-xl mx-8 mt-4 max-sm:hidden">
         <img src="{{ asset('img/ad/banner2.png') }}" class="col-span-6 rounded-l-xl">
         <div class="col-span-6 p-8 grid grid-row-4 gap-4">
             <div class="row-span-1">
-                <p class="font-bold text-2xl">Lorem, ipsum dolor sit amet consectetur adipisicing elit</p>
+                <p class="font-bold text-2xl">Apa Itu Matrix? Apakah Ini Hanya Website Biasa?</p>
             </div>
             <div class="row-span-1">
                 <div class="grid grid-cols-12 gap-4 mt-8">
-                    <div class="col-span-6"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
-                    <div class="col-span-3"><hr class="w-auto h-1.75 bg-lime-700 border-0 rounded-lg"></div>
-                    <div class="col-span-3"><hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg"></div>
-                </div>                
+                    <div class="col-span-6">
+                        <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+                    </div>
+                    <div class="col-span-3">
+                        <hr class="w-auto h-1.75 bg-lime-700 border-0 rounded-lg">
+                    </div>
+                    <div class="col-span-3">
+                        <hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg">
+                    </div>
+                </div>
             </div>
             <div class="row-span-1">
-                <p class="pt-4 text-md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet.</p>
+                <p class="pt-4 text-md">Yah sebagai pengembang dari proyek ini, saya bisa katakan bahwa Matrix itu lebih dari sebuah website branding dari sebuah warnet. Dia adalah jantung dari operasional Warnet itu sendiri. Dia dapat menjadi sebuah komunitas, sistem penyewaan dan booking, manajemen dan dashboard Admin.</p>
             </div>
             <div class="row-span-1 mt-8">
                 <a href="#" class="font-bold text-md p-4 bg-lime-800 text-white rounded-md">Baca Selengkapnya</a>
@@ -229,10 +253,16 @@
             </div>
             <div class="row-span-1">
                 <div class="grid grid-cols-12 gap-4 mt-4">
-                    <div class="col-span-6"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
-                    <div class="col-span-3"><hr class="w-auto h-1.75 bg-lime-700 border-0 rounded-lg"></div>
-                    <div class="col-span-3"><hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg"></div>
-                </div>                
+                    <div class="col-span-6">
+                        <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+                    </div>
+                    <div class="col-span-3">
+                        <hr class="w-auto h-1.75 bg-lime-700 border-0 rounded-lg">
+                    </div>
+                    <div class="col-span-3">
+                        <hr class="w-auto h-1.75 bg-red-700 border-0 rounded-lg">
+                    </div>
+                </div>
             </div>
             <div class="row-span-1">
                 <p class="pt-4 text-md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet. Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, voluptates distinctio! Tempora perspiciatis minima ullam repudiandae temporibus illum beatae, aut deleniti odio, cum consequuntur eligendi quis debitis neque dolor? Eveniet.</p>
@@ -241,13 +271,17 @@
                 <a href="#" class="font-bold text-md p-4 bg-lime-800 text-white rounded-md">Baca Selengkapnya</a>
             </div>  --}}
         </div>
-    </div> 
+    </div>
 </section>
 <section class="flex flex-col p-4 space-y-4 mt-4 pb-20" id="aplikasi">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
         <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Game Yang Ada Diwarnet</span></div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2"><hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg"></div>
+        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
+            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
+        </div>
     </div>
     <p class="py-4 font-light text-xl text-center">Game Online & Offline</p>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-10 p-8 place-items-center">
