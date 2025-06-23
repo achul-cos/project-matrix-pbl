@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             CouponSeeder::class,
             RentQueueSeeder::class,
+            EventSeeder::class,
         ]);
     }
 }

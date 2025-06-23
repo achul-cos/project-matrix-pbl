@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -147,9 +146,15 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_management_admin');
     })->name('admin.management_admin');
 
-    Route::resource('/admin/management_admin', AdminController::class);
+    // Route::resource('/admin/management_admin', AdminController::class);
 
-    Route::put('/admin/management_admin/edit_admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::get('/admin/management_admin', [AdminController::class, 'index'])->name('admin.management_admin');
+
+    Route::put('/admin/management_admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
+
+    Route::post('/admin/management_admin/add_admin', [AdminController::class, 'add'])->name('admin.add');
+
+    Route::delete('/admin/management_admin/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
@@ -191,7 +196,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     //     return view('pages/confirm_delete');
     // })->name('konfirmasi.hapus')->middleware('auth');
 
+    Route::put('/admin/management_information/{id}', [AdminController::class, 'update'])->name('informasi.update');
+
     Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
+
+    Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
 
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
