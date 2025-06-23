@@ -43,6 +43,11 @@ class SuggestController extends Controller
         return redirect()->route('suggest.index')->with('success', 'Kritik berhasil dihapus.');
     }
 
+    public function clear()
+{
+    UserSuggest::truncate(); // Menghapus semua data di tabel user_suggest
+    return redirect()->route('suggest.index')->with('success', 'Semua kritik berhasil dihapus.');}
+
     public function export()
     {
         return Excel::download(new SuggestExport, 'data_kritik_matrix.xlsx');

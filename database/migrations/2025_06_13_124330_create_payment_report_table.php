@@ -24,6 +24,8 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('payment_photo')->nullable();
             $table->timestamps();
+            $table->integer('token_amount')->nullable(); // jumlah token yang akan diberikan
+            $table->string('midtrans_payment_type')->nullable(); // e.g. gopay, qris, echannel
         });
     }
 

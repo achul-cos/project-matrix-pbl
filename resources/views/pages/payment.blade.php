@@ -62,10 +62,42 @@
     </div>
 </div>
 
-<!-- Midtrans Snap.js -->
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-7qrxwKqjdzq2q0K6"></script>
+<!-- Tambahkan ini di bagian bawah halaman -->
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 
-<script>
+{{-- <script>
+    document.getElementById("pay-button").addEventListener("click", function () {
+        fetch("/get-snap-token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                qty_token: document.getElementById("qty_token").value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            snap.pay(data.snapToken, {
+                onSuccess: function(result) {
+                    window.location.href = "/topup-success/" + result.order_id;
+                },
+                onPending: function(result) {
+                    alert("Transaksi kamu pending yaa...");
+                },
+                onError: function(result) {
+                    alert("Transaksi error nih.");
+                },
+                onClose: function() {
+                    alert("Kamu belum menyelesaikan pembayaran.");
+                }
+            });
+        });
+    });
+</script> --}}
+
+{{-- <script>
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAmount = parseInt(urlParams.get('token') || 0);
@@ -115,5 +147,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+</script> --}}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenAmount = parseInt(urlParams.get('token') || 0);
+    const pricePerToken = 2000;
+    const totalPrice = tokenAmount * pricePerToken;
+
+    document.getElementById('tokenDisplay').textContent = tokenAmount;
+    document.getElementById('totalPrice').textContent = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+    }).format(totalPrice);
+
+    document.getElementById('pay-button').addEventListener('click', function () {
+        const loadingText = document.getElementById('loading-text');
+        loadingText.classList.remove('hidden');
+
+        fetch('/payment-process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                token_amount: tokenAmount,
+                total: totalPrice
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.snap.pay(data.snap_token, {
+                onSuccess: function (result) {
+                    window.location.href = data.redirect_url;
+                },
+                onPending: function (result) {
+                    window.location.href = data.redirect_url;
+                },
+                onError: function (result) {
+                    loadingText.classList.add('hidden');
+                    alert("Pembayaran gagal. Silakan coba lagi.");
+                }
+            });
+        })
+        .catch(error => {
+            loadingText.classList.add('hidden');
+            alert("Terjadi kesalahan. Coba lagi.");
+            console.error(error);
+        });
+    });
+});
 </script>
+
 @endsection

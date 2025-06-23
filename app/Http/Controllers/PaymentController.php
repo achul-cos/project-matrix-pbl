@@ -7,9 +7,56 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Transaction; // <- pastikan kamu pakai model Transaction
 use Midtrans\Snap;
 use Midtrans\Config;
+use App\Models\PaymentReport;
 
 class PaymentController extends Controller
 {
+    // public function makePayment(Request $request)
+    // {
+    //     // Konfigurasi Midtrans
+    //     Config::$serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
+    //     Config::$isProduction = false;
+    //     Config::$isSanitized = true;
+    //     Config::$is3ds = true;
+
+    //     // Generate ID pesanan unik
+    //     $orderId = uniqid();
+    //     $grossAmount = $request->total;
+
+    //     // Simpan transaksi ke database
+    //     $transaction = Transaction::create([
+    //         'user_id' => Auth::id(),
+    //         'order_id' => $orderId,
+    //         'token_amount' => $request->token_amount,
+    //         'total_price' => $grossAmount,
+    //         'status' => 'pending',
+    //     ]);
+
+    //     // Parameter untuk Midtrans Snap
+    //     $params = [
+    //         'transaction_details' => [
+    //             'order_id' => $orderId,
+    //             'gross_amount' => $grossAmount,
+    //         ],
+    //         'customer_details' => [
+    //             'first_name' => Auth::user()->name ?? 'Guest',
+    //             'email' => Auth::user()->email ?? 'guest@example.com',
+    //         ]
+    //     ];
+
+    //     // Ambil Snap Token dari Midtrans
+    //     $snapToken = Snap::getSnapToken($params);
+
+    //     // Simpan order_id ke sesi (opsional)
+    //     // session(['current_order_id' => $orderId]);
+
+    //     // Kirim response ke frontend berupa token + id transaksi
+    //     return response()->json([
+    //         'snap_token' => $snapToken,
+    //         'redirect_url' => route('topup.success', ['transactionId' => $transaction->id]),
+    //     ]);
+    // }
+
     public function makePayment(Request $request)
     {
         // Konfigurasi Midtrans
@@ -18,20 +65,24 @@ class PaymentController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        // Generate ID pesanan unik
+        // Buat order_id unik
         $orderId = uniqid();
         $grossAmount = $request->total;
 
-        // Simpan transaksi ke database
-        $transaction = Transaction::create([
+        // Simpan ke payment_report
+        $payment = PaymentReport::create([
             'user_id' => Auth::id(),
-            'order_id' => $orderId,
+            'user_username' => Auth::user()->username,
+            'midtrans_id' => $orderId,
+            'qty_bill' => $grossAmount,
             'token_amount' => $request->token_amount,
-            'total_price' => $grossAmount,
+            'payment_method' => 'online', // kalau kamu mau kasih input dari user, bisa pakai $request->payment_method
+            'midtrans_payment_type' => null, // akan diisi saat callback
             'status' => 'pending',
+            'payment_start' => now(),
         ]);
 
-        // Parameter untuk Midtrans Snap
+        // Kirim ke Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -43,16 +94,11 @@ class PaymentController extends Controller
             ]
         ];
 
-        // Ambil Snap Token dari Midtrans
         $snapToken = Snap::getSnapToken($params);
 
-        // Simpan order_id ke sesi (opsional)
-        session(['current_order_id' => $orderId]);
-
-        // Kirim response ke frontend berupa token + id transaksi
         return response()->json([
             'snap_token' => $snapToken,
-            'redirect_url' => route('topup.success', ['transactionId' => $transaction->id]),
+            'redirect_url' => route('topup.success', ['paymentId' => $payment->id]),
         ]);
     }
 
