@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-   
+
     <a href="#editButton" class="p-4 bg-emerald-50 border-2 border-emerald-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
       <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
         <div class="inline-block relative scale-90 bg-emerald-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-emerald-50 z-10">
@@ -113,7 +113,7 @@
           </div>
         </div>
       </div>
-    </a>   
+    </a>
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
@@ -135,14 +135,13 @@
       </thead>
 
       <tbody>
-        
         @foreach ($events as $info)
           @php
-              $badgeClass = match($info->status) {
-                  'aktif' => 'bg-green-100 text-green-800',
-                  'tidak aktif' => 'bg-red-100 text-red-800',
-                  default => 'bg-gray-300 text-gray-700'
-              };
+            $badgeClass = match($info->status) {
+                'aktif' => 'bg-green-100 text-green-800',
+                'tidak aktif' => 'bg-red-100 text-red-800',
+                default => 'bg-gray-300 text-gray-700'
+            };
           @endphp
           <tr class="bg-gray-100 rounded-xl">
             <td class="p-3">{{ $info->id }}</td>
@@ -246,7 +245,7 @@
             <!-- Preview Gambar Input -->
                 <div class="w-auto mb-2">
                     <img id="preview-image"
-                        src="{{ asset("../" . $info->image) }}"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
                         alt="Preview 1"
                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                 </div>
@@ -276,7 +275,7 @@
                     value="{{ old('name') }}"
                     class=" w-full rounded-full "
                     required>
-            
+
             <!-- Input deskripsi -->
             <label for="deskripsi" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">deskripsi</label>
             <input  type="deskripsi"
@@ -296,7 +295,7 @@
                     value="{{ old('link') }}"
                     class=" w-full rounded-full"
                     required>
-                   
+
             <!-- Input Tanggal -->
             <label for="tanggal" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Tanggal info</label>
             <input type="date"
@@ -312,7 +311,7 @@
               <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
               <option value="tidak aktif" {{ old('status') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
             </select>
-          
+
           </div>
         </div>
         <!-- Modal footer -->
@@ -462,7 +461,7 @@
                           <option value="aktif" {{ old('status', $info->status ?? '') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                           <option value="tidak aktif" {{ old('status', $info->status ?? '') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                       </select>
-                 
+
               <!-- Modal footer -->
               <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                   <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
@@ -495,55 +494,55 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi DataTable
-    if (document.getElementById("filter-table") && window.simpleDatatables && typeof simpleDatatables.DataTable !== 'undefined') {
-        const dataTable = new simpleDatatables.DataTable("#filter-table", {
-            tableRender: (_data, table, type) => {
-                if (type === "print") return table;
-                
-                const thead = table.querySelector('thead');
-                if (!thead) return table;
-                
-                const filterRow = document.createElement('tr');
-                filterRow.className = 'search-filtering-row';
-                
-                table.querySelectorAll('thead th').forEach((th, index) => {
-                    const filterTh = document.createElement('th');
-                    const input = document.createElement('input');
-                    input.className = 'datatable-input';
-                    input.type = 'search';
-                    input.dataset.columns = `[${index}]`;
-                    filterTh.appendChild(input);
-                    filterRow.appendChild(filterTh);
-                });
-                
-                thead.appendChild(filterRow);
-                return table;
-            }
-        });
-    }
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Inisialisasi DataTable
+//     if (document.getElementById("filter-table") && window.simpleDatatables && typeof simpleDatatables.DataTable !== 'undefined') {
+//         const dataTable = new simpleDatatables.DataTable("#filter-table", {
+//             tableRender: (_data, table, type) => {
+//                 if (type === "print") return table;
 
-    // Auto-hide toast
-    const toast = document.getElementById('toast-success');
-    if (toast) {
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 5000);
-    }
-});
+//                 const thead = table.querySelector('thead');
+//                 if (!thead) return table;
+
+//                 const filterRow = document.createElement('tr');
+//                 filterRow.className = 'search-filtering-row';
+
+//                 table.querySelectorAll('thead th').forEach((th, index) => {
+//                     const filterTh = document.createElement('th');
+//                     const input = document.createElement('input');
+//                     input.className = 'datatable-input';
+//                     input.type = 'search';
+//                     input.dataset.columns = `[${index}]`;
+//                     filterTh.appendChild(input);
+//                     filterRow.appendChild(filterTh);
+//                 });
+
+//                 thead.appendChild(filterRow);
+//                 return table;
+//             }
+//         });
+//     }
+
+//     // Auto-hide toast
+//     const toast = document.getElementById('toast-success');
+//     if (toast) {
+//         setTimeout(() => {
+//             toast.classList.add('hidden');
+//         }, 5000);
+//     }
+// });
 
 function previewImage(info, number) {
     const input = info.target;
     const preview = document.getElementById(`preview-image${number}`);
-    
+
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        
+
         reader.onload = function(e) {
             preview.src = e.target.result;
         }
-        
+
         reader.readAsDataURL(input.files[0]);
     }
 }

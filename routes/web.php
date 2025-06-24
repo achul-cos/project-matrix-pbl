@@ -58,10 +58,6 @@ Route::get('/otp', function () {
     return view('pages.otp');
 });
 
-// Route::middleware(['csrf'])->group(function () {
-//     Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback']);
-// });
-
 Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback'])->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
@@ -73,7 +69,6 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/topup', function () {
         return view('pages.topup');
     })->name('topup');
-
 
     Route::get('/profile', function () {
         return view('pages.profile');
@@ -88,7 +83,6 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     })->name('profile.history_rent');
 
     Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
-
 
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');
@@ -158,26 +152,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_live_rent_report');
     })->name('admin.live_rent_report');
 
-
-    Route::get('/admin/management_account', function () {
-        return view('pages.admin_management_account');
-    })->name('admin.management_account');
-
-
-    Route::get('/admin/management_admin', function () {
-        return view('pages.admin_management_admin');
-    })->name('admin.management_admin');
-
-    // Route::resource('/admin/management_admin', AdminController::class);
-
-    Route::get('/admin/management_admin', [AdminController::class, 'index'])->name('admin.management_admin');
-
-    Route::put('/admin/management_admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
-
-    Route::post('/admin/management_admin/add_admin', [AdminController::class, 'add'])->name('admin.add');
-
-    Route::delete('/admin/management_admin/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
-
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
@@ -188,7 +162,13 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::get('/admin/management_admin', [AdminController::class, 'index'])->name('admin.management_admin');
 
+    // Route::put('/admin/management_admin/update_admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
+
     Route::put('/admin/management_admin/edit_admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+
+    Route::post('/admin/management_admin/add_admin', [AdminController::class, 'add'])->name('admin.add');
+
+    Route::delete('/admin/management_admin/delete_admin/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/admin/management_computer', [ProductController::class, 'readProductManagement'])->name('admin.management_computer');
 
@@ -210,18 +190,12 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->middleware('auth')->name('profile.destroy');
 
-});
-
     Route::put('/admin/management_information/{id}', [AdminController::class, 'update'])->name('informasi.update');
 
     Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
 
-
-Route::middleware('auth')->group(function () {
-Route::get('/payment', [PaymentController::class, 'index']);
-Route::post('/payment-process', [PaymentController::class, 'makePayment']);
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
     Route::delete('/admin/management_account/delete_user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
@@ -229,8 +203,6 @@ Route::post('/payment-process', [PaymentController::class, 'makePayment']);
     Route::delete('/admin/management_account/delete-all_user', [UserController::class, 'deleteAllUsers'])->name('admin.users.deleteAll');
 
     Route::put('/admin/management_account/edit_user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
-
-    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     // Topup melalui admin
     Route::post('/admin/management_account/topup_user', [TopupController::class, 'adminTopup'])->name('admin.topup');
@@ -248,8 +220,15 @@ Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
-
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
+});
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/payment', [PaymentController::class, 'index']);
+
+    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 });
 
 // API Routes untuk AJAX
@@ -276,17 +255,6 @@ Route::middleware(['auth'])->group(function () {
         return response()->json(['found' => false]);
     })->name('api.check-user');
 });
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/payment', [PaymentController::class, 'index']);
-//     Route::post('/payment-process', [PaymentController::class, 'makePayment']);
-
-//     // Ini redirect ke halaman sukses, bawa ID
-//     Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
-
-//     // Unduh struk
-//     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
-// });
 
 Route::get('/test-log', function () {
     Log::info('✅ Log jalan dari route test-log');

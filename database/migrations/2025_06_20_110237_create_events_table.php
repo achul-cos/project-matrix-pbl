@@ -24,13 +24,6 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    // public function up(): void
-    // {
-    //     Schema::create('events', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->timestamps();
-    //     });
-    // }
 
     /**
      * Reverse the migrations.
