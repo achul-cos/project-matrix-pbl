@@ -113,8 +113,7 @@
           </div>
         </div>
       </div>
-    </a>
-          
+    </a>   
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
@@ -122,7 +121,7 @@
       <thead>
         <tr class="bg-gray-200 text-sm text-gray-700">
           @php
-            $headers = ['ID', 'Foto', 'Nama info', 'Deskripsi', 'Link', 'Tanggal info', 'status', 'Aksi'];
+            $headers = ['ID', 'Foto', 'Event', 'Deskripsi', 'Link', 'Tanggal Event', 'status', 'Aksi'];
           @endphp
           @foreach($headers as $i => $h)
             <th class="p-3 {{ $i==0?'rounded-l-lg':'' }} {{ $i==count($headers)-1?'rounded-r-lg':'' }}">
@@ -149,7 +148,7 @@
             <td class="p-3">{{ $info->id }}</td>
 
             <td class="p-3 flex items-center gap-3">
-              <img src="{{ asset($vent->image1) }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+              <img src="{{ asset($info->image) }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
             </td>
             <td class="p-3">{{ $info->name }}</td>
             <td class="p-3">{{ $info->deskripsi }}</td>
@@ -160,7 +159,7 @@
                     {{ $info->status }}
                 </span>
             </td>
-            <td class="p-3">{{ $info->aksi }}</td>
+
             <td class="p-3 space-x-2">
               <div  id="editButton"
                     data-modal-target="edit-modal-{{ $info->id }}"
@@ -240,14 +239,14 @@
 
           {{-- Form Input Gambar --}}
 
-          <form id="yourFormID" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="">
+          <form id="yourFormID" action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data" class="">
           @csrf
           <div class="flex flex-col items-center gap-4 p-8">
 
             <!-- Preview Gambar Input -->
                 <div class="w-auto mb-2">
-                    <img id="preview-image1"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
+                    <img id="preview-image"
+                        src="{{ asset("../" . $info->image) }}"
                         alt="Preview 1"
                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                 </div>
@@ -256,10 +255,10 @@
             <div class="flex flex-row gap-4 mb-8">
               <div class="">
                 <div class="">
-                  <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
+                  <label for="image" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
                   <input type="file"
-                        name="image1"
-                        id="image1"
+                        name="image"
+                        id="image"
                         accept=".jpg,.jpeg,.png,.webp"
                         onchange="previewImage(info, 1)"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
@@ -290,12 +289,30 @@
 
             <!-- Input link -->
             <label for="link" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">link</label>
-            <input id="link"
+            <input type="url"
+                    id="link"
                     name="link"
                     placeholder="link info"
                     value="{{ old('link') }}"
                     class=" w-full rounded-full"
                     required>
+                   
+            <!-- Input Tanggal -->
+            <label for="tanggal" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Tanggal info</label>
+            <input type="date"
+                   id="tanggal"
+                   name="tanggal"
+                   value="{{ old('tanggal') }}"
+                   class="w-full rounded-full p-2 border border-gray-300"
+                   required>
+
+            <!-- input status -->
+            <label for="status" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Status</label>
+            <select name="status" id="status" class="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring" required>
+              <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+              <option value="tidak aktif" {{ old('status') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+            </select>
+          
           </div>
         </div>
         <!-- Modal footer -->
@@ -368,7 +385,7 @@
               <div class="p-4 md:p-5 space-y-4">
 
                 {{-- Form Input Gambar --}}
-                <form id="yourFormID" action="{{ route('info.update', $info->id) }}" method="POST" enctype="multipart/form-data" class="">
+                <form id="yourFormID" action="{{ route('informasi.update', $info->id) }}" method="POST" enctype="multipart/form-data" class="">
                 @csrf
                 @method('PUT')
                 <div class="flex flex-col items-center gap-4 p-8">
@@ -376,8 +393,8 @@
                   <!-- Preview Gambar Input -->
                       <!-- Preview Gambar -->
                       <div class="w-auto mb-2">
-                          <img id="preview-image1"
-                              src="{{ isset($info) ? asset('storage/' . $info->image1) : asset('img/ad/placeholder2.png') }}"
+                          <img id="preview-image"
+                              src="{{ isset($info) ? asset('storage/' . $info->image) : asset('img/ad/placeholder2.png') }}"
                               alt="Preview Gambar info"
                               class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                       </div>
@@ -386,10 +403,10 @@
                       <div class="flex flex-row gap-4 mb-8">
                           <div class="">
                               <div class="">
-                                  <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
+                                  <label for="image" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
                                   <input type="file"
-                                        name="image1"
-                                        id="image1"
+                                        name="image"
+                                        id="image"
                                         accept=".jpg,.jpeg,.png,.webp"
                                         onchange="previewImage(info, 1)"
                                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
@@ -432,7 +449,7 @@
                       <input type="date"
                             id="tanggal"
                             name="tanggal"
-                            value="{{ old('tanggal', isset($info) ? $info->tanggal->format('Y-m-d') : '') }}"
+                            value="{{ old('tanggal') }}"
                             class="w-full rounded-full p-2 border border-gray-300"
                             required>
 
@@ -478,7 +495,7 @@
 </div>
 
 <script>
-document.addinfoListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi DataTable
     if (document.getElementById("filter-table") && window.simpleDatatables && typeof simpleDatatables.DataTable !== 'undefined') {
         const dataTable = new simpleDatatables.DataTable("#filter-table", {

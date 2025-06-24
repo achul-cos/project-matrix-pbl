@@ -1,12 +1,12 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InformasiController;
 use Illuminate\Http\Request;
@@ -95,6 +95,8 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
+    Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
+
     Route::get('/developer', function () {
         return view('pages.developer');
     })->name('developer');
@@ -110,6 +112,20 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
 
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
+
+    Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
+
+    Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
+    Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
+
+    Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
+    Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
+
+    Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
+    Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
+
+    Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
+    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
 
     Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
 
@@ -141,6 +157,26 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_live_rent_report');
     })->name('admin.live_rent_report');
 
+
+    Route::get('/admin/management_account', function () {
+        return view('pages.admin_management_account');
+    })->name('admin.management_account');
+
+
+    Route::get('/admin/management_admin', function () {
+        return view('pages.admin_management_admin');
+    })->name('admin.management_admin');
+
+    // Route::resource('/admin/management_admin', AdminController::class);
+
+    Route::get('/admin/management_admin', [AdminController::class, 'index'])->name('admin.management_admin');
+
+    Route::put('/admin/management_admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
+
+    Route::post('/admin/management_admin/add_admin', [AdminController::class, 'add'])->name('admin.add');
+
+    Route::delete('/admin/management_admin/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
+
     Route::get('/admin/rent_report', function () {
         return view('pages.admin_rent_report');
     })->name('admin.rent_report');
@@ -169,8 +205,22 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::post('/admin/management_account/add_user', [UserController::class, 'simpanUserAdmin'])->name('admin.tambahUser');
 
-    Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
+    Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');;
 
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->middleware('auth')->name('profile.destroy');
+
+});
+
+    Route::put('/admin/management_information/{id}', [AdminController::class, 'update'])->name('informasi.update');
+
+    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
+
+    Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
+
+
+Route::middleware('auth')->group(function () {
+Route::get('/payment', [PaymentController::class, 'index']);
+Route::post('/payment-process', [PaymentController::class, 'makePayment']);
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
     Route::delete('/admin/management_account/delete_user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');

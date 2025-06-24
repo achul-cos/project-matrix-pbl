@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('deskripsi');
-            $table->string('image1')->nullable();
+            $table->string('image')->nullable();
             $table->string('link');
             $table->date('tanggal');
             $table->enum('status', ['aktif', 'tidak aktif'])->default('aktif');

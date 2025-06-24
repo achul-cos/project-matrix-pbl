@@ -15,30 +15,52 @@ class InformasiController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'deskripsi' => 'required',
-            'image1' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'link' => 'required',
-            'tanggal' => 'required|date'
-        ]);
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:191',
+        'deskripsi' => 'required',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'link' => 'nullable|string|max:191',
+        'tanggal' => 'required|date',
+        'status' => 'required|in:aktif,tidak aktif',
+    ]);
 
-        // Format tanggal dari d/m/Y ke Y-m-d
-        $formattedDate = \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d');
-
-        $imagePath = $request->file('image1')->store('event_images', 'public');
-
-        Event::create([
-            'name' => $request->name,
-            'deskripsi' => $request->deskripsi,
-            'image1' => $imagePath,
-            'link' => $request->link,
-            'tanggal' => $formattedDate  // Gunakan tanggal yang sudah diformat
-        ]);
-
-        return redirect()->route('pages.admin_management_information')->with('success', ['message' => 'Event berhasil ditambahkan!']);
+    // simpan file kalau ada
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('event_images', 'public');
+        $validated['image'] = 'storage/' . $path;
     }
+
+    Event::create($validated);
+
+    return redirect()->back()->with('success', 'Event berhasil disimpan!');
+}
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'deskripsi' => 'required',
+    //         'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //         'link' => 'required',
+    //         'tanggal' => 'required|date'
+    //     ]);
+
+    //     // Format tanggal dari d/m/Y ke Y-m-d
+    //     $formattedDate = \Carbon\Carbon::createFromFormat('d/m/Y', $request->tanggal)->format('Y-m-d');
+
+    //     $imagePath = $request->file('photo')->store('event_images', 'public');
+
+    //     Event::create([
+    //         'name' => $request->name,
+    //         'deskripsi' => $request->deskripsi,
+    //         'photo' => $imagePath,
+    //         'link' => $request->link,
+    //         'tanggal' => $formattedDate  // Gunakan tanggal yang sudah diformat
+    //     ]);
+
+    //     return redirect()->route('pages.admin_management_information')->with('success', ['message' => 'Event berhasil ditambahkan!']);
+    // }
 
     // app/Http/Controllers/EventController.php
 
@@ -68,9 +90,9 @@ class InformasiController extends Controller
             'tanggal' => $request->tanggal
         ]);
 
-        if ($request->hasFile('image1')) {
-            $imagePath = $request->file('image1')->store('event_images', 'public');
-            $data['image1'] = $imagePath;
+        if ($request->hasFile('photo')) {
+            $imagePath = $request->file('photo')->store('event_images', 'public');
+            $data['photo'] = $imagePath;
         }
 
         $event->update($data);

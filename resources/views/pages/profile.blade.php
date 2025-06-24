@@ -85,6 +85,41 @@
         </div>
     </div>
 
+<!-- Modal Konfirmasi Hapus Akun -->
+<div id="hapus-akun-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-opacity-50">
+  <div class="bg-white rounded-2xl shadow-xl w-100 relative p-6">
+    <button onclick="closeHapusModal()" class="absolute right-4 top-4 text-gray-500 hover:text-red-600 text-2xl font-bold">×</button>
+
+    <div class="space-y-4 text-center">
+      <h3 class="text-xl font-semibold text-[#556B2F]">⚠️ Hapus Akun</h3>
+      <p class="text-gray-700">Apakah Anda yakin ingin menghapus akun?<br><span class="font-medium text-red-500">Tindakan ini tidak dapat dibatalkan!</span></p>
+
+      <form method="POST" action="{{ route('hapus.akun') }}">
+        @csrf
+        @method('DELETE')
+
+        <div class="mt-6 flex justify-center gap-4">
+          <button type="button" onclick="closeHapusModal()" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-[#556B2F] text-white hover:bg-[#445522]">
+            Hapus Akun
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  function openHapusModal() {
+    document.getElementById('hapus-akun-modal').classList.remove('hidden');
+  }
+
+  function closeHapusModal() {
+    document.getElementById('hapus-akun-modal').classList.add('hidden');
+  }
+</script>
+
 </div>
 
 <!-- Cropper.js JS -->

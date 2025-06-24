@@ -60,18 +60,18 @@
 
   <section id="product-tools" class="flex flex-row flex-wrap gap-2 p-4 bg-gray-300 rounded-xl mb-10">
     <div data-modal-target="add-modal" data-modal-toggle="add-modal" class="p-4 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-gray-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-gray-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-gray-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-gray-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             TAMBAH
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
             Tambahkan data admin.
           </div>
         </div>
@@ -79,36 +79,36 @@
     </div>
    
     <a href="#editButton" class="p-4 bg-emerald-50 border-2 border-emerald-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-emerald-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-emerald-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-emerald-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-emerald-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             EDIT
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
             Edit data admin.
           </div>
         </div>
       </div>
     </a>
     <a href="#deleteButton" class="p-4 bg-rose-50 border-2 border-rose-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-rose-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-rose-50 z-10">
           <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-rose-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-rose-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             HAPUS
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
             Hapus data Admin.
           </div>
         </div>
@@ -143,12 +143,15 @@
             <td class="p-3">{{ $admin->id }}</td>
 
             <td class="p-3 flex items-center gap-3">
-              <img src="{{ asset($admin->image1) }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+            <img src="{{ $admin->photo ? asset('storage/' . str_replace('storage/', '', $admin->photo)) : asset('img/default-profile.png') }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+
+
+
             </td>
             <td class="p-3">{{ $admin->name }}</td>
             <td class="p-3">{{ $admin->email }}</td>
             <td class="p-3 capitalize">{{ $admin->role }}</td>
-
+            
             {{-- <td class="p-3">
               <span class="px-3 py-1 text-xs transform transition-transform active:scale-90 font-semibold rounded-full {{ $badgeClass }}">
                 {{ ucfirst($admin->role) }}
@@ -173,47 +176,9 @@
         @endforeach
       </tbody>
     </table>
-    {{-- Paginate link --}}
-    {{-- <div class="mt-4">{{ $products->links() }}</div> --}}
   </section>
 
   <section id="modal">
-  <!-- Delete All Modal -->
-  <div id="delete-all-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div class="relative p-4 w-full max-w-2xl max-h-full">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-              <!-- Modal header -->
-              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Konfirmasi Hapus SEMUA Data Komputer
-                  </h3>
-                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-all-modal">
-                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                      </svg>
-                      <span class="sr-only">Close modal</span>
-                  </button>
-              </div>
-              <!-- Modal body -->
-              <div class="p-4 md:p-5 space-y-4">
-                  <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      Perlu sangat anda perhatikan, bahwa data SELURUH data komputer warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
-                  </p>
-              </div>
-              <!-- Modal footer -->
-              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                  <form action="{{ route('products.deleteAll') }}" method="POST">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
-                  </form>
-                  <button data-modal-hide="delete-all-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
-              </div>
-          </div>
-      </div>
-  </div>
-
   <!-- Add Modal -->
   <div id="add-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -236,78 +201,27 @@
 
           {{-- Form Input Gambar --}}
 
-          <form id="yourFormID" action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="">
+          <form id="yourFormID" action="{{ route('admin.add') }}" method="POST" enctype="multipart/form-data" class="">
           @csrf
           <div class="flex flex-col items-center gap-4 p-8">
 
             <!-- Preview Gambar Input -->
-                <div class="w-auto mb-2">
-                    <img id="preview-image1"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
-                        alt="Preview 1"
-                        class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                </div>
-                {{-- <div class="flex flex-row mb-2 justify-between flex-wrap">
-                    <img id="preview-image2"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
-                        alt="Preview 2"
-                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                    <img id="preview-image3"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
-                        alt="Preview 3"
-                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                    <img id="preview-image4"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
-                        alt="Preview 4"
-                        class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                </div> --}}
+            <div class="w-auto mb-2">
+                <img id="preview-photo"
+                    src="{{ asset('images/ad/ara.jpg') }}"
+                    alt="Preview 1"
+                    class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+            </div>
 
             <!-- Input Gambar -->
-            <div class="flex flex-row gap-4 mb-8">
-              <div class="">
-                <div class="">
-                  <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
-                  <input type="file"
-                        name="image1"
-                        id="image1"
-                        accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(event, 1)"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                        required>
-                </div>
-                {{-- <div class="mt-8">
-                  <label for="image2" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 2</label>
-                  <input type="file"
-                        name="image2"
-                        id="image2"
-                        accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(event, 2)"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                        required>
-                </div>
-              </div>
-              <div class="">
-                <div class="">
-                  <label for="image3" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 3</label>
-                  <input type="file"
-                        name="image3"
-                        id="image3"
-                        accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(event, 3)"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                        required>
-                </div>
-                <div class="mt-8">
-                  <label for="image4" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 4</label>
-                  <input type="file"
-                        name="image4"
-                        id="image4"
-                        accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(event, 4)"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                        required>
-                </div> --}}
-              </div>
+            <div class="gap-4 mb-8">
+              <label for="photo" class="block text-base text-center mb-4 font-medium text-gray-700">Foto Admin</label>
+              <input type="file"
+                    name="photo"
+                    id="photo"
+                    accept=".jpg,.jpeg,.png,.webp"
+                    onchange="previewImage(event, 1)"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
             </div>
 
             <!-- Input Name -->
@@ -319,6 +233,26 @@
                     value="{{ old('name') }}"
                     class=" w-full rounded-full "
                     required>
+
+            <!-- Input Password -->
+            <label for="password" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Password</label>
+            <div class="w-full mb-4 relative">
+                <input id="password" type="password" name="password" placeholder="Masukkan Password" minlength="8" value="{{ old('password') }}" required
+                    class="w-full border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
+                <button type="button"
+                    class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
+                    onclick="togglePasswordVisibility('password', 'eye-icon-password')"
+                    aria-label="Toggle password visibility">
+                    <svg id="eye-icon-password" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
             
             <!-- Input email -->
             <label for="email" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Email</label>
@@ -328,9 +262,6 @@
                     placeholder="Masukkan Email"
                     value="{{ old('email') }}"
                     class=" w-full rounded-full "
-                    {{-- min="1"
-                    step="1"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" --}}
                     required>
 
             <!-- Input role -->
@@ -341,8 +272,8 @@
                     value="{{ old('role') }}"
                     class=" w-full rounded-full"
                     required>
-            <option>Super Admin</option>
-            <option>Admin</option>
+            <option value="super_admin">Super Admin</option>
+            <option value="admin" selected>Admin</option>
             </select>
           </div>
         </div>
@@ -366,7 +297,7 @@
               <!-- Modal header -->
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Konfirmasi Hapus Data Komputer {{ $admin->name }}
+                    Konfirmasi Hapus Data Admin {{ $admin->name }}
                   </h3>
                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $admin->id }}">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -378,12 +309,12 @@
               <!-- Modal body -->
               <div class="p-4 md:p-5 space-y-4">
                   <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      Perlu anda perhatikan, bahwa data data komputer {{ $admin->name }} warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
+                      Perlu anda perhatikan, bahwa data data admin {{ $admin->name }}  akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data admin ini dapat dihapus semuanya.
                   </p>
               </div>
               <!-- Modal footer -->
               <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                  <form action="{{ route('products.destroy', $admin->id) }}" method="POST">
+                  <form action="{{ route('admin.destroy', $admin->id) }}" method="POST">
                       @csrf
                       @method('DELETE')
                       <button type="submit" class="text-white bg-red-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">HAPUS</button>
@@ -402,7 +333,7 @@
               <!-- Modal header -->
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                      Edit Data Admin {{ $admin->name }}
+                      Edit Data {{ $admin->name }}
                   </h3>
                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal-{{ $admin->id }}">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -422,30 +353,34 @@
                 <div class="flex flex-col items-center gap-4 p-8">
 
                   <!-- Preview Gambar Input -->
-                      <div class="w-auto mb-2">
-                          <img id="preview-image1"
-                              src="{{ asset("../" . $admin->image1) }}"
-                              alt="Preview 1"
-                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                      </div>
+                  <div class="w-auto mb-2">
+                    <img id="preview-photo"
+                        src="{{ $admin->photo ? asset('storage/' . $admin->photo) : asset('img/ad/placeholder2.png') }}"
+                        alt="Preview 1"
+                        class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                  </div>
 
                   <!-- Input Gambar -->
-                  <div class="flex flex-row gap-4 mb-8">
-                    <div class="">
-                      <div class="">
-                        <label for="image1" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
-                        <input type="file"
-                              name="image1"
-                              id="image1"
-                              value="{{ $admin->image1 }}"
-                              accept=".jpg,.jpeg,.png,.webp"
-                              onchange="previewImage(event, 1)"
-                              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
-                      </div>
+                  <div class="gap-4 flex gap-y-8 flex-col mb-8">
+                    <label for="photo" class="block text-base text-center font-medium text-gray-700">Foto Admin</label>
+                    <input type="file"
+                          name="photo"
+                          id="photo"
+                          value="{{ $admin->photo }}"
+                          accept=".jpg,.jpeg,.png,.webp"
+                          onchange="previewImage(event, 1)"
+                          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                    <a
+                      href="{{ $admin->photo ? asset('storage/' . $admin->photo) : asset('img/ad/placeholder2.png') }}"
+                      download="{{ $admin->name }}_photo.jpg"
+                      class="block p-2 bg-slate-400 text-white rounded shadow hover:bg-slate-800 transition text-center"
+                    >
+                      Download Foto Profil
+                    </a>
                   </div>
 
                   <!-- Input Name -->
-                  <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Komputer</label>
+                  <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Admin</label>
                   <input  type="text"
                           id="name"
                           name="name"
@@ -458,7 +393,7 @@
                   <label for="email" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Email</label>
                   <input  type="email"
                           id="email"
-                          name="Email"
+                          name="email"
                           placeholder="Masukkan Email"
                           value="{{ $admin->email }}"
                           class=" w-full rounded-full "
@@ -472,13 +407,16 @@
                     value="{{ old('role') }}"
                     class=" w-full rounded-full"
                     required>
-                  <option>Super Admin</option>
-                  <option>Admin</option>
+                  <option value="super_admin">Super Admin</option>
+                  <option value="admin">Admin</option>
                   </select>
+
+                </div>
+              </div>
                  
               <!-- Modal footer -->
               <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                  <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
+                  <button type="submit" onclick="setTimeout(() => window.location.reload(), 100);" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
                   <input data-modal-hide="edit-modal-{{ $admin->id }}" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                   </form>
               </div>
