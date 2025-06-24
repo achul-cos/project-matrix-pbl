@@ -220,6 +220,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
+
+    Route::get('/admin/saran-kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
 });
 
 

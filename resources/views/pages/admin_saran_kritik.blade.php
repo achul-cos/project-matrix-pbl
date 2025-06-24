@@ -3,8 +3,8 @@
 @section('title', 'Admin - Kritik dan Saran')
 
 @section('content')
-<div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4 text-[#1e293b]">Manajemen Kritik & Saran</h1>
+<div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold my-4 text-[#1e293b]">Management Kritik & Saran</h1>
 
     <div class="flex justify-between items-center mb-4">
         <form action="{{ route('admin.management_kritik') }}" method="GET" class="flex gap-2">
@@ -12,12 +12,21 @@
             <input type="date" name="to" value="{{ request('to') }}" class="border border-gray-300 p-2 rounded-md shadow-sm" />
             <button type="submit" class="bg-[#1e293b] text-white px-4 py-2 rounded-md hover:bg-[#334155] transition">Filter</button>
         </form>
-        <a href="{{ route('suggest.export') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Export Excel</a>
+        <div class="flex gap-2">
+            <a href="{{ route('suggest.export', ['from' => request('from'), 'to' => request('to')]) }}"
+                class="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Export Excel
+            </a>
+            <a href="{{ route('suggest.export_pdf', ['from' => request('from'), 'to' => request('to')]) }}"
+                class="bg-blue-800 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                Export PDF
+            </a>
+        </div>
     </div>
 
-    <div class="overflow-x-auto bg-white shadow-md rounded-2xl border-2 border-[#1e293b] p-4">
+    <div class="overflow-x-auto bg-white shadow-md rounded-2xl border-4 border-slate-800 p-4">
         <table class="min-w-full table-auto divide-y divide-gray-200">
-            <thead class="bg-gray-100 text-[#1e293b]">
+            <thead class="bg-gray-100 text-[#1e293b] round">
                 <tr>
                     <th class="px-4 py-3 text-left">No</th>
                     <th class="px-4 py-3 text-left">Isi Pesan</th>
