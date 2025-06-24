@@ -33,10 +33,19 @@ class TopupController extends Controller
     {
         $payment = PaymentReport::findOrFail($paymentId);
 
+        // Jika status masih pending, cek status ke Xendit
+        if ($payment->status === 'pending') {
+            $xenditController = new XenditPaymentController();
+            $xenditController->checkPaymentStatus($paymentId);
+            $payment->refresh(); // Refresh data terbaru
+        }
+
         return view('pages.topup-success', [
-            'transactionId' => $payment->id, // boleh ganti nama variabel kalau mau
+            'transactionId' => $payment->external_id,
             'tokens' => $payment->token_amount,
             'total' => $payment->qty_bill,
+            'status' => $payment->status,
+            'payment' => $payment
         ]);
     }
 
@@ -45,14 +54,40 @@ class TopupController extends Controller
      */
     public function downloadReceipt($id)
     {
-        $transaction = Transaction::findOrFail($id);
+        try {
+            $payment = PaymentReport::findOrFail($id);
 
-        $pdf = PDF::loadView('pdf.receipt', [
-            'transaction' => $transaction,
-            'date' => Carbon::now()->format('d M Y, H:i')
-        ]);
+            // Jika topup via kupon, kita tidak punya data token_amount di payment_report
+            $tokens = $payment->token_amount;
+            $amount = $payment->qty_bill;
 
-        return $pdf->download('struk-topup-' . $transaction->id . '.pdf');
+            // Coba ambil dari topup report jika ada
+            if ($topup = TopUpReport::where('payment_id', $payment->id)->first()) {
+                $tokens = $topup->qty_token;
+                $amount = $topup->qty_bill;
+            } else {
+                // Fallback jika tidak ada data topup
+                $tokens = $tokens ?? 0;
+                $amount = $payment->qty_bill;
+            }
+
+            $pdf = PDF::loadView('pdf.receipt', [
+                'transaction' => (object) [
+                    'id' => $payment->external_id ?? $payment->id,
+                    'tokens' => $tokens,
+                    'amount' => $amount,
+                    'method' => $payment->payment_method,
+                    'date' => $payment->payment_start,
+                    'user' => $payment->user,
+                ],
+                'date' => Carbon::now()->format('d M Y, H:i')
+            ]);
+
+            // Pastikan untuk mengembalikan response download
+            return $pdf->download('receipt-' . ($payment->external_id ?? $payment->id) . '.pdf');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Struk tidak ditemukan']);
+        }
     }
 
     /**
@@ -108,31 +143,31 @@ class TopupController extends Controller
     /**
      * Topup online oleh user
      */
-    public function userTopup(Request $request)
-    {
-        $request->validate([
-            'payment_method' => 'required|in:transfer,coupon',
-            'qty_token' => 'required_unless:payment_method,coupon|integer|min:1',
-            'coupon' => 'nullable|required_if:payment_method,coupon|string',
-            'note' => 'nullable|string',
-            'payment_photo' => 'required_unless:payment_method,coupon|image|mimes:jpeg,png,jpg,webp|max:2048'
-        ]);
+    // public function userTopup(Request $request)
+    // {
+    //     $request->validate([
+    //         'payment_method' => 'required|in:transfer,coupon',
+    //         'qty_token' => 'required_unless:payment_method,coupon|integer|min:1',
+    //         'coupon' => 'nullable|required_if:payment_method,coupon|string',
+    //         'note' => 'nullable|string',
+    //         'payment_photo' => 'required_unless:payment_method,coupon|image|mimes:jpeg,png,jpg,webp|max:2048'
+    //     ]);
 
-        DB::beginTransaction();
+    //     DB::beginTransaction();
 
-        try {
-            $user = Auth::user();
+    //     try {
+    //         $user = Auth::user();
 
-            if ($request->payment_method === 'coupon') {
-                return $this->processCouponTopup($request, $user, false);
-            } else {
-                return $this->processRegularTopup($request, $user, false);
-            }
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
-    }
+    //         if ($request->payment_method === 'coupon') {
+    //             return $this->processCouponTopup($request, $user, false);
+    //         } else {
+    //             return $this->processRegularTopup($request, $user, false);
+    //         }
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+    //     }
+    // }
 
     /**
      * Proses topup reguler (cash/transfer)
@@ -340,27 +375,27 @@ class TopupController extends Controller
     /**
      * Selesaikan proses topup
      */
-    private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
-    {
-        // Buat topup report
-        TopUpReport::create([
-            'user_id' => $user->id,
-            'payment_id' => $paymentReport->id,
-            'qty_token' => $qtyToken,
-            'qty_bill' => $paymentReport->qty_bill,
-            'topup_method' => $topupMethod,
-            'payment_method' => $paymentReport->payment_method,
-            'note' => $paymentReport->note,
-            'paid_at' => now()
-        ]);
+    // private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
+    // {
+    //     // Buat topup report
+    //     TopUpReport::create([
+    //         'user_id' => $user->id,
+    //         'payment_id' => $paymentReport->id,
+    //         'qty_token' => $qtyToken,
+    //         'qty_bill' => $paymentReport->qty_bill,
+    //         'topup_method' => $topupMethod,
+    //         'payment_method' => $paymentReport->payment_method,
+    //         'note' => $paymentReport->note,
+    //         'paid_at' => now()
+    //     ]);
 
-        // Tambah token ke user
-        $before = $user->token;
-        $user->increment('token', $qtyToken);
-        $after = $user->fresh()->token;
+    //     // Tambah token ke user
+    //     $before = $user->token;
+    //     $user->increment('token', $qtyToken);
+    //     $after = $user->fresh()->token;
 
-        Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
-    }
+    //     Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
+    // }
 
     /**
      * Konfirmasi pembayaran oleh admin (untuk topup online yang pending)
@@ -623,5 +658,121 @@ class TopupController extends Controller
             ->get();
 
         return view('pages.admin_topup_report', compact('topups', 'payments'));
+    }
+
+    public function userTopup(Request $request)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:transfer,coupon',
+            'qty_token' => 'required_unless:payment_method,coupon|integer|min:1',
+            'coupon' => 'nullable|required_if:payment_method,coupon|string',
+            'note' => 'nullable|string',
+            'payment_photo' => 'required_unless:payment_method,coupon|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $user = Auth::user();
+
+            if ($request->payment_method === 'coupon') {
+                return $this->processCouponTopup($request, $user, false);
+            } else {
+                // Redirect ke Xendit untuk pembayaran transfer
+                return $this->initiateXenditPayment($request, $user);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
+
+    private function initiateXenditPayment(Request $request, User $user)
+    {
+        $qtyToken = $request->qty_token;
+        $qtyBill = $qtyToken * self::TOKEN_PRICE;
+
+        // Buat payment report
+        $paymentReport = PaymentReport::create([
+            'user_id' => $user->id,
+            'user_username' => $user->username,
+            'qty_bill' => $qtyBill,
+            'token_amount' => $qtyToken,
+            'payment_method' => 'online',
+            'status' => 'pending',
+            'payment_start' => now(),
+            'external_id' => (string) Str::uuid(),
+        ]);
+
+        // Panggil Xendit controller
+        $xenditController = new XenditPaymentController();
+        $response = $xenditController->makePayment(new Request([
+            'token_amount' => $qtyToken,
+            'total' => $qtyBill,
+        ]));
+
+        // Handle response JSON
+        $responseData = $response->getData();
+
+        if (isset($responseData->redirect_url)) {
+            DB::commit();
+            return redirect()->away($responseData->redirect_url);
+        } else {
+            DB::rollback();
+            Log::error('Gagal membuat pembayaran Xendit: ' . ($responseData->message ?? 'Unknown error'));
+            return redirect()->back()->withErrors(['error' => 'Gagal membuat pembayaran: ' . ($responseData->message ?? 'Silakan coba lagi')]);
+        }
+    }
+
+    private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
+    {
+        // Jika pembayaran via Xendit, tandai sebagai metode 'xendit'
+        $paymentMethod = $paymentReport->payment_method === 'online' && $topupMethod === 'online'
+            ? 'xendit'
+            : $paymentReport->payment_method;
+
+        TopUpReport::create([
+            'user_id' => $user->id,
+            'payment_id' => $paymentReport->id,
+            'qty_token' => $qtyToken,
+            'qty_bill' => $paymentReport->qty_bill,
+            'topup_method' => $topupMethod,
+            'payment_method' => $paymentMethod,
+            'note' => $paymentReport->note,
+            'paid_at' => now()
+        ]);
+
+        $before = $user->token;
+        $user->increment('token', $qtyToken);
+        $after = $user->fresh()->token;
+
+        Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
+    }
+    public function userTopupHistory()
+    {
+        $user = Auth::user();
+
+        // Ambil semua payment report untuk user ini
+        $payments = PaymentReport::with('topupReport')
+            ->where('user_id', $user->id)
+            ->orderBy('payment_start', 'desc')
+            ->get();
+
+        // Tambahkan ini untuk mengelompokkan berdasarkan tanggal
+        $groupedPayments = $payments->groupBy(function ($item) {
+            return \Carbon\Carbon::parse($item->payment_start)->format('Y-m-d');
+        });
+
+        // Kelompokkan berdasarkan status
+        $pendingPayments = $payments->where('status', 'pending');
+        $successPayments = $payments->where('status', 'success');
+        $failedPayments = $payments->where('status', 'failed');
+
+        return view('pages.history_topup', [
+            'groupedPayments' => $groupedPayments,
+            'pendingPayments' => $pendingPayments,
+            'successPayments' => $successPayments,
+            'failedPayments' => $failedPayments,
+        ]);
     }
 }

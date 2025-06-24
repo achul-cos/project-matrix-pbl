@@ -8,6 +8,7 @@ use App\Models\Transaction; // <- pastikan kamu pakai model Transaction
 use Midtrans\Snap;
 use Midtrans\Config;
 use App\Models\PaymentReport;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -59,30 +60,33 @@ class PaymentController extends Controller
 
     public function makePayment(Request $request)
     {
-        // Konfigurasi Midtrans
-        Config::$serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
-        Config::$isProduction = false;
+        Log::info("👉 Request masuk ke makePayment", $request->all());
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        // Buat order_id unik
-        $orderId = uniqid();
-        $grossAmount = $request->total;
+        Log::info("👉 Request masuk ke makePayment", $request->all());
+        $request->validate([
+            'token_amount' => 'required|integer|min:1',
+            'total' => 'required|integer|min:1000'
+        ]);
 
-        // Simpan ke payment_report
+        $orderId = uniqid();
+        $grossAmount = (int) $request->total;
+
         $payment = PaymentReport::create([
             'user_id' => Auth::id(),
             'user_username' => Auth::user()->username,
             'midtrans_id' => $orderId,
             'qty_bill' => $grossAmount,
             'token_amount' => $request->token_amount,
-            'payment_method' => 'online', // kalau kamu mau kasih input dari user, bisa pakai $request->payment_method
-            'midtrans_payment_type' => null, // akan diisi saat callback
+            'payment_method' => 'online',
+            'midtrans_payment_type' => null,
             'status' => 'pending',
             'payment_start' => now(),
         ]);
 
-        // Kirim ke Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -94,12 +98,24 @@ class PaymentController extends Controller
             ]
         ];
 
-        $snapToken = Snap::getSnapToken($params);
+        try {
+            Log::info("📦 Params ke Midtrans", $params);
+            $snapToken = Snap::getSnapToken($params);
+            Log::info("✅ Snap Token Created", ['order_id' => $orderId, 'token' => $snapToken]);
 
-        return response()->json([
-            'snap_token' => $snapToken,
-            'redirect_url' => route('topup.success', ['paymentId' => $payment->id]),
-        ]);
+            Log::info("Snap Token Response", [
+                'token' => $snapToken,
+                'params' => $params
+            ]);
+
+            return response()->json([
+                'snap_token' => $snapToken,
+                'redirect_url' => route('topup.success', ['paymentId' => $payment->id]),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Midtrans Error: ' . $e->getMessage());
+            return response()->json(['message' => 'Gagal membuat Snap token'], 500);
+        }
     }
 
     public function index()

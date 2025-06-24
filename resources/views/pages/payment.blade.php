@@ -58,103 +58,23 @@
 
     <!-- Footer -->
     <div class="bg-gray-100 text-gray-400 text-center text-xs py-3 tracking-wider">
-        www.matrix-warnet.id
+        Copyrighted Matrix 2025 | Payment Powered By Xendit
     </div>
 </div>
-
-<!-- Tambahkan ini di bagian bawah halaman -->
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
-
-{{-- <script>
-    document.getElementById("pay-button").addEventListener("click", function () {
-        fetch("/get-snap-token", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({
-                qty_token: document.getElementById("qty_token").value
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            snap.pay(data.snapToken, {
-                onSuccess: function(result) {
-                    window.location.href = "/topup-success/" + result.order_id;
-                },
-                onPending: function(result) {
-                    alert("Transaksi kamu pending yaa...");
-                },
-                onError: function(result) {
-                    alert("Transaksi error nih.");
-                },
-                onClose: function() {
-                    alert("Kamu belum menyelesaikan pembayaran.");
-                }
-            });
-        });
-    });
-</script> --}}
-
-{{-- <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenAmount = parseInt(urlParams.get('token') || 0);
-    const pricePerToken = 2000;
-    const totalPrice = tokenAmount * pricePerToken;
-
-    document.getElementById('tokenDisplay').textContent = tokenAmount;
-    document.getElementById('totalPrice').textContent = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR'
-    }).format(totalPrice);
-
-    document.getElementById('pay-button').addEventListener('click', function () {
-        const loadingText = document.getElementById('loading-text');
-        loadingText.classList.remove('hidden');
-
-        fetch('/payment-process', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-            body: JSON.stringify({
-                token_amount: tokenAmount,
-                total: totalPrice
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.snap.pay(data.snap_token, {
-                onSuccess: function (result) {
-                    window.location.href = data.redirect_url;
-                },
-                onPending: function (result) {
-                    window.location.href = data.redirect_url;
-                },
-                onError: function (result) {
-                    loadingText.classList.add('hidden');
-                    alert("Pembayaran gagal. Silakan coba lagi.");
-                }
-            });
-        })
-        .catch(error => {
-            loadingText.classList.add('hidden');
-            alert("Terjadi kesalahan. Coba lagi.");
-            console.error(error);
-        });
-    });
-});
-</script> --}}
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const tokenAmount = parseInt(urlParams.get('token') || 0);
     const pricePerToken = 2000;
-    const totalPrice = tokenAmount * pricePerToken;
+    const totalPrice = parseInt(tokenAmount * pricePerToken);
+
+    // Validasi minimal token
+    if (tokenAmount <= 0) {
+        alert('Jumlah token tidak valid. Silakan kembali ke halaman sebelumnya.');
+        window.history.back();
+        return;
+    }
 
     document.getElementById('tokenDisplay').textContent = tokenAmount;
     document.getElementById('totalPrice').textContent = new Intl.NumberFormat('id-ID', {
@@ -164,6 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('pay-button').addEventListener('click', function () {
         const loadingText = document.getElementById('loading-text');
+        const payButton = document.getElementById('pay-button');
+        
+        // Disable button dan show loading
+        payButton.disabled = true;
+        payButton.textContent = 'Memproses...';
         loadingText.classList.remove('hidden');
 
         fetch('/payment-process', {
@@ -178,25 +103,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 total: totalPrice
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
-            window.snap.pay(data.snap_token, {
-                onSuccess: function (result) {
-                    window.location.href = data.redirect_url;
-                },
-                onPending: function (result) {
-                    window.location.href = data.redirect_url;
-                },
-                onError: function (result) {
-                    loadingText.classList.add('hidden');
-                    alert("Pembayaran gagal. Silakan coba lagi.");
-                }
-            });
+            console.log("✅ DATA DARI SERVER:", data);
+            
+            if (data.checkout_url) {
+                // Redirect langsung ke halaman pembayaran Xendit
+                window.location.href = data.checkout_url;
+            } else if (data.redirect_url) {
+                // Fallback jika menggunakan redirect_url
+                window.location.href = data.redirect_url;
+            } else {
+                throw new Error('URL pembayaran tidak ditemukan');
+            }
         })
         .catch(error => {
+            console.error('❌ Error:', error);
+            
+            // Reset button state
+            payButton.disabled = false;
+            payButton.textContent = 'Bayar Sekarang';
             loadingText.classList.add('hidden');
-            alert("Terjadi kesalahan. Coba lagi.");
-            console.error(error);
+            
+            alert("Terjadi kesalahan saat memproses pembayaran. Silakan coba lagi.");
         });
     });
 });

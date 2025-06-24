@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('payment_id')->nullable()->constrained('payment_report')->onDelete('cascade')->nullOnDelete(); //foreign key table payment_report (id)
             $table->integer('qty_token');
             $table->integer('qty_bill')->nullable();
-            $table->enum('topup_method', ['online','offline']);
-            $table->enum('payment_method', ['cash','transfer', 'coupon']);
+            $table->enum('topup_method', ['online', 'offline']);
+            $table->enum('payment_method', ['cash', 'transfer', 'coupon', 'xendit']);
             $table->text('note')->nullable();
             $table->timestamp('paid_at');
             $table->timestamps();

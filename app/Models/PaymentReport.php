@@ -31,7 +31,7 @@
 
 
 //     protected $dates = ['payment_start', 'payment_end'];
-   
+
 //     // Relasi ke User
 //     public function user()
 //     {
@@ -72,14 +72,19 @@ class PaymentReport extends Model
         'status',
         'payment_start',
         'payment_end',
+        'paid_at',
         'note',
-        'payment_photo'
+        'payment_photo',
+        'external_id',  // Pastikan ini ada
+        'invoice_id',   // Pastikan ini ada juga
+        'checkout_link',
     ];
 
 
     protected $casts = [
         'payment_start' => 'datetime',
         'payment_end' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
 
