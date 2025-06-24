@@ -25,6 +25,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             '/midtrans/callback',
+            'midtrans/*',
+            '/pembayaran',
+            '/pembayaran/webhook',
+            '/payment-process',
+            '/xendit/webhook',
+            
         ]);
 
         $middleware->alias([

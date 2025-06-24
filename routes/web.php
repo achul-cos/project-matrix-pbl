@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\SuggestController;
+use App\Http\Controllers\XenditPaymentController;
 use App\Http\Middleware\VerifyCsrfToken;
 
 Route::get('/', function () {
@@ -74,9 +75,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.profile');
     })->name('profile');
 
-    Route::get('/profile/topup', function () {
-        return view('pages.history_topup');
-    })->name('profile.history_topup');
+    Route::get('/profile/topup', [TopupController::class, 'userTopupHistory'])->name('profile.history_topup');
 
     Route::get('/profile/rent', function () {
         return view('pages.history_rent');
@@ -126,13 +125,13 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/payment', [PaymentController::class, 'index']);
 
-    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+    // Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 
     // Ini redirect ke halaman sukses, bawa ID
     Route::get('/topup-success/{paymentId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
 
     // Unduh struk
-    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('topup.download-receipt');
     Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
 
     Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
@@ -265,3 +264,16 @@ Route::get('/cek-session', function () {
     session(['coba' => 'testing']);
     return session('coba', 'tidak ada session');
 });
+
+Route::post('/pembayaran', [XenditPaymentController::class, 'create']);
+
+Route::post('/pembayaran/webhook', [XenditPaymentController::class, 'handleCallback']);
+
+Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
+Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
+
+Route::get('/topup-success', [XenditPaymentController::class, 'topupSuccess'])->name('topup.success');
+Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
+
+// Tambahkan route baru untuk check status
+Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');

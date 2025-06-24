@@ -28,7 +28,7 @@
 
 
 //     protected $dates = ['paid_at'];
-   
+
 //     // Relasi ke User
 //     public function user()
 //     {
@@ -52,7 +52,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class TopupReport extends Model
+class TopUpReport extends Model
 {
     use HasFactory;
 
@@ -88,8 +88,3 @@ class TopupReport extends Model
         return $this->belongsTo(PaymentReport::class, 'payment_id');
     }
 }
-
-
-
-
-

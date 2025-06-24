@@ -67,9 +67,12 @@
             <a href="{{route('profile.history_topup')}}" class="transition transform hover:scale-105 active:scale-95 bg-lime-800 hover:bg-lime-700 text-white py-3 rounded-xl shadow-md text-center">
                 Lihat Riwayat
             </a>
-            <a href="{{ route('download.receipt', ['id' => $transactionId]) }}" class="transition transform hover:scale-105 active:scale-95 bg-lime-700 hover:bg-lime-600 text-white py-3 rounded-xl shadow-md text-center">
+            {{-- Menjadi: --}}
+            @if(isset($payment) && $payment->id)
+            <a href="{{ route('topup.download-receipt', $payment->id) }}" class="transition transform hover:scale-105 active:scale-95 bg-lime-700 hover:bg-lime-600 text-white py-3 rounded-xl shadow-md text-center">
                 Unduh Struk
             </a>
+            @endif
         </div>
     </div>
 </div>
