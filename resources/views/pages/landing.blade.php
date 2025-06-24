@@ -57,16 +57,35 @@
     </button>
 
     <!-- Carousel Kontainer -->
-    <div id="carousel" class="flex overflow-x-auto scroll-smooth space-x-6 px-2 hide-scrollbar">
-      @for ($i = 0; $i < 8; $i++)
-        <div class="flex-shrink-0 w-1/4">
-          <div class="transform transition hover:scale-105">
-            <img src="{{ asset('img/pc/pc1.jpg') }}" class="rounded-lg shadow-lg w-full h-auto object-cover" alt="Trending Poster">
-            <p class="text-sm mt-2 text-center text-white">Lenovo Region 7</p>
-          </div>
-        </div>
-      @endfor
+    @php
+      $images = [
+        'A1-1.webp',
+        'A8-1.webp',
+        'A10-1.jpeg',
+        'A7-1.webp',
+        'B1-1.webp',
+        'B3-1.webp',
+        'C2-1.webp',
+        'D9-1.webp'
+      ];
+    @endphp
+<div id="carousel" class="flex overflow-x-auto scroll-smooth space-x-6 px-2 hide-scrollbar">
+  @foreach ($images as $image)
+    <div class="flex-shrink-0 w-1/4 h-80 rounded-xl shadow overflow-hidden transition-all duration-300 ease-in-out">
+      <div class="w-full h-full transform transition hover:scale-105 ">
+        <img src="{{ asset('products/' . $image) }}"
+             class="w-full h-full object-cover rounded-t-xl"
+             alt="Trending Poster" />
+      </div>
+      <div class="flex items-center justify-center h-1/3 px-4 py-3">
+        <p class="text-white text-center font-semibold tracking-wide text-sm">
+          PC {{ $loop->iteration }}
+        </p>
+      </div>
     </div>
+  @endforeach
+</div>
+
   </section>
 
   <!-- Tulisan di sebelah kiri -->
@@ -81,14 +100,15 @@
             </div>
         </div>
         <p class="text-gray-600 leading-relaxed mt-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+            Kami adalah penyedia layanan penyewaan komputer yang memudahkan kamu mengakses warnet dengan cara yang lebih modern dan efisien.<br><br> 
+            Kami hadir bukan hanya untuk menyediakan komputer, tapi untuk memberikan pengalaman terbaik, cepat, aman, dan nyaman.
         </p>
     </div>
 
     <!-- Gambar di sebelah kanan -->
     <div class="md:w-1/2 md:pl-10 mb-6 md:mb-0 transition-all transform hover:scale-105 active:scale-100 active:shadow-inner order-1 md:order-2">
         <div class="w-full h-64 md:h-80 rounded-lg overflow-hidden">
-            <img src="img/ad/placeholder1.png" alt="Gambar artikel pertama" class="w-full h-full object-cover" />
+            <img src="img/ad/banner2.png" alt="Gambar artikel pertama" class="w-full h-full object-cover" />
         </div>
     </div>
   </section>
@@ -111,20 +131,33 @@
     </div>
 
     <!-- Grid Item -->
+    @php
+      $items = [
+        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
+        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
+        ['name' => 'Lenovo Legion T5', 'image' => 'A10-1.jpeg'],
+        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
+        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
+        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
+        ['name' => 'Lenovo Legion T5', 'image' => 'A10-1.jpeg'],
+        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
+      ];
+    @endphp
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center mt-8">
-      @foreach (['Komputer A', 'Komputer B', 'Komputer C', 'Komputer D', 'Komputer E', 'Komputer F', 'Komputer G', 'Komputer H'] as $item)
+      @foreach ($items as $item)
         <div class="transition-transform transform hover:scale-105 w-full max-w-xs">
           <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
             <a href="#">
-              <img class="rounded-t-lg w-full aspect-square object-cover" src="img/ad/placeholder1.png" alt="{{ $item }}" />
+                <img class="rounded-t-lg w-full aspect-square object-cover"
+                  src="{{ asset('products/' . $item['image']) }}"
+                  alt="{{ $item['name'] }}" />
             </a>
-            <h5 class="text-xl font-bold text-center text-white bg-lime-700 py-2">{{ $item }}</h5>
+              <h5 class="text-xl font-bold text-center text-white bg-lime-700 py-2">{{ $item['name'] }}</h5>
             <div class="p-4 flex flex-col justify-between h-full">
-              <p class="text-sm text-gray-700 mb-4">Deskripsi singkat dari {{ $item }} untuk pengguna.</p>
+              <p class="text-sm text-gray-700 mb-4">{{ $item['name'] }} merupakan pc...</p>
               <div class="flex justify-center">
-                <a href="#" class="px-4 py-2 text-sm font-semibold text-white bg-lime-700 rounded hover:bg-lime-800 transition">
-                  SEWA
-                </a>
+                <a href="#" class="px-4 py-2 text-sm font-semibold text-white bg-lime-700 rounded hover:bg-lime-800 transition">SEWA</a>
               </div>
             </div>
           </div>
