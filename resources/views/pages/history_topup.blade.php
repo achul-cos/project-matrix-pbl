@@ -63,9 +63,16 @@
                         </div>
                       </div>
                       <div class="text-right">
-                        @if($payment->status === 'success')
-                          <p class="text-lg font-semibold">+{{ $payment->token_amount }} Token</p>
-                        @endif
+                       @if($payment->topupReport)
+                       <p class="text-lg font-semibold text-lime-700">
+                            {{ $payment->topupReport->qty_token }} Token
+                          </p>
+                          @else
+                          <p class="text-lg font-semibold text-lime-700">
+                           {{ floor($payment->qty_bill / 2000) }} Token
+                          </p>
+                          @endif
+
                         <p class="{{ $payment->status === 'success' ? 'text-sm' : 'text-lg font-semibold' }}">
                           Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}
                         </p>
@@ -167,7 +174,7 @@
                           </div>
                         </div>
                         <div class="text-right">
-                          <p class="text-lg font-semibold">+{{ $payment->token_amount }} Token</p>
+                          <p class="text-lg font-semibold text-lime-700">{{ $payment->topupReport->token_amount ?? 0 }} Token</p>
                           <p class="text-sm">Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}</p>
                         </div>
                       </div>
