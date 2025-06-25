@@ -13,12 +13,13 @@
       <h2 class="text-center font-bold text-lg mb-4">Riwayat Top Up</h2>
 
       <!-- Tabs -->
-      <div class="flex border-b border-gray-200 mb-6">
-        <button class="tab-btn active py-2 px-4 font-medium" data-tab="all">Semua</button>
-        <button class="tab-btn py-2 px-4 font-medium" data-tab="success">Berhasil</button>
-        <button class="tab-btn py-2 px-4 font-medium" data-tab="pending">Pending</button>
-        <button class="tab-btn py-2 px-4 font-medium" data-tab="failed">Gagal</button>
-      </div>
+       <div class="flex border-b border-gray-200 mb-6 space-x-4">
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="all">Semua</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="success">Berhasil</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="pending">Pending</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="failed">Gagal</button>
+       </div>
+
 
       <!-- Transaction Groups -->
       <div class="space-y-6 px-2">
@@ -365,5 +366,62 @@ function getPaymentMethodName(method) {
   animation: fade-in 0.3s ease-out;
 }
 </style>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const target = this.dataset.tab;
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+      this.classList.add('active');
+      document.getElementById(`${target}-section`).classList.remove('hidden');
+    });
+  });
+</script>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const target = this.dataset.tab;
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+      this.classList.add('active');
+      document.getElementById(`${target}-section`).classList.remove('hidden');
+    });
+  });
+</script>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const target = this.dataset.tab;
+
+      // Hapus semua class 'active'
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('text-lime-800', 'font-bold', 'border-lime-600');
+        b.classList.add('text-gray-600', 'border-transparent');
+      });
+
+      // Sembunyikan semua section
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+
+      // Aktifkan tab saat ini
+      this.classList.add('text-lime-800', 'font-bold', 'border-lime-600');
+      this.classList.remove('text-gray-600', 'border-transparent');
+
+      document.getElementById(`${target}-section`).classList.remove('hidden');
+    });
+  });
+
+  // Aktifkan tab default pertama (jaga-jaga)
+  document.addEventListener("DOMContentLoaded", function () {
+    const firstBtn = document.querySelector('.tab-btn[data-tab="all"]');
+    if (firstBtn) firstBtn.click();
+  });
+</script>
 
 @endsection
