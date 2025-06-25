@@ -1,12 +1,12 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\OtpController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InformasiController;
 use Illuminate\Http\Request;
@@ -59,7 +59,11 @@ Route::get('/otp', function () {
     return view('pages.otp');
 });
 
-Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback'])->withoutMiddleware([VerifyCsrfToken::class]);
+// Route::middleware(['csrf'])->group(function () {
+//     Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback']);
+// });
+
+Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback']);
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
 
@@ -70,6 +74,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/topup', function () {
         return view('pages.topup');
     })->name('topup');
+
 
     Route::get('/profile', function () {
         return view('pages.profile');
@@ -83,13 +88,12 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
 
+
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');
     })->name('profile.password');
 
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
-
-    Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
 
     Route::get('/developer', function () {
         return view('pages.developer');
@@ -106,20 +110,6 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
 
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
-
-    Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
-
-    Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
-    Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
-
-    Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
-    Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
-
-    Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
-    Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
-
-    Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
-    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
 
     Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
 
@@ -161,13 +151,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::get('/admin/management_admin', [AdminController::class, 'index'])->name('admin.management_admin');
 
-    // Route::put('/admin/management_admin/update_admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
-
     Route::put('/admin/management_admin/edit_admin/{id}', [AdminController::class, 'update'])->name('admin.update');
-
-    Route::post('/admin/management_admin/add_admin', [AdminController::class, 'add'])->name('admin.add');
-
-    Route::delete('/admin/management_admin/delete_admin/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     Route::get('/admin/management_computer', [ProductController::class, 'readProductManagement'])->name('admin.management_computer');
 
@@ -185,15 +169,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::post('/admin/management_account/add_user', [UserController::class, 'simpanUserAdmin'])->name('admin.tambahUser');
 
-    Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');;
-
-    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->middleware('auth')->name('profile.destroy');
-
-    Route::put('/admin/management_information/{id}', [AdminController::class, 'update'])->name('informasi.update');
-
-    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
-
-    Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
+    Route::post('admin/management_account/ban_user/{id}', [UserController::class, 'ban'])->name('account.ban');
 
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
@@ -202,6 +178,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::delete('/admin/management_account/delete-all_user', [UserController::class, 'deleteAllUsers'])->name('admin.users.deleteAll');
 
     Route::put('/admin/management_account/edit_user/{id}', [UserController::class, 'updateUser'])->name('admin.updateUser');
+
+    Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     // Topup melalui admin
     Route::post('/admin/management_account/topup_user', [TopupController::class, 'adminTopup'])->name('admin.topup');
@@ -219,15 +197,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
+
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
-});
-
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/payment', [PaymentController::class, 'index']);
-
-    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 });
 
 // API Routes untuk AJAX
@@ -254,6 +225,17 @@ Route::middleware(['auth'])->group(function () {
         return response()->json(['found' => false]);
     })->name('api.check-user');
 });
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/payment', [PaymentController::class, 'index']);
+//     Route::post('/payment-process', [PaymentController::class, 'makePayment']);
+
+//     // Ini redirect ke halaman sukses, bawa ID
+//     Route::get('/topup-success/{transactionId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
+
+//     // Unduh struk
+//     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('download.receipt');
+// });
 
 Route::get('/test-log', function () {
     Log::info('✅ Log jalan dari route test-log');

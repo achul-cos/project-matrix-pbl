@@ -55,20 +55,14 @@ class TopupController extends Controller
     public function downloadReceipt($id)
     {
         try {
-            $payment = PaymentReport::findOrFail($id);
+            $payment = PaymentReport::with('user')->findOrFail($id);
 
-            // Jika topup via kupon, kita tidak punya data token_amount di payment_report
             $tokens = $payment->token_amount;
             $amount = $payment->qty_bill;
 
-            // Coba ambil dari topup report jika ada
             if ($topup = TopUpReport::where('payment_id', $payment->id)->first()) {
                 $tokens = $topup->qty_token;
                 $amount = $topup->qty_bill;
-            } else {
-                // Fallback jika tidak ada data topup
-                $tokens = $tokens ?? 0;
-                $amount = $payment->qty_bill;
             }
 
             $pdf = PDF::loadView('pdf.receipt', [
@@ -77,16 +71,16 @@ class TopupController extends Controller
                     'tokens' => $tokens,
                     'amount' => $amount,
                     'method' => $payment->payment_method,
-                    'date' => $payment->payment_start,
-                    'user' => $payment->user,
+                    'date' => $payment->payment_start, // Pastikan ini ada
+                    'user' => $payment->user, // Pastikan relasi user dimuat
                 ],
                 'date' => Carbon::now()->format('d M Y, H:i')
             ]);
 
-            // Pastikan untuk mengembalikan response download
             return $pdf->download('receipt-' . ($payment->external_id ?? $payment->id) . '.pdf');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Struk tidak ditemukan']);
+            Log::error('Gagal membuat struk: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengunduh struk');
         }
     }
 
