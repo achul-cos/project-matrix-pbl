@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-   
+
     <a href="#editButton" class="p-4 bg-emerald-50 border-2 border-emerald-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
       <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-emerald-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-emerald-50 z-10">
@@ -113,7 +113,7 @@
           </div>
         </div>
       </div>
-    </a> 
+    </a>
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
@@ -151,7 +151,7 @@
             <td class="p-3">{{ $admin->name }}</td>
             <td class="p-3">{{ $admin->email }}</td>
             <td class="p-3 capitalize">{{ $admin->role }}</td>
-            
+
             {{-- <td class="p-3">
               <span class="px-3 py-1 text-xs transform transition-transform active:scale-90 font-semibold rounded-full {{ $badgeClass }}">
                 {{ ucfirst($admin->role) }}
@@ -253,7 +253,7 @@
                     </svg>
                 </button>
             </div>
-            
+
             <!-- Input email -->
             <label for="email" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Email</label>
             <input  type="email"
@@ -388,7 +388,7 @@
                           value="{{ $admin->name }}"
                           class="w-full rounded-full"
                           required>
-                  
+
                   <!-- Input email -->
                   <label for="email" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Email</label>
                   <input  type="email"
@@ -413,7 +413,7 @@
 
                 </div>
               </div>
-                 
+
               <!-- Modal footer -->
               <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                   <button type="submit" onclick="setTimeout(() => window.location.reload(), 100);" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>

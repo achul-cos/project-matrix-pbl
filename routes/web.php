@@ -199,6 +199,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
 
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
+
+    Route::get('/admin/saran-kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
 });
 
 // API Routes untuk AJAX
