@@ -56,7 +56,8 @@
 
     <form action="{{ route('profile.photo.update') }}" method="POST" enctype="multipart/form-data" class="w-full md:w-1/4 bg-white rounded-xl shadow-md border border-[#556B2F] p-4 flex flex-col items-center space-y-2">
         @csrf
-            <img id="profilePhoto" src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder1.png') }}"
+            {{-- <img id="profilePhoto" src="{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('img/ad/placeholder1.png') }}" --}}
+            <img id="profilePhoto" src="{{ Auth::user()->photo_url }}"
             class="w-24 h-24 rounded-full border-4 border-[#556B2F] object-cover" alt="Foto Profil" />
             <p class="text-xs text-center">Format: PNG, JPG, JPEG, GIF<br />Rekomendasi: 1000x1000 px</p>
 

@@ -8,7 +8,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', 'sans-serif';
       background-color: #EDF7E1;
       padding: 20px;
       color: #333;

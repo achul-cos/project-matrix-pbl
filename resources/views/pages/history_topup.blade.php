@@ -223,176 +223,147 @@
 </div>
 
 <!-- Transaction Detail Modal -->
-<div id="transaction-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50">
-  <div id="transaction-receipt" class="bg-white bg-opacity-90 rounded-2xl shadow-xl w-80 md:w-96 relative m-4">
-    <button onclick="closeModal()" class="absolute right-3 top-3 text-gray-500 hover:text-red-600 text-2xl font-bold">×</button>
-    <div class="p-6 space-y-4">
-      <h3 id="modal-title" class="text-center font-bold text-base">Detail Transaksi</h3>
-      <div class="text-sm space-y-3">
-        <div class="flex justify-between">
-          <p class="text-gray-600">ID Transaksi:</p>
-          <p id="modal-transaction-id" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Tanggal:</p>
-          <p id="modal-date" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Metode:</p>
-          <p id="modal-method" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Jumlah Token:</p>
-          <p id="modal-tokens" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Total Bayar:</p>
-          <p id="modal-amount" class="font-semibold text-gray-800"></p>
-        </div>
-        <div id="modal-coupon-container" class="hidden">
-          <div class="flex justify-between">
-            <p class="text-gray-600">Kode Kupon:</p>
-            <p id="modal-coupon" class="font-semibold text-gray-800"></p>
-          </div>
-        </div>
-        <div id="modal-payment-container" class="hidden">
-          <div class="flex justify-between">
-            <p class="text-gray-600">Status:</p>
-            <p id="modal-status" class="font-semibold"></p>
-          </div>
-        </div>
+<div id="transaction-modal" class="hidden fixed inset-0 z-1000 flex items-center justify-center bg-black/50">
+  <div id="transaction-receipt" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 border border-lime-800 relative animate-fade-in">
+    
+    <!-- Tombol close -->
+    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold">×</button>
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <h3 class="text-xl font-bold text-lime-800 mb-1 flex justify-center items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-lime-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 0v2m6-2v2m-9-2h12a2 2 0 012 2v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1a2 2 0 012-2z" />
+        </svg>
+        Detail Transaksi
+      </h3>
+      <p class="text-sm text-gray-500">Berikut adalah ringkasan transaksi Anda</p>
+    </div>
+
+    <!-- Isi -->
+    <div class="space-y-3 text-sm text-gray-800">
+      <div class="flex justify-between"><span class="font-medium">ID Transaksi:</span><span id="modal-transaction-id"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Tanggal:</span><span id="modal-date"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Metode:</span><span id="modal-method"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Jumlah Token:</span><span id="modal-tokens" class="text-lime-700 font-semibold"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Total Bayar:</span><span id="modal-amount" class="font-bold"></span></div>
+
+      <div id="modal-coupon-container" class="hidden flex justify-between">
+        <span class="font-medium">Kode Kupon:</span><span id="modal-coupon"></span>
       </div>
-      <div id="modal-actions" class="space-y-2 pt-4">
-        <!-- Tombol aksi akan diisi berdasarkan status -->
+
+      <div id="modal-payment-container" class="hidden flex justify-between">
+        <span class="font-medium">Status:</span><span id="modal-status"></span>
       </div>
+    </div>
+
+    <!-- Tombol aksi -->
+    <div id="modal-actions" class="space-y-3 mt-6">
+      <!-- Dynamic -->
     </div>
   </div>
 </div>
 
 <script>
-  // Fungsi untuk menampilkan detail transaksi
-  function showTransactionDetails(payment) {
-    const date = new Date(payment.payment_start);
-    const formattedDate = date.toLocaleDateString('id-ID', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-    
-    // Isi data modal
-    document.getElementById('modal-transaction-id').textContent = payment.external_id || payment.id;
-    document.getElementById('modal-date').textContent = formattedDate;
-    document.getElementById('modal-method').textContent = getPaymentMethodName(payment.payment_method);
-    document.getElementById('modal-tokens').textContent = payment.token_amount + ' Token';
-    document.getElementById('modal-amount').textContent = 'Rp ' + payment.qty_bill.toLocaleString('id-ID');
-    
-    // Tampilkan kupon jika metode kupon
-    if (payment.payment_method === 'coupon') {
-      document.getElementById('modal-coupon-container').classList.remove('hidden');
-      document.getElementById('modal-coupon').textContent = payment.note?.split(': ')[1] || '-';
-    } else {
-      document.getElementById('modal-coupon-container').classList.add('hidden');
-    }
-    
-    // Tampilkan status untuk pembayaran online
-    if (payment.payment_method === 'online') {
-      document.getElementById('modal-payment-container').classList.remove('hidden');
-      const statusElement = document.getElementById('modal-status');
-      statusElement.textContent = payment.status === 'success' ? 'Berhasil' : 
-                                 payment.status === 'pending' ? 'Menunggu Pembayaran' : 'Gagal';
-      
-      statusElement.className = payment.status === 'success' ? 'font-semibold text-green-600' : 
-                               payment.status === 'pending' ? 'font-semibold text-yellow-600' : 
-                               'font-semibold text-red-600';
-    } else {
-      document.getElementById('modal-payment-container').classList.add('hidden');
-    }
-    
-    // Siapkan tombol aksi
-    const modalActions = document.getElementById('modal-actions');
-    modalActions.innerHTML = '';
-    
-    if (payment.status === 'pending' && payment.payment_method === 'online') {
-      // Tombol untuk pembayaran pending
-      const payButton = document.createElement('a');
-      payButton.href = payment.checkout_link || '#';
-      payButton.target = '_blank';
-      payButton.textContent = 'Lanjutkan Pembayaran';
-      payButton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition text-center';
-      modalActions.appendChild(payButton);
-    } else if (payment.status === 'failed' && payment.payment_method === 'online') {
-      // Tombol untuk pembayaran gagal
-      const retryButton = document.createElement('a');
-      retryButton.href = "{{ route('topup') }}";
-      retryButton.textContent = 'Coba Lagi';
-      retryButton.className = 'w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md transition text-center';
-      modalActions.appendChild(retryButton);
-    }
-    
-    // Tombol unduh struk untuk pembayaran berhasil (bukan kupon)
-    if (payment.status === 'success' && payment.payment_method !== 'coupon') {
-      const downloadButton = document.createElement('a');
-      downloadButton.href = "{{ url('download-receipt') }}/" + payment.id;
-      downloadButton.textContent = 'Unduh Struk';
-      downloadButton.className = 'w-full bg-lime-700 hover:bg-lime-800 text-white py-2 rounded-md transition text-center';
-      modalActions.appendChild(downloadButton);
-    }
-    
-    // Tombol tutup
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Tutup';
-    closeButton.onclick = closeModal;
-    closeButton.className = 'w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 rounded-md transition';
-    modalActions.appendChild(closeButton);
-    
-    // Tampilkan modal
-    document.getElementById('transaction-modal').classList.remove('hidden');
-  }
-
-  // Fungsi untuk mendapatkan nama metode pembayaran
-  function getPaymentMethodName(method) {
-    const methods = {
-      'cash': 'Tunai',
-      'transfer': 'Transfer',
-      'coupon': 'Kupon',
-      'online': 'Online'
-    };
-    return methods[method] || method;
-  }
-
-  function closeModal() {
-    document.getElementById('transaction-modal').classList.add('hidden');
-  }
-
-  // Tab functionality
-  document.querySelectorAll('.tab-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      // Update active tab
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      this.classList.add('active');
-      
-      // Show relevant section
-      const tab = this.dataset.tab;
-      document.querySelectorAll('.tab-content').forEach(section => {
-        section.classList.add('hidden');
-      });
-      
-      if (tab === 'all') {
-        document.getElementById('pending-section').classList.remove('hidden');
-        document.getElementById('success-section').classList.remove('hidden');
-        document.getElementById('failed-section').classList.remove('hidden');
-      } else {
-        document.getElementById(`${tab}-section`).classList.remove('hidden');
-      }
-    });
+function showTransactionDetails(payment) {
+  const date = new Date(payment.payment_start);
+  const formattedDate = date.toLocaleDateString('id-ID', { 
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
 
-  window.addEventListener('click', function(e) {
-    const modal = document.getElementById('transaction-modal');
-    if (e.target === modal) closeModal();
-  });
+  const tokenAmount = payment.token_amount ?? Math.floor(payment.qty_bill / 2000); // Fallback hitung otomatis
+
+  document.getElementById('modal-transaction-id').textContent = payment.external_id || payment.id;
+  document.getElementById('modal-date').textContent = formattedDate;
+  document.getElementById('modal-method').textContent = getPaymentMethodName(payment.payment_method);
+  document.getElementById('modal-tokens').textContent = tokenAmount + ' Token';
+  document.getElementById('modal-amount').textContent = 'Rp ' + payment.qty_bill.toLocaleString('id-ID');
+
+  const couponContainer = document.getElementById('modal-coupon-container');
+  if (payment.payment_method === 'coupon') {
+    couponContainer.classList.remove('hidden');
+    document.getElementById('modal-coupon').textContent = payment.note?.split(': ')[1] || '-';
+  } else {
+    couponContainer.classList.add('hidden');
+  }
+
+  const statusEl = document.getElementById('modal-status');
+  const statusContainer = document.getElementById('modal-payment-container');
+  if (payment.payment_method === 'online') {
+    statusContainer.classList.remove('hidden');
+    if (payment.status === 'success') {
+      statusEl.textContent = 'Berhasil';
+      statusEl.className = 'text-green-600 font-semibold';
+    } else if (payment.status === 'pending') {
+      statusEl.textContent = 'Menunggu Pembayaran';
+      statusEl.className = 'text-yellow-500 font-semibold';
+    } else {
+      statusEl.textContent = 'Gagal';
+      statusEl.className = 'text-red-600 font-semibold';
+    }
+  } else {
+    statusContainer.classList.add('hidden');
+  }
+
+  const actions = document.getElementById('modal-actions');
+  actions.innerHTML = '';
+
+  if (payment.status === 'pending' && payment.payment_method === 'online') {
+    const payBtn = document.createElement('a');
+    payBtn.href = payment.checkout_link || '#';
+    payBtn.target = '_blank';
+    payBtn.textContent = '💳 Lanjutkan Pembayaran';
+    payBtn.className = 'block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md text-center';
+    actions.appendChild(payBtn);
+  }
+
+  if (payment.status === 'failed' && payment.payment_method === 'online') {
+    const retryBtn = document.createElement('a');
+    retryBtn.href = "{{ route('topup') }}";
+    retryBtn.textContent = '🔁 Coba Lagi';
+    retryBtn.className = 'block w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md text-center';
+    actions.appendChild(retryBtn);
+  }
+
+  if (payment.status === 'success' && payment.payment_method !== 'coupon') {
+    const downloadBtn = document.createElement('a');
+    downloadBtn.href = "{{ url('download-receipt') }}/" + payment.id;
+    downloadBtn.textContent = '⬇️ Unduh Struk';
+    downloadBtn.className = 'block w-full bg-lime-700 hover:bg-lime-800 text-white py-2 rounded-md text-center';
+    actions.appendChild(downloadBtn);
+  }
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'Tutup';
+  closeBtn.onclick = closeModal;
+  closeBtn.className = 'block w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-md text-center';
+  actions.appendChild(closeBtn);
+
+  document.getElementById('transaction-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('transaction-modal').classList.add('hidden');
+}
+
+function getPaymentMethodName(method) {
+  const methods = {
+    'cash': 'Tunai',
+    'transfer': 'Transfer',
+    'coupon': 'Kupon',
+    'online': 'Online'
+  };
+  return methods[method] || method;
+}
 </script>
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+</style>
+
 @endsection

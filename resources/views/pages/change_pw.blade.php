@@ -22,7 +22,7 @@
             </ul>
         @endif
 
-        <form method="POST" action="{{ route('profile.change_password') }}" onsubmit="return validateForm();">
+        <form method="POST" action="{{ route('profile.change-password-user') }}" onsubmit="return validateForm();">
             @csrf
             <div class="space-y-4">
                 <div>

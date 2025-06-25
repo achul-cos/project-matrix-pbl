@@ -86,12 +86,15 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.history_rent');
     })->name('profile.history_rent');
 
-    Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
+    Route::get('/profile/delete', [ProfileController::class, 'hapusAkun'])->name('hapus.akun');
 
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password-user');
 
-    Route::get('/profile/change_password', function () {
+    // Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
+
+    Route::get('/profile/change-password', function () {
         return view('pages.change_pw');
-    })->name('profile.password');
+    })->name('profile.change_password');
 
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
@@ -196,7 +199,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 
     Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
-
 
     Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
 
