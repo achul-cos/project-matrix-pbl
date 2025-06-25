@@ -9,8 +9,13 @@ return new class extends Migration
     public function up()
     {
         Schema::table('payment_report', function (Blueprint $table) {
-            $table->string('invoice_id')->nullable()->after('external_id');
+            $table->string('invoice_id')->nullable();
         });
+
+        Schema::table('payment_report', function (Blueprint $table) {
+        $table->string('external_id')->nullable();
+        });
+
     }
 
     public function down()
