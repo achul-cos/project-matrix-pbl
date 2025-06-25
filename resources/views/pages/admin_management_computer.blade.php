@@ -148,7 +148,7 @@
           </div>
         </div>
       </div>
-    </div>      
+    </div>
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
@@ -358,7 +358,7 @@
                     value="{{ old('name') }}"
                     class=" w-full rounded-full "
                     required>
-            
+
             <!-- Input RAM -->
             <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
             <input  type="number"
@@ -404,7 +404,7 @@
                     class=" w-full rounded-full "
                     list="gpu-options"
                     required>
-                    
+
             <datalist id="gpu-options">
               <option value="RTX">
               <option value="GTX">
@@ -614,7 +614,7 @@
                           value="{{ $product->name }}"
                           class="w-full rounded-full"
                           required>
-                  
+
                   <!-- Input RAM -->
                   <label for="ram" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Jumlah Ram Komputer (GB)</label>
                   <input  type="number"
@@ -660,7 +660,7 @@
                           class=" w-full rounded-full "
                           list="gpu-options"
                           required>
-                          
+
                   <datalist id="gpu-options">
                     <option value="RTX">
                     <option value="GTX">
@@ -809,7 +809,7 @@ function previewImage(event, index) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => { 
+document.addEventListener('DOMContentLoaded', () => {
   const form         = document.querySelector('#yourFormID');
   const loadingModal = document.getElementById('loadingModal');
   const bar          = document.getElementById('progressBar');

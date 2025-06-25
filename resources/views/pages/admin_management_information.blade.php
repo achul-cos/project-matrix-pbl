@@ -60,56 +60,56 @@
 
   <section id="product-tools" class="flex flex-row flex-wrap gap-2 p-4 bg-gray-300 rounded-xl mb-10">
     <div data-modal-target="add-modal" data-modal-toggle="add-modal" class="p-4 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-gray-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-gray-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-gray-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-gray-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             TAMBAH
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
-            Tambahkan data info.
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
+            Tambahkan data info
           </div>
         </div>
       </div>
     </div>
 
-    <a href="#editButton" class="p-4 bg-emerald-50 border-2 border-emerald-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+   <a href="#editButton" class="p-4 bg-emerald-50 border-2 border-emerald-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-emerald-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-emerald-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-emerald-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-emerald-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             EDIT
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
-            Edit data info.
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
+            Edit data info
           </div>
         </div>
       </div>
     </a>
-    <a href="#deleteButton" class="p-4 bg-rose-50 border-2 border-rose-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
+     <a href="#deleteButton" class="p-4 bg-rose-50 border-2 border-rose-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
         <div class="inline-block relative scale-90 bg-rose-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-rose-50 z-10">
           <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
           </svg>
         </div>
-        <div class="-mt-10 bg-rose-400 p-4 w-auto rounded-lg z-0 justify-center">
+        <div class="-mt-10 bg-rose-400 p-4 w-auto rounded-lg z-0 justify-center min-w-48">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">
             HAPUS
           </div>
           <hr class="w-auto mt-3 h-0.5 rounded-full bg-white border-0 mx-6 transform transition-transform group-hover:scale-135">
-          <div class="font-light text-sm text-white text-center text-wrap max-w-36 mt-4">
-            Hapus data info.
+          <div class="font-light text-sm text-white text-center text-wrap mt-4">
+            Hapus data info
           </div>
         </div>
       </div>
@@ -135,13 +135,14 @@
       </thead>
 
       <tbody>
+
         @foreach ($events as $info)
           @php
-            $badgeClass = match($info->status) {
-                'aktif' => 'bg-green-100 text-green-800',
-                'tidak aktif' => 'bg-red-100 text-red-800',
-                default => 'bg-gray-300 text-gray-700'
-            };
+              $badgeClass = match($info->status) {
+                  'aktif' => 'bg-green-100 text-green-800',
+                  'tidak aktif' => 'bg-red-100 text-red-800',
+                  default => 'bg-gray-300 text-gray-700'
+              };
           @endphp
           <tr class="bg-gray-100 rounded-xl">
             <td class="p-3">{{ $info->id }}</td>
@@ -245,7 +246,7 @@
             <!-- Preview Gambar Input -->
                 <div class="w-auto mb-2">
                     <img id="preview-image"
-                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        src="{{ asset("../" . $info->image) }}"
                         alt="Preview 1"
                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                 </div>
@@ -494,43 +495,43 @@
 </div>
 
 <script>
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Inisialisasi DataTable
-//     if (document.getElementById("filter-table") && window.simpleDatatables && typeof simpleDatatables.DataTable !== 'undefined') {
-//         const dataTable = new simpleDatatables.DataTable("#filter-table", {
-//             tableRender: (_data, table, type) => {
-//                 if (type === "print") return table;
+document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi DataTable
+    if (document.getElementById("filter-table") && typeofsimpleDatatables && typeof simpleDatatables.DataTable !== 'undefined') {
+        const dataTable = new simpleDatatables.DataTable("#filter-table", {
+            tableRender: (_data, table, type) => {
+                if (type === "print") return table;
 
-//                 const thead = table.querySelector('thead');
-//                 if (!thead) return table;
+                const thead = table.querySelector('thead');
+                if (!thead) return table;
 
-//                 const filterRow = document.createElement('tr');
-//                 filterRow.className = 'search-filtering-row';
+                const filterRow = document.createElement('tr');
+                filterRow.className = 'search-filtering-row';
 
-//                 table.querySelectorAll('thead th').forEach((th, index) => {
-//                     const filterTh = document.createElement('th');
-//                     const input = document.createElement('input');
-//                     input.className = 'datatable-input';
-//                     input.type = 'search';
-//                     input.dataset.columns = `[${index}]`;
-//                     filterTh.appendChild(input);
-//                     filterRow.appendChild(filterTh);
-//                 });
+                table.querySelectorAll('thead th').forEach((th, index) => {
+                    const filterTh = document.createElement('th');
+                    const input = document.createElement('input');
+                    input.className = 'datatable-input';
+                    input.type = 'search';
+                    input.dataset.columns = `[${index}]`;
+                    filterTh.appendChild(input);
+                    filterRow.appendChild(filterTh);
+                });
 
-//                 thead.appendChild(filterRow);
-//                 return table;
-//             }
-//         });
-//     }
+                thead.appendChild(filterRow);
+                return table;
+            }
+        });
+    }
 
-//     // Auto-hide toast
-//     const toast = document.getElementById('toast-success');
-//     if (toast) {
-//         setTimeout(() => {
-//             toast.classList.add('hidden');
-//         }, 5000);
-//     }
-// });
+    // Auto-hide toast
+    const toast = document.getElementById('toast-success');
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 5000);
+    }
+});
 
 function previewImage(info, number) {
     const input = info.target;
