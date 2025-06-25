@@ -184,6 +184,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
+    Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
+
+    Route::put('/admin/management_information/{id}', [AdminController::class, 'update'])->name('informasi.update');
+
+
     // Topup melalui admin
     Route::post('/admin/management_account/topup_user', [TopupController::class, 'adminTopup'])->name('admin.topup');
 
