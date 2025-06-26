@@ -96,6 +96,6 @@ class PaymentReport extends Model
 
     public function topupReport()
     {
-        return $this->hasOne(TopupReport::class, 'payment_id');
+        return $this->hasOne(TopUpReport::class, 'payment_id');
     }
 }

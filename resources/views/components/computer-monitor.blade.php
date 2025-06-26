@@ -67,11 +67,11 @@ $allColorClasses = [
                             $status = strtolower($computer['status_komputer']);
                             $indikator_komputer = $statusIndicatorMap[$status] ?? 'gray-600';
                         @endphp
-                        <div class="bg-{{ $indikator_komputer }} lg:p-8 md:p-4 p-4 inline-flex shadow-xl border-1 border-black rounded-2xl text-white lg:text-xl md:text-base font-mono cursor-pointer"
+                        <a href="{{ route('productPage.show', ['id' => $computer["id_komputer"]]) }}" class="bg-{{ $indikator_komputer }} lg:p-8 md:p-4 p-4 inline-flex shadow-xl border-1 border-black rounded-2xl text-white lg:text-xl md:text-base font-mono cursor-pointer"
                              id="komputer-{{ $computer['id_komputer'] }}-lantai-{{ $computer['lantai_komputer'] }}"
                              data-popover-target="popover-komputer-{{ $computer['id_komputer'] }}-lantai-{{ $computer['lantai_komputer'] }}">
                             {{ $computer['kode_komputer'] }}
-                        </div>
+                        </a>
                     @empty
                         <p class="text-gray-500 dark:text-gray-400">Tidak ada komputer di lantai {{ $floor }}</p>
                     @endforelse

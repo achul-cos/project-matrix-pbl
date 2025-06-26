@@ -224,33 +224,44 @@
 </div>
 
 <!-- Transaction Detail Modal -->
-<div id="transaction-modal" class="hidden fixed inset-0 z-1000 flex items-center justify-center bg-black/50">
-  <div id="transaction-receipt" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 border border-lime-800 relative animate-fade-in">
-    
-    <!-- Tombol close -->
-    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold">×</button>
-
-    <!-- Header -->
-    <div class="text-center mb-4">
-      <h3 class="text-xl font-bold text-lime-800 mb-1 flex justify-center items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-lime-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 0v2m6-2v2m-9-2h12a2 2 0 012 2v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1a2 2 0 012-2z" />
-        </svg>
-        Detail Transaksi
-      </h3>
-      <p class="text-sm text-gray-500">Berikut adalah ringkasan transaksi Anda</p>
-    </div>
-
-    <!-- Isi -->
-    <div class="space-y-3 text-sm text-gray-800">
-      <div class="flex justify-between"><span class="font-medium">ID Transaksi:</span><span id="modal-transaction-id"></span></div>
-      <div class="flex justify-between"><span class="font-medium">Tanggal:</span><span id="modal-date"></span></div>
-      <div class="flex justify-between"><span class="font-medium">Metode:</span><span id="modal-method"></span></div>
-      <div class="flex justify-between"><span class="font-medium">Jumlah Token:</span><span id="modal-tokens" class="text-lime-700 font-semibold"></span></div>
-      <div class="flex justify-between"><span class="font-medium">Total Bayar:</span><span id="modal-amount" class="font-bold"></span></div>
-
-      <div id="modal-coupon-container" class="hidden flex justify-between">
-        <span class="font-medium">Kode Kupon:</span><span id="modal-coupon"></span>
+<div id="transaction-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85">
+  <div id="transaction-receipt" class="bg-white bg-opacity-90 rounded-2xl shadow-xl w-80 md:w-96 relative m-4">
+    <button onclick="closeModal()" class="absolute right-3 top-3 text-gray-500 hover:text-red-600 text-2xl font-bold">×</button>
+    <div class="p-6 space-y-4">
+      <h3 id="modal-title" class="text-center font-bold text-base">Detail Transaksi</h3>
+      <div class="text-sm space-y-3">
+        <div class="flex justify-between">
+          <p class="text-gray-600">ID Transaksi:</p>
+          <p id="modal-transaction-id" class="font-semibold text-gray-800 text-end"></p>
+        </div>
+        <div class="flex justify-between">
+          <p class="text-gray-600">Tanggal:</p>
+          <p id="modal-date" class="font-semibold text-gray-800"></p>
+        </div>
+        <div class="flex justify-between">
+          <p class="text-gray-600">Metode:</p>
+          <p id="modal-method" class="font-semibold text-gray-800"></p>
+        </div>
+        <div class="flex justify-between">
+          <p class="text-gray-600">Jumlah Token:</p>
+          <p id="modal-tokens" class="font-semibold text-gray-800"></p>
+        </div>
+        <div class="flex justify-between">
+          <p class="text-gray-600">Total Bayar:</p>
+          <p id="modal-amount" class="font-semibold text-gray-800"></p>
+        </div>
+        <div id="modal-coupon-container" class="hidden">
+          <div class="flex justify-between">
+            <p class="text-gray-600">Kode Kupon:</p>
+            <p id="modal-coupon" class="font-semibold text-gray-800"></p>
+          </div>
+        </div>
+        <div id="modal-payment-container" class="hidden">
+          <div class="flex justify-between">
+            <p class="text-gray-600">Status:</p>
+            <p id="modal-status" class="font-semibold"></p>
+          </div>
+        </div>
       </div>
 
       <div id="modal-payment-container" class="hidden flex justify-between">

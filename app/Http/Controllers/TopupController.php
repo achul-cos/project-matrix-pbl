@@ -463,7 +463,7 @@ class TopupController extends Controller
 
         $topups = $query->orderBy('paid_at', 'desc')->paginate(20);
 
-        return view('admin.topup-history', compact('topups'));
+        return view('admin.topup', compact('topups'));
     }
 
     public function makePayment(Request $request)
