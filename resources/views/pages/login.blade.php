@@ -5,7 +5,7 @@
 @section('content')
 
   <!-- Login Section -->
-  <main class="flex justify-center items-center min-h-screen px-4 py-12 bg-white">
+  <main class="flex justify-center items-center min-h-screen px-4 py-12 mt-8 bg-white">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col md:flex-row overflow-hidden">
 
       <!-- Form Login -->

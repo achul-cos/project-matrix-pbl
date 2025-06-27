@@ -127,6 +127,13 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'rentals' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/rentals.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
+        
     ],
 
 ];

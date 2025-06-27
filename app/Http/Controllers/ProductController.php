@@ -16,16 +16,18 @@ use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
-    public function productPage(Request $request)
+    public function productPage(Request $request, Product $product)
     {
         // Ambil semua produk dengan urutan lantai dan kode
-        $allProducts = Product::orderBy('floor')
+        $allProducts = Product::with('activeRental')
+            ->orderBy('floor')
             ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
             ->get();
 
-
         // Bentuk ulang menjadi format untuk komponen monitor
         $monitors = $allProducts->map(function ($p) {
+            $booking = $p->activeRental;
+            
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -37,29 +39,84 @@ class ProductController extends Controller
                 'room_komputer'   => $p->room,
                 'biaya_komputer'  => $p->price,
                 'status_komputer' => $p->status,
-                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
-                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+                'jam_awal_booking_komputer'  => $booking ? $booking->booked_start->format('H:i') : '-',
+                'jam_akhir_booking_komputer' => $booking ? $booking->booked_end->format('H:i') : '-',
             ];
         });
 
-
-        // Kirim hanya data monitors ke view
-        return view('pages.product', compact('monitors'));
+        // Kirim detail produk + data monitor ke view
+        return view('pages.product', compact('product', 'monitors'));
     }
+    // public function monitoringComputer(Request $request)
+    // {
+    //     /* ───────────────────────────────
+    //     1. Query dasar produk sekali saja
+    //     ─────────────────────────────── */
+    //     $baseQuery = Product::orderBy('floor')
+    //         ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)");
+
+
+    //     /* ── a. Data lengkap (untuk layout) ───────────────────────── */
+    //     $allProducts = $baseQuery->get();
+
+
+    //     $monitors = $allProducts->map(function ($p) {
+    //         return [
+    //             'id_komputer'     => $p->id,
+    //             'nama_komputer'   => $p->name,
+    //             'kode_komputer'   => $p->code,
+    //             'cpu_komputer'    => $p->cpu,
+    //             'gpu_komputer'    => $p->gpu,
+    //             'ram_komputer'    => $p->ram,
+    //             'lantai_komputer' => $p->floor,
+    //             'room_komputer'   => $p->room,
+    //             'biaya_komputer'  => $p->price,
+    //             'status_komputer' => $p->status,
+    //             'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
+    //             'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+    //         ];
+    //     });
+
+    //     /* ── b. Data paginated (untuk tabel) ──────────────────────── */
+    //     // kita kloning query agar tidak bentrok dengan get() di atas
+    //     $products = (clone $baseQuery)->latest('id')->paginate(25);
+
+
+    //     /* ── c. Warna badge status (untuk tabel) ─────────────────── */
+    //     $statusColorMap = [
+    //         'available'   => 'bg-lime-200 text-lime-800',
+    //         'online'      => 'bg-orange-200 text-orange-800',
+    //         'offline'     => 'bg-red-200 text-red-800',
+    //         'maintenance' => 'bg-indigo-200 text-indigo-800',
+    //         'prepare'     => 'bg-yellow-200 text-yellow-800',
+    //         'undefined'   => 'bg-gray-200 text-gray-800',
+    //     ];
+
+
+    //     /* ───────────────────────────────
+    //     2. Kirim ke view tunggal
+    //     ─────────────────────────────── */
+    //     return view('pages.admin_monitoring_computer', [
+    //         'products'        => $products,   // untuk tabel
+    //         'monitors'        => $monitors,   // untuk layout visual
+    //         'statusColorMap'  => $statusColorMap,
+    //     ]);
+    // }
     public function monitoringComputer(Request $request)
     {
         /* ───────────────────────────────
         1. Query dasar produk sekali saja
         ─────────────────────────────── */
-        $baseQuery = Product::orderBy('floor')
+        $baseQuery = Product::with('activeRental')
+            ->orderBy('floor')
             ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)");
-
 
         /* ── a. Data lengkap (untuk layout) ───────────────────────── */
         $allProducts = $baseQuery->get();
 
-
         $monitors = $allProducts->map(function ($p) {
+            $booking = $p->activeRental;
+            
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -71,15 +128,14 @@ class ProductController extends Controller
                 'room_komputer'   => $p->room,
                 'biaya_komputer'  => $p->price,
                 'status_komputer' => $p->status,
-                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
-                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+                'jam_awal_booking_komputer'  => $booking ? $booking->booked_start->format('H:i') : '-',
+                'jam_akhir_booking_komputer' => $booking ? $booking->booked_end->format('H:i') : '-',
             ];
         });
 
         /* ── b. Data paginated (untuk tabel) ──────────────────────── */
         // kita kloning query agar tidak bentrok dengan get() di atas
         $products = (clone $baseQuery)->latest('id')->paginate(25);
-
 
         /* ── c. Warna badge status (untuk tabel) ─────────────────── */
         $statusColorMap = [
@@ -90,7 +146,6 @@ class ProductController extends Controller
             'prepare'     => 'bg-yellow-200 text-yellow-800',
             'undefined'   => 'bg-gray-200 text-gray-800',
         ];
-
 
         /* ───────────────────────────────
         2. Kirim ke view tunggal
@@ -455,14 +510,10 @@ private function formatCpu($cpu)
     return Str::contains(strtolower($cpu), 'intel') ? 'intel' : (Str::contains(strtolower($cpu), 'amd') ? 'amd' : 'unknown');
 }
 
-
 private function formatGpu($gpu)
 {
     return Str::contains(strtolower($gpu), 'rtx') ? 'rtx' : (Str::contains(strtolower($gpu), 'gtx') ? 'gtx' : 'unknown');
 }
-
-
-
 
 public function homePage()
 {
@@ -479,5 +530,40 @@ public function showTop($id)
     return view('pages.product', compact('product'));
 }
 
+public function LandingPage(Request $request)
+{
+    $searchTerm = $request->input('search');
+    $query = Product::query();
+
+    if ($searchTerm) {
+        $query->where(function ($q) use ($searchTerm) {
+            $q->where('name', 'like', '%' . $searchTerm . '%')
+              ->orWhere('cpu', 'like', '%' . $searchTerm . '%')
+              ->orWhere('gpu', 'like', '%' . $searchTerm . '%')
+              ->orWhere('code', 'like', '%' . $searchTerm . '%');
+        });
+    }
+
+    $products = $query->take(8)->get()->map(function($product) {
+        return [
+            'id' => $product->id,
+            'name' => $product->name,
+            'cpu' => $product->cpu,
+            'gpu' => $product->gpu,
+            'code' => $product->code,
+            'image' => $product->image1 ? asset($product->image1) : asset('img/ad/placeholder1.png'),
+            'price' => $product->price,
+            'desc' => $product->desc
+        ];
+    });
+
+    // Jika request-nya adalah JSON (AJAX), kembalikan response JSON
+    if ($request->wantsJson()) {
+        return response()->json($products);
+    }
+
+    // Jika tidak, render halaman Blade biasa
+    return view('pages.landing');
+}
 
 }

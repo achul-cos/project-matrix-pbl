@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -78,4 +81,28 @@ class User extends Authenticatable
         return asset('storage/' . $this->photo);
     }
 
+    // Tambahkan relasi ke rentals
+    public function rentals(): HasMany
+    {
+        return $this->hasMany(Rental::class);
+    }
+
+    // Tambahkan relasi ke rental reports
+    public function rentalReports(): HasMany
+    {
+        return $this->hasMany(RentalReport::class);
+    }
+
+    // Cek apakah user memiliki saldo cukup
+    public function hasSufficientTokens(int $amount): bool
+    {
+        return $this->token >= $amount;
+    }
+
+    // Hitung total pengeluaran user
+    public function totalSpent(): int
+    {
+        return $this->rentals()->sum('total_price') + 
+               $this->rentalReports()->sum('overtime_charge');
+    }
 }

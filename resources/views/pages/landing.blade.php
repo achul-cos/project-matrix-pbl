@@ -5,17 +5,26 @@
 @section('content')
 
 <!-- Hero Banner Warnet -->
-<section class="relative w-full h-screen flex items-center justify-center overflow-hidden rounded-t-2xl">
+<section class="relative w-full h-screen flex items-center justify-center overflow-hidden">
   <!-- Gambar latar -->
-  <img src="{{ asset('img/ad/background-landing.gif') }}" class="absolute inset-0 w-full h-full object-cover">
-  <img src="{{ asset('img/ad/background-landing-2.gif') }}" class="absolute inset-0 z-20 w-full h-full object-cover">
+  <video loading="lazy" poster="{{ asset('img/ad/placeholder3.png') }}" id="introVideo" class="absolute inset-0 z-20 w-full h-full object-cover fade visible" autoplay muted loop playsinline preload="auto">
+    <source src="{{ asset('video/background-landing-3.mp4') }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="absolute h-screen w-screen z-50">
+    <img class="absolute top-8 left-8 size-42 animate-spin-slow" src="{{ asset('img/icon/hashtag.png') }}" />
+    <img class="absolute bottom-8 -left-12 h-72 w-auto animate-shake-slow" src="{{ asset('img/icon/keyboard.png') }}" />
+    <img class="absolute -top-3 -right-12 h-62 w-auto animate-shake-slow" src="{{ asset('img/icon/headset.png') }}" />
+    <img class="absolute bottom-8 right-6 h-60 w-auto animate-spin-slow" src="{{ asset('img/icon/abstract.png') }}" />
+  </div>
 
   <!-- Overlay gelap agar teks terbaca -->
-  <div class="absolute inset-0 bg-gradient-to-t from-white to-transparent "></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-white to-transparent z-40"></div>
 
   <!-- Intro Matrix -->
   <img id="introImage" src="{{ asset('img/ad/background-landing-3.gif') }}" class="absolute inset-0 z-20 w-full h-full object-cover fade visible">
-  <div id="introContent" class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 z-30 relative fade">
+  <div id="introContent" class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 z-50 relative fade">
       <a href="#" class="inline-flex justify-between items-center py-1 px-1 pe-4 mb-7 text-sm text-green-700 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800">
           <span class="text-xs bg-green-600 rounded-full text-white px-4 py-1.5 me-3">New</span> <span class="text-sm font-medium">MATRIX Under Development Version 0.1</span> 
           <svg class="w-2.5 h-2.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -24,15 +33,15 @@
       </a>
       <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl dark:text-white">Are You Ready To Enter <span class="text-green-500 matrix-text" data-text="MATRIX">MATRIX</span> World!</h1>
       <p class="mb-8 text-lg font-normal text-gray-50 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-200">Warnet bukan hanya sekedar tempat pelarian seorang pencundang atau pemalas. Pernahkah Kamu berpikir? Seberapa luas dunia saat kamu benar-benar hanyut didunia internet bersama MATRIX?</p>
-      <form action="/search" method="get" name="search" id="search" class="w-full max-w-md mx-auto">
+      <form action="{{ route('search.page') }}" id="searchForm" class="w-full max-w-md mx-auto">
           <div class="relative">
               <div class="absolute inset-y-0 rtl:inset-x-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
-                </svg>
+                  <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                  </svg>
               </div>
-              <input type="text" name="search" value="{{ request('search') }}" id="search-navbar" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-green-500 focus:border-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Cari Komputer Impianmu..." required />
-              <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Cari</button>
+              <button class="inline-block px-3 py-1 rounded-full bg-lime-800 text-white absolute top-2.5 right-4">Cari</button>
+              <input type="text" name="search" id="searchInput" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-white focus:ring-green-500 focus:border-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Cari Komputer Impianmu..." required />
           </div>
       </form>
   </div>
@@ -40,8 +49,17 @@
 
 <div class="gap-y-18 px-12 mt-12">
 
+  <!-- Rekomendasi -->
+  <section class="flex flex-col space-y-3 mt-3 mb-20 fade-in" id="rekomendasi">
+    <div id="searchResults" class="mt-4">
+        <div id="loadingSpinner" class="text-center py-8 hidden">
+            <div class="loading-spinner mx-auto"></div>
+        </div>
+    </div>
+  </section>
+
   <!-- Carousel Section -->
-  <section class="relative w-full py-10 fade-in">
+  {{-- <section class="relative w-full py-10 fade-in">
 
     <!-- Tombol Panah -->
     <button id="leftBtn" class="absolute left-2 top-1/2 z-10 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-80 p-2 rounded-full">
@@ -69,24 +87,24 @@
         'D9-1.webp'
       ];
     @endphp
-<div id="carousel" class="flex overflow-x-auto scroll-smooth space-x-6 px-2 hide-scrollbar">
-  @foreach ($images as $image)
-    <div class="flex-shrink-0 w-1/4 h-80 rounded-xl shadow overflow-hidden transition-all duration-300 ease-in-out">
-      <div class="w-full h-full transform transition hover:scale-105 ">
-        <img src="{{ asset('products/' . $image) }}"
-             class="w-full h-full object-cover rounded-t-xl"
-             alt="Trending Poster" />
-      </div>
-      <div class="flex items-center justify-center h-1/3 px-4 py-3">
-        <p class="text-white text-center font-semibold tracking-wide text-sm">
-          PC {{ $loop->iteration }}
-        </p>
-      </div>
+    <div id="carousel" class="flex overflow-x-auto scroll-smooth space-x-6 px-2 hide-scrollbar py-8">
+      @foreach ($images as $image)
+        <div class="flex-shrink-0 w-1/4 h-80 rounded-xl shadow overflow-hidden transition-all duration-300 ease-in-out">
+          <div class="w-full h-full transform transition hover:scale-105 ">
+            <img src="{{ asset('products/' . $image) }}"
+                class="w-full h-full object-cover rounded-t-xl"
+                alt="Trending Poster" />
+          </div>
+          <div class="flex items-center justify-center h-1/3 px-4 py-3">
+            <p class="text-white text-center font-semibold tracking-wide text-sm">
+              PC {{ $loop->iteration }}
+            </p>
+          </div>
+        </div>
+      @endforeach
     </div>
-  @endforeach
-</div>
 
-  </section>
+  </section> --}}
 
   <!-- Tulisan di sebelah kiri -->
   <section class="mb-16 md:flex md:gap-8 md:items-start fade-in">
@@ -108,119 +126,66 @@
     <!-- Gambar di sebelah kanan -->
     <div class="md:w-1/2 md:pl-10 mb-6 md:mb-0 transition-all transform hover:scale-105 active:scale-100 active:shadow-inner order-1 md:order-2">
         <div class="w-full h-64 md:h-80 rounded-lg overflow-hidden">
-            <img src="img/ad/banner2.png" alt="Gambar artikel pertama" class="w-full h-full object-cover" />
+            <img loading="lazy" src="{{ asset('img/ad/banner2.png') }}" alt="Gambar artikel pertama" class="w-full h-full object-cover" />
         </div>
     </div>
   </section>
 
-  <!-- Rekomendasi -->
-  <section class="flex flex-col space-y-3 mt-3 fade-in" id="event">
-    <!-- Judul -->
-    <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center mb-8">
-      <div class="col-span-4 sm:col-span-2">
-        <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
-      </div>
-      <div class="col-span-4 sm:col-span-8 m-auto shadow-md">
-        <span class="flex justify-center font-bold lg:text-2xl md:text-xl text-xs text-white bg-lime-600 px-2 py-1 rounded-md">
-          Rekomendasi Untukmu
-        </span>
-      </div>
-      <div class="col-span-4 sm:col-span-2">
-        <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
+  {{-- <!-- Why Choose Us -->
+  <section class="fade-in">
+    <div class="flex flex-col space-y-3 mt-12 fade-in mb-12">
+      <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
+        <div class="col-span-4 sm:col-span-2">
+          <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
+        </div>
+        <div class="col-span-4 sm:col-span-8 m-auto shadow-md">
+          <span class="flex justify-center font-bold lg:text-2xl md:text-xl text-xs text-white bg-lime-600 px-2 py-1 rounded-md">
+            Apa Itu Matrix?
+          </span>
+        </div>
+        <div class="col-span-4 sm:col-span-2">
+          <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
+        </div>
       </div>
     </div>
-
-    <!-- Grid Item -->
-    @php
-      $items = [
-        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
-        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
-        ['name' => 'Lenovo Legion T5', 'image' => 'A10-1.jpeg'],
-        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
-        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
-        ['name' => 'MSI MAG Infinite S3', 'image' => 'A4-1.webp'],
-        ['name' => 'Lenovo Legion T5', 'image' => 'A10-1.jpeg'],
-        ['name' => 'Dell Inspiron 3030', 'image' => 'A1-1.webp'],
-      ];
-    @endphp
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center mt-8">
-      @foreach ($items as $item)
-        <div class="transition-transform transform hover:scale-105 w-full max-w-xs">
-          <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-            <a href="#">
-                <img class="rounded-t-lg w-full aspect-square object-cover"
-                  src="{{ asset('products/' . $item['image']) }}"
-                  alt="{{ $item['name'] }}" />
-            </a>
-              <h5 class="text-xl font-bold text-center text-white bg-lime-700 py-2">{{ $item['name'] }}</h5>
-            <div class="p-4 flex flex-col justify-between h-full">
-              <p class="text-sm text-gray-700 mb-4">{{ $item['name'] }} merupakan pc...</p>
-              <div class="flex justify-center">
-                <a href="#" class="px-4 py-2 text-sm font-semibold text-white bg-lime-700 rounded hover:bg-lime-800 transition">SEWA</a>
-              </div>
-            </div>
+  
+    <div class="flex flex-wrap justify-center gap-6 mb-16 fade-in">
+      <div class="space-y-12 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+        <!-- Item 1 -->
+        <div class="text-center">
+          <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
+            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
           </div>
+          <h3 class="mb-2 text-xl font-bold">Sewa Mudah</h3>
+          <p class="text-spuruce-500">Kelola penyewaan komputer dengan sistem yang mudah digunakan, memudahkan kamu dalam mengatur waktu sewa dan pemesanan tanpa ribet.</p>
         </div>
-      @endforeach
-    </div>
-  </section>
-
-  <!-- Why Choose Us -->
-  <section class="flex flex-col space-y-3 mt-12 fade-in">
-    <!-- Judul -->
-    <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-      <div class="col-span-4 sm:col-span-2">
-        <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
-      </div>
-      <div class="col-span-4 sm:col-span-8 m-auto shadow-md">
-        <span class="flex justify-center font-bold lg:text-2xl md:text-xl text-xs text-white bg-lime-600 px-2 py-1 rounded-md">
-          Apa Itu Matrix?
-        </span>
-      </div>
-      <div class="col-span-4 sm:col-span-2">
-        <hr class="h-1.5 bg-stone-700 border-0 rounded-lg" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Fitur Keunggulan -->
-  <section class="flex flex-wrap justify-center gap-6 mb-16 fade-in">
-    <div class="space-y-12 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-      <!-- Item 1 -->
-      <div class="text-center">
-        <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
-          <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-          </svg>
+  
+        <!-- Item 2 -->
+        <div class="text-center">
+          <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
+            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Perangkat Prima</h3>
+          <p class="text-spuruce-500">Kami pastikan semua komputer dalam kondisi prima dan siap digunakan kapan saja, memberikan pengalaman terbaik bagi pelanggan warung internet kamu.</p>
         </div>
-        <h3 class="mb-2 text-xl font-bold">Sewa Mudah</h3>
-        <p class="text-spuruce-500">Kelola penyewaan komputer dengan sistem yang mudah digunakan, memudahkan kamu dalam mengatur waktu sewa dan pemesanan tanpa ribet.</p>
-      </div>
-
-      <!-- Item 2 -->
-      <div class="text-center">
-        <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
-          <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
-          </svg>
+        <!-- Item 3 -->
+        <div class="text-center">
+          <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
+            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
+              <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Layanan Cepat dan Ramah</h3>
+          <p class="text-spuruce-500">Dukungan kami selalu siap membantu dengan respons cepat, sehingga kamu dan pelanggan mendapatkan pengalaman sewa yang nyaman dan tanpa hambatan.</p>
         </div>
-        <h3 class="mb-2 text-xl font-bold">Perangkat Prima</h3>
-        <p class="text-spuruce-500">Kami pastikan semua komputer dalam kondisi prima dan siap digunakan kapan saja, memberikan pengalaman terbaik bagi pelanggan warung internet kamu.</p>
-      </div>
-      <!-- Item 3 -->
-      <div class="text-center">
-        <div class="flex justify-center items-center mx-auto mb-4 w-14 h-14 rounded-full bg-green-900">
-          <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
-            <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
-          </svg>
-        </div>
-        <h3 class="mb-2 text-xl font-bold">Layanan Cepat dan Ramah</h3>
-        <p class="text-spuruce-500">Dukungan kami selalu siap membantu dengan respons cepat, sehingga kamu dan pelanggan mendapatkan pengalaman sewa yang nyaman dan tanpa hambatan.</p>
       </div>
     </div>
-  </section>
+  </section> --}}
 
 </div>
 
@@ -318,6 +283,27 @@
   }
 }
 
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shake-slow {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, 2px); }
+}
+
+/* Tailwind Custom Animation */
+.animate-spin-slow {
+  animation: spin-slow 25s linear infinite;
+}
+
+.animate-shake-slow {
+  animation: shake-slow 3s ease-in-out infinite;
+}
+
 </style>
 
 <script>
@@ -359,5 +345,121 @@
     }, 2500); // Ganti setelah 3 detik
   });
 </script>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const resultsContainer = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+function handleSearch() {
+    const searchTerm = searchInput.value.trim();
+
+    if (searchTerm.length > 1) {
+        fetch(`/?search=${encodeURIComponent(searchTerm)}`, {
+            headers: {
+                'Accept': 'application/json' // Paksa Laravel return JSON
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Fetch failed');
+            return response.json();
+        })
+        .then(data => {
+            updateResults(data);
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            resultsContainer.innerHTML = `
+                <div class="text-center py-8 text-red-500">
+                    Terjadi kesalahan saat memuat hasil pencarian.
+                </div>
+            `;
+        });
+    } else {
+        resultsContainer.innerHTML = ''; // kosongkan kalau kurang dari 2 huruf
+    }
+}
+
+// Fungsi untuk render ulang hasil pencarian
+function updateResults(data) {
+    if (data.length > 0) {
+        resultsContainer.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center mt-8">
+                ${data.map(product => `
+                    <div class="transition-transform transform hover:scale-105 w-full max-w-xs">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                            <a href="/product/${product.id}">
+                                <img loading="lazy" class="rounded-t-lg w-full aspect-square object-cover"
+                                    src="${product.image}"
+                                    alt="${product.name}" />
+                            </a>
+                            <h5 class="text-xl font-bold text-center text-white bg-lime-700 py-2">${product.name}</h5>
+                            <div class="p-4 flex flex-col justify-between h-full">
+                                <p class="text-sm text-gray-700 mb-4">${product.desc.substring(0, 50)}...</p>
+                                <div class="flex justify-center">
+                                    <a href="/product/${product.id}" class="px-4 py-2 text-sm font-semibold text-white bg-lime-700 rounded hover:bg-lime-800 transition">SEWA</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else {
+        resultsContainer.innerHTML = `
+            <div class="text-center py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="mt-2 text-lg font-medium text-gray-900">Tidak ada produk ditemukan</h3>
+                <p class="mt-1 text-gray-500">Coba kata kunci lain atau periksa ejaan Anda.</p>
+            </div>
+        `;
+    }
+}
+
+// Debounce: mencegah fetch dipanggil terlalu sering
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+</script>
+
+
+<style>
+/* Search Results Animation */
+#searchResults {
+    transition: all 0.3s ease;
+}
+
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
 
 @endsection

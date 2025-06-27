@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ProductSeeder::class,
             CouponSeeder::class,
-            RentQueueSeeder::class,
+            // RentalsTableSeeder::class,
+            // RentalReportsTableSeeder::class,
             EventSeeder::class,
         ]);
     }

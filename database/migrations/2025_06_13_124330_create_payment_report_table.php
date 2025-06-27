@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained(table: 'users')->onDelete('cascade')->nullOnDelete(); // //foreign key table users (id);
             $table->string('user_username')->nullable();
-            $table->string('midtrans_id')->nullable()->unique()->index();
             $table->integer('qty_bill')->nullable();
             $table->string('payment_method')->nullable();
             $table->timestamp('payment_start')->nullable();
@@ -24,9 +23,9 @@ return new class extends Migration
             $table->string('payment_photo')->nullable();
             $table->timestamps();
             $table->integer('token_amount')->nullable(); // jumlah token yang akan diberikan
-            $table->string('midtrans_payment_type')->nullable(); // e.g. gopay, qris, echannel
             $table->string('checkout_link')->nullable();
             $table->string('external_id')->nullable();
+            $table->string('invoice_id')->nullable();
             $table->string('status')->nullable();
             $table->timestamp('paid_at')->nullable();
         });

@@ -1,4 +1,4 @@
-<nav class="bg-lime-700 fixed w-full z-50 top-0 start-0 border-b border-gray-200">
+<nav class="bg-lime-700 fixed w-full z-40 top-0 start-0 border-b border-gray-200">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
     <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:hidden">
