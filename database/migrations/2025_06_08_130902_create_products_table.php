@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('price');
             $table->enum('room', ['public', 'private'])->default('public');
             $table->enum('status', ['available','online', 'offline', 'maintenance', 'prepare', 'undifined'])->default('maintenance');
+            $table->timestamp('last_status_update')->nullable();
             $table->string('image1');
             $table->string('image2');
             $table->string('image3');

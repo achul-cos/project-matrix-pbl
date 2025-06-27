@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use App\Events\RentalStatusChanged;
 
 class RentalController extends Controller
 {
@@ -40,6 +41,10 @@ class RentalController extends Controller
         $user = Auth::user();
         $bookedStart = Carbon::parse($request->booked_start);
         $bookedEnd = Carbon::parse($request->booked_end);
+
+        // Validasi dengan buffer waktu
+        $bufferStart = Carbon::parse($request->booked_start)->subHour();
+        $bufferEnd = Carbon::parse($request->booked_end)->addHour();
         
         // Hitung durasi dalam jam
         $duration = $bookedStart->diffInHours($bookedEnd);
@@ -47,7 +52,7 @@ class RentalController extends Controller
 
         // Validasi penabrakan jadwal
         $conflict = Rental::where('product_id', $product->id)
-            ->where(function ($query) use ($bookedStart, $bookedEnd) {
+            ->where(function ($query) use ($bufferStart, $bufferEnd, $bookedStart, $bookedEnd) {
                 $query->whereBetween('booked_start', [$bookedStart, $bookedEnd])
                       ->orWhereBetween('booked_end', [$bookedStart, $bookedEnd])
                       ->orWhere(function ($q) use ($bookedStart, $bookedEnd) {
@@ -100,11 +105,13 @@ class RentalController extends Controller
             ]);
 
             // Update status komputer
-            $product->update(['status' => 'prepare']);
-            Log::channel('rentals')->info('Status produk diupdate', [
-                'product_status' => 'prepare'
-            ]);
+            // $product->update(['status' => 'prepare']);
+            // Log::channel('rentals')->info('Status produk diupdate', [
+            //     'product_status' => 'prepare'
+            // ]);
 
+            // Trigger event
+            event(new RentalStatusChanged($product->id));
 
             $user->decrement('token', $totalPrice);
 
@@ -214,4 +221,28 @@ class RentalController extends Controller
         
         return view('pages.activation_success');
     }
+
+public function rentalHistory(Request $request)
+{
+    $user = Auth::user();
+    $search = $request->input('search');
+    
+    $rentals = Rental::where('user_id', $user->id)
+        ->with('product')
+        ->when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('activation_code', 'like', '%' . $search . '%')
+                  ->orWhere('status', 'like', '%' . $search . '%')
+                  ->orWhereHas('product', function ($q) use ($search) {
+                      $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('code', 'like', '%' . $search . '%');
+                  });
+            });
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(5)
+        ->appends(['search' => $search]);
+
+    return view('pages.history_rent', compact('rentals'));
+}  
 }

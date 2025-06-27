@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('booked_end')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->enum('status', ['pending', 'active', 'completed', 'cancelled'])->default('pending');
-            $table->integer('duration'); // Durasi dalam jam
+            $table->integer('duration')->nullable(); // Durasi dalam jam
             $table->integer('total_price'); // Total harga sewa
             $table->timestamp('actual_end')->nullable(); // Waktu selesai sebenarnya
             $table->text('notes')->nullable(); // Catatan tambahan

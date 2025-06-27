@@ -91,11 +91,12 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/profile/topup', [TopupController::class, 'userTopupHistory'])->name('profile.history_topup');
 
-    Route::get('/profile/rent', function () {
-        return view('pages.history_rent');
-    })->name('profile.history_rent');
+    // Route::get('/profile/rent', function () {
+    //     return view('pages.history_rent');
+    // })->name('profile.history_rent');
 
-    // Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
+    Route::get('/profile/rent', [RentalController::class, 'rentalHistory'])->name('profile.history_rent');
+
 
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');

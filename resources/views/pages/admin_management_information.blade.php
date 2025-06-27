@@ -244,12 +244,12 @@
           <div class="flex flex-col items-center gap-4 p-8">
 
             <!-- Preview Gambar Input -->
-                <div class="w-auto mb-2">
-                    <img id="preview-image"
-                        src="{{ asset("../" . $info->image) }}"
-                        alt="Preview 1"
-                        class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                </div>
+            <div class="w-auto mb-2">
+              <img id="preview-image0"
+                  src="{{ asset('img/ad/placeholder2.png') }}"
+                  alt="Preview 1"
+                  class="object-cover w-full h-full aspect-auto border border-gray-300 rounded shadow-sm">
+            </div>
 
             <!-- Input Gambar -->
             <div class="flex flex-row gap-4 mb-8">
@@ -260,7 +260,7 @@
                         name="image"
                         id="image"
                         accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(info, 1)"
+                        onchange="previewImage(event, 0)"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
                 </div>
@@ -393,10 +393,10 @@
                   <!-- Preview Gambar Input -->
                       <!-- Preview Gambar -->
                       <div class="w-auto mb-2">
-                          <img id="preview-image"
-                              src="{{ isset($info) ? asset('storage/' . $info->image) : asset('img/ad/placeholder2.png') }}"
+                          <img id="preview-image{{ $info->id }}"
+                              src="{{ isset($info) ? asset($info->image) : asset('img/ad/placeholder2.png') }}"
                               alt="Preview Gambar info"
-                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                              class="object-cover w-full h-full aspect-auto border border-gray-300 rounded shadow-sm">
                       </div>
 
                       <!-- Input Gambar -->
@@ -408,7 +408,7 @@
                                         name="image"
                                         id="image"
                                         accept=".jpg,.jpeg,.png,.webp"
-                                        onchange="previewImage(info, 1)"
+                                        onchange="previewImage(event, {{ $info->id }})"
                                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                                         {{ !isset($info) ? 'required' : '' }}>
                               </div>
@@ -462,7 +462,8 @@
                           <option value="aktif" {{ old('status', $info->status ?? '') == 'aktif' ? 'selected' : '' }}>Aktif</option>
                           <option value="tidak aktif" {{ old('status', $info->status ?? '') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                       </select>
-
+                </div>
+              </div>
               <!-- Modal footer -->
               <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                   <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>

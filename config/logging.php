@@ -134,6 +134,12 @@ return [
             'days' => 14,
         ],
         
+        'status' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/status.log'),
+            'level' => 'info',
+            'days' => 14,
+        ],
     ],
 
 ];

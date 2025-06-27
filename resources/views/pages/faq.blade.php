@@ -3,10 +3,11 @@
 @section('title', 'Matrix - Penyewaan komputer Warnet')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-6 py-10">
-    <h1 class="text-4xl font-bold text-center text-[#2F5F00] mb-10 animate-pulse">Frequently Asked Questions (FAQ)</h1>
+<div class="relative max-w-4xl mx-auto px-6 py-10">
 
-    <div class="space-y-6" id="faq-container">
+    <h1 class="relative text-4xl font-bold text-center text-[#2F5F00] mb-10 animate-pulse z-10">Frequently Asked Questions (FAQ)</h1>
+
+    <div class="space-y-6 z-10 relative" id="faq-container">
         @php
             $faqs = [
                 [
@@ -48,7 +49,7 @@
         @endphp
 
         @foreach($faqs as $index => $faq)
-        <div class="border border-[#A3C57C] rounded-2xl overflow-hidden shadow-md bg-white">
+        <div class="border border-[#A3C57C] rounded-2xl overflow-hidden shadow-md bg-white z--20">
             <button type="button" class="w-full flex items-center justify-between px-6 py-4 text-left text-[#2F5F00] font-semibold text-lg focus:outline-none hover:bg-[#F3FAE7] transition" data-toggle="faq-{{ $index }}">
                 <div class="flex items-center gap-4">
                     <img src="{{ $faq['gif'] }}" alt="GIF" class="w-12 h-12 rounded-full border border-[#A3C57C]">
@@ -98,7 +99,7 @@
         <h2 class="text-xl font-bold text-[#2F5F00] mt-6 mb-2">Lokasi Warnet</h2>
         <p>Politeknik negeri BATAM</p>
         <!-- Location Section -->
-    <section class="max-w-6xl mx-auto p-4 md:p-6">
+    <section class="max-w-6xl mx-auto p-4 md:p-6 relative z-10">
         <div class="text-center mb-6">
             <h2 class="text-2xl md:text-2xl font-bold text-gray-800 uppercase tracking-wider">LOKASI KAMI</h2>
         </div>
@@ -114,6 +115,12 @@
         </div>
     </section>
     </div>
+  <div class="absolute w-full top-0 -bottom-12 -right-14 -left-6 z-0">
+    <img class="absolute top-8 -left-3 size-42 animate-spin-slow" src="{{ asset('img/icon/hashtag.png') }}" />
+    <img class="absolute bottom-8 -left-12 h-72 w-auto animate-shake-slow" src="{{ asset('img/icon/keyboard.png') }}" />
+    <img class="absolute -top-3 -right-12 h-62 w-auto animate-shake-slow" src="{{ asset('img/icon/headset.png') }}" />
+    <img class="absolute bottom-8 -right-6 h-60 w-auto animate-spin-slow" src="{{ asset('img/icon/abstract.png') }}" />
+  </div>    
 </div>
 
 <script>
@@ -133,4 +140,28 @@
         });
     });
 </script>
+
+<style>
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shake-slow {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, 2px); }
+}
+
+/* Tailwind Custom Animation */
+.animate-spin-slow {
+  animation: spin-slow 25s linear infinite;
+}
+
+.animate-shake-slow {
+  animation: shake-slow 3s ease-in-out infinite;
+}
+</style>
+
 @endsection

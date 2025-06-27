@@ -60,5 +60,42 @@ class Product extends Model
     public function overtimePricePerMinute(): float
     {
         return $this->price / 60;
+    }
+
+    public function calculateRealTimeStatus()
+    {
+        $now = now();
+
+        // 1. Cek rental aktif
+        $activeRental = $this->rentals()
+            ->where('status', 'active')
+            ->where('booked_start', '<=', $now)
+            ->where('booked_end', '>=', $now)
+            ->exists();
+        
+        if ($activeRental) return 'online';
+
+        // 2. Cek rental yang akan dimulai dalam 1 jam (Prepare)
+        $upcomingRental = $this->rentals()
+            ->where('status', 'pending')
+            ->where('booked_start', '>', $now)
+            ->where('booked_start', '<=', $now->addHour())
+            ->exists();
+            
+        if ($upcomingRental) return 'prepare';
+
+        // 3. Cek rental yang baru berakhir (Maintenance)
+        $recentRental = $this->rentals()
+            ->where(function ($query) use ($now) {
+                $query->where('status', 'completed')
+                    ->orWhere('status', 'expired');
+            })
+            ->where('booked_end', '>=', $now->subHour())
+            ->where('booked_end', '<', $now)
+            ->exists();
+            
+        if ($recentRental) return 'maintenance';
+
+        return 'available';
     }    
 }
