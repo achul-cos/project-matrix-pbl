@@ -87,6 +87,11 @@ class PaymentReport extends Model
         'paid_at' => 'datetime',
     ];
 
+    // app/Models/PaymentReport.php
+    public function topup()
+    {
+        return $this->hasOne(TopupReport::class, 'payment_id');
+    }
 
     public function user()
     {
@@ -96,6 +101,6 @@ class PaymentReport extends Model
 
     public function topupReport()
     {
-        return $this->hasOne(TopupReport::class, 'payment_id');
+        return $this->hasOne(TopUpReport::class, 'payment_id');
     }
 }

@@ -14,12 +14,15 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\SuggestController;
+use App\Http\Controllers\RentalController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Middleware\VerifyCsrfToken;
 
-Route::get('/', function () {
-    return view('pages.landing');
-});
+// Route::get('/', function () {
+//     return view('pages.landing');
+// });
+
+Route::get('/', [ProductController::class, 'LandingPage'])->name('pages.landing');
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
@@ -44,6 +47,17 @@ Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
+Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
+Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
+
+Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
+
+Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
+
+Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
 
 Route::get('/reset', function () {
     return view('pages.reset');
@@ -81,7 +95,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.history_rent');
     })->name('profile.history_rent');
 
-    Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
+    // Route::get('/topup-riwayat', [UserController::class, 'showRiwayat'])->middleware('auth');
 
     Route::get('/profile/change_password', function () {
         return view('pages.change_pw');
@@ -109,23 +123,9 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
 
-    Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
-    Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
-
-    Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
-    Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
-
-    Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
-    Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
-
-    Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
-    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
-
     Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
 
     Route::get('/payment', [PaymentController::class, 'index']);
-
-    // Route::post('/payment-process', [PaymentController::class, 'makePayment']);
 
     // Ini redirect ke halaman sukses, bawa ID
     Route::get('/topup-success/{paymentId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
@@ -136,6 +136,15 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
 
     Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
+
+    Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
+    Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
+
+    Route::get('/topup-success', [XenditPaymentController::class, 'topupSuccess'])->name('topup.success');
+    Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
+
+    // Tambahkan route baru untuk check status
+    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');    
 });
 
 
@@ -225,14 +234,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
 });
 
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/payment', [PaymentController::class, 'index']);
-
-    Route::post('/payment-process', [PaymentController::class, 'makePayment']);
-});
-
 // API Routes untuk AJAX
 Route::middleware(['auth'])->group(function () {
     // Check user by username/email (untuk admin)
@@ -268,15 +269,19 @@ Route::get('/cek-session', function () {
     return session('coba', 'tidak ada session');
 });
 
-Route::post('/pembayaran', [XenditPaymentController::class, 'create']);
+// Aktivasi penyewaan
+Route::get('/activate', function () {
+    return view('pages.activation_form');
+})->name('activation.form');
 
-Route::post('/pembayaran/webhook', [XenditPaymentController::class, 'handleCallback']);
+Route::post('/activate', [RentalController::class, 'activateComputer'])
+    ->name('activate');
 
-Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
-Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
+Route::get('/activation/success', [RentalController::class, 'activationSuccess'])
+    ->name('activation.success');
 
-Route::get('/topup-success', [XenditPaymentController::class, 'topupSuccess'])->name('topup.success');
-Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
+// Konfirmasi penyewaan
+Route::get('/rental/confirmation/{rental}', [RentalController::class, 'showConfirmation'])
+    ->name('user.rental.confirmation');
 
-// Tambahkan route baru untuk check status
-Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');
+Route::get('/product/rent/{product}', [RentalController::class, 'rentComputer'])->name('rent.computer');

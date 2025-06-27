@@ -4,182 +4,182 @@
 
 @section('content')
 
-  <!-- Main Section -->
-  <main class="flex justify-center items-center min-h-screen mt-16">
-    <div class="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full">
-      <!-- Form Section -->
-      <div class="p-8 md:w-[500px]">
-        <h2 class="text-center text-3xl font-bold text-[#556B2F] mb-4">DAFTAR</h2>
+<!-- Main Section -->
+<div class="flex justify-center items-center min-h-screen my-32">
+<div class="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden max-w-5xl w-full">
+    <!-- Form Section -->
+    <div class="p-8 md:w-[500px]">
+    <h2 class="text-center text-3xl font-bold text-[#556B2F] mb-4">DAFTAR</h2>
 
-        {{-- Notification Succes --}}
+    {{-- Notification Succes --}}
 
-        @if (session('success'))
-            <div id="toast-success" class="flex mx-auto items-center w-full p-4 mb-8 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
-                <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    @if (session('success'))
+        <div id="toast-success" class="flex mx-auto items-center w-full p-4 mb-8 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="sr-only">Check icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div id="toast-danger" class="flex items-center w-full p-4 mb-8 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
+            <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                </svg>
+                <span class="sr-only">Error icon</span>
+            </div>
+            <div class="ms-3 text-sm font-normal">
+                @foreach ($errors->all() as $error)
+                    {{ $error }}<br>
+                @endforeach
+            </div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+    <form action="{{ route('registerAccount') }}" class="space-y-4" method="POST">
+        @csrf
+        <input type="text" name="name" placeholder="Nama Lengkap" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('name') }}" />
+
+        <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('username') }}" />
+
+        <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('email') }}" />
+        
+        <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('phone') }}" />
+        
+        {{-- Input Password & Password Confirmation --}}
+        <div class="flex flex-row justify-between gap-x-2">
+
+            {{-- Input Password --}}
+            <div class="relative">
+                <input id="password" type="password" name="password" placeholder="Kata Sandi" minlength="8" required
+                    class="w-full px-5 py-4 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
+                <button type="button" 
+                    class="absolute inset-y-0 right-3 flex items-center px-1 text-gray-600 hover:text-gray-900"
+                    onclick="togglePasswordVisibility('password', 'eye-icon-password')"
+                    aria-label="Toggle password visibility"
+                >
+                    <svg id="eye-icon-password" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Input Password Confirmation --}}
+            <div class="relative">
+                <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" minlength="8" required
+                    class="w-full px-5 py-4 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
+                <button type="button" 
+                    class="absolute inset-y-0 right-3 flex items-center px-1 text-gray-600 hover:text-gray-900"
+                    onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirmation')"
+                    aria-label="Toggle password visibility"
+                >
+                    <svg id="eye-icon-confirmation" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+
+        {{-- Ketentuan Password --}}
+        <div class="bg-gray-100 p-4 rounded-lg">
+            <div class="relative">
+                <svg class="w-6 h-6 absolute right-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+            </div>
+            <p class="mb-1 text-base font-semibold text-gray-600 dark:text-white">Ketentuan password:</p>
+            <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 text-sm">
+                <li id="rule-length" class="flex items-center">
+                    {{-- Tanda Centang --}}
+                    <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="sr-only">Check icon</span>
-                </div>
-                <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
-                    <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    Minimal 8 Karakter
+                </li>
+                <li id="rule-alphanumeric" class="flex items-center">
+                    {{-- Tanda Centang --}}
+                    <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                </button>
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div id="toast-danger" class="flex items-center w-full p-4 mb-8 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
-                <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                    Terdiri Huruf dan Angka
+                </li>
+                <li id="rule-uppercase-lowercase" class="flex items-center">
+                    {{-- Tanda Centang --}}
+                    <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="sr-only">Error icon</span>
-                </div>
-                <div class="ms-3 text-sm font-normal">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}<br>
-                    @endforeach
-                </div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger" aria-label="Close">
-                    <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                </button>
-            </div>
-        @endif
-
-        <form action="{{ route('registerAccount') }}" class="space-y-4" method="POST">
-            @csrf
-            <input type="text" name="name" placeholder="Nama Lengkap" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('name') }}" />
-
-            <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('username') }}" />
-
-            <input type="email" name="email" placeholder="Email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('email') }}" />
-          
-            <input type="tel" name="phone" placeholder="No Telepon" required minlength="9" maxlength="14" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" value="{{ old('phone') }}" />
-          
-            {{-- Input Password & Password Confirmation --}}
-            <div class="flex flex-row justify-between gap-x-2">
-
-                {{-- Input Password --}}
-                <div class="relative">
-                    <input id="password" type="password" name="password" placeholder="Kata Sandi" minlength="8" required
-                        class="w-full px-5 py-4 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
-                    <button type="button" 
-                        class="absolute inset-y-0 right-3 flex items-center px-1 text-gray-600 hover:text-gray-900"
-                        onclick="togglePasswordVisibility('password', 'eye-icon-password')"
-                        aria-label="Toggle password visibility"
-                    >
-                        <svg id="eye-icon-password" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-
-                {{-- Input Password Confirmation --}}
-                <div class="relative">
-                    <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Konfirmasi Kata Sandi" minlength="8" required
-                        class="w-full px-5 py-4 text-sm border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
-                    <button type="button" 
-                        class="absolute inset-y-0 right-3 flex items-center px-1 text-gray-600 hover:text-gray-900"
-                        onclick="togglePasswordVisibility('password_confirmation', 'eye-icon-confirmation')"
-                        aria-label="Toggle password visibility"
-                    >
-                        <svg id="eye-icon-confirmation" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-
-            </div>
-
-            {{-- Ketentuan Password --}}
-            <div class="bg-gray-100 p-4 rounded-lg">
-                <div class="relative">
-                    <svg class="w-6 h-6 absolute right-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                </div>
-                <p class="mb-1 text-base font-semibold text-gray-600 dark:text-white">Ketentuan password:</p>
-                <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 text-sm">
-                    <li id="rule-length" class="flex items-center">
-                        {{-- Tanda Centang --}}
-                        <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        Minimal 8 Karakter
-                    </li>
-                    <li id="rule-alphanumeric" class="flex items-center">
-                        {{-- Tanda Centang --}}
-                        <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        Terdiri Huruf dan Angka
-                    </li>
-                    <li id="rule-uppercase-lowercase" class="flex items-center">
-                        {{-- Tanda Centang --}}
-                        <svg class="w-3.5 h-3.5 me-2 text-gray-500 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        Terdiri Huruf Besar dan Kecil
-                    </li>
-                </ul>
-            </div>
-
-
-            {{-- reCAPTCHA widget dengan callback --}}
-            <div class="g-recaptcha flex justify-center" 
-                data-sitekey="{{ config('app.nocaptcha.sitekey') }}" 
-                data-callback="recaptchaCallback"
-                data-expired-callback="recaptchaExpired">
-            </div>
-
-            @error('g-recaptcha-response')
-            <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-
-            <button type="submit" id="submitBtn" disabled class="w-full py-3 bg-gray-400 cursor-not-allowed text-white font-bold rounded-xl shadow-md transition duration-300">
-                DAFTAR
-            </button>
-
-        </form>
-
-        <div class="grid grid-cols-12">
-            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
-            <p class="col-span-6 text-center text-base text-lime-900 opacity-70 place-self-center font-light"> Daftar Menggunakan </p>
-            <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+                    Terdiri Huruf Besar dan Kecil
+                </li>
+            </ul>
         </div>
 
-        <div class="mt-2 flex flex-wrap mx-4 mb-8 justify-center">
-            <a href="{{ url('login/google') }}"><img src="https://static.cdnlogo.com/logos/g/35/google-icon.svg" alt="" class="w-auto h-8"></a>
+
+        {{-- reCAPTCHA widget dengan callback --}}
+        <div class="g-recaptcha flex justify-center" 
+            data-sitekey="{{ config('app.nocaptcha.sitekey') }}" 
+            data-callback="recaptchaCallback"
+            data-expired-callback="recaptchaExpired">
         </div>
 
-        <p class="text-center mt-4 text-sm">Sudah punya akun? <a href="/login" class="text-[#556B2F] font-semibold hover:underline">Masuk</a></p>
-      </div>
+        @error('g-recaptcha-response')
+        <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
 
-      <!-- Welcome Section -->
-      <div class="bg-gradient-to-b from-[#3e4f1c] to-[#a4bf6b] flex-1 flex flex-col justify-center items-center p-8 text-white">
-        <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Matrix Logo" class="w-20 mb-6">
-        <h3 class="text-xl font-semibold mb-2">Selamat Datang di Matrix</h3>
-        <p class="text-sm text-center leading-relaxed">Warnet lebih praktis,<br>internetan jadi asik!</p>
-      </div>
+        <button type="submit" id="submitBtn" disabled class="w-full py-3 bg-gray-400 cursor-not-allowed text-white font-bold rounded-xl shadow-md transition duration-300">
+            DAFTAR
+        </button>
+
+    </form>
+
+    <div class="grid grid-cols-12">
+        <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
+        <p class="col-span-6 text-center text-base text-lime-900 opacity-70 place-self-center font-light"> Daftar Menggunakan </p>
+        <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
     </div>
-  </main>
+
+    <div class="mt-2 flex flex-wrap mx-4 mb-8 justify-center">
+        <a href="{{ url('login/google') }}"><img src="https://static.cdnlogo.com/logos/g/35/google-icon.svg" alt="" class="w-auto h-8"></a>
+    </div>
+
+    <p class="text-center mt-4 text-sm">Sudah punya akun? <a href="/login" class="text-[#556B2F] font-semibold hover:underline">Masuk</a></p>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-b from-[#3e4f1c] to-[#a4bf6b] flex-1 flex flex-col justify-center items-center p-8 text-white">
+    <img src="img/logo/Matrix_Icon_Square_Logo_White.png" alt="Matrix Logo" class="w-20 mb-6">
+    <h3 class="text-xl font-semibold mb-2">Selamat Datang di Matrix</h3>
+    <p class="text-sm text-center leading-relaxed">Warnet lebih praktis,<br>internetan jadi asik!</p>
+    </div>
+</div>
+</div>
 
 {!! NoCaptcha::renderJs() !!}
 
