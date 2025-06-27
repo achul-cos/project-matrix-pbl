@@ -412,40 +412,73 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function show($id)
-    {
-        // Ambil produk berdasarkan ID untuk detail
-        $product = Product::findOrFail($id);
 
+public function show($id, Request $request)
+{
+    $product = Product::findOrFail($id);
 
-        // Ambil semua produk untuk ditampilkan dalam komponen monitor
-        $allProducts = Product::orderBy('floor')
-            ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
-            ->get();
+    // Ambil data rentals dengan pagination
+    $rentals = $product->rentals()
+        ->with('user') // Eager load user relationship
+        ->where('booked_end', '>', now())
+        ->orderBy('booked_start', 'desc')
+        ->paginate(5);
 
-
-        // Mapping ulang data produk ke format komponen monitor
-        $monitors = $allProducts->map(function ($p) {
+    // Jika request AJAX, kembalikan data dalam format JSON
+    if ($request->ajax()) {
+        // Transform rentals data untuk JavaScript
+        $rentalsData = $rentals->map(function($rental) {
             return [
-                'id_komputer'     => $p->id,
-                'nama_komputer'   => $p->name,
-                'kode_komputer'   => $p->code,
-                'cpu_komputer'    => $p->cpu,
-                'gpu_komputer'    => $p->gpu,
-                'ram_komputer'    => $p->ram,
-                'lantai_komputer' => $p->floor,
-                'room_komputer'   => $p->room,
-                'biaya_komputer'  => $p->price,
-                'status_komputer' => $p->status,
-                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
-                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+                'id' => $rental->id,
+                'booked_start' => $rental->booked_start,
+                'booked_end' => $rental->booked_end,
+                'duration' => $rental->duration,
+                'status' => $rental->status,
+                'user' => [
+                    'name' => $rental->user ? sensorNama($rental->user->name) : 'Unknown'
+                ]
             ];
         });
 
-
-        // Kirim detail produk + data monitor ke view
-        return view('pages.product', compact('product', 'monitors'));
+        return response()->json([
+            'success' => true,
+            'rentals' => $rentalsData,
+            'pagination' => [
+                'current_page' => $rentals->currentPage(),
+                'last_page' => $rentals->lastPage(),
+                'per_page' => $rentals->perPage(),
+                'total' => $rentals->total(),
+                'from' => $rentals->firstItem(),
+                'to' => $rentals->lastItem(),
+                'has_more_pages' => $rentals->hasMorePages()
+            ]
+        ]);
     }
+
+    // Ambil semua produk untuk komponen monitor
+    $allProducts = Product::orderBy('floor')
+        ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
+        ->get();
+
+    $monitors = $allProducts->map(function ($p) {
+        return [
+            'id_komputer'     => $p->id,
+            'nama_komputer'   => $p->name,
+            'kode_komputer'   => $p->code,
+            'cpu_komputer'    => $p->cpu,
+            'gpu_komputer'    => $p->gpu,
+            'ram_komputer'    => $p->ram,
+            'lantai_komputer' => $p->floor,
+            'room_komputer'   => $p->room,
+            'biaya_komputer'  => $p->price,
+            'status_komputer' => $p->status,
+            'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
+            'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+        ];
+    });
+
+    return view('pages.product', compact('product', 'monitors', 'rentals'));
+}
 
 
 public function showSearchPage(Request $request)

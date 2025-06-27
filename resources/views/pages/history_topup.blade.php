@@ -8,18 +8,54 @@
   @include('components.sidebar_profile')
 
   <!-- Main Section -->
-  <main class="flex-1 bg-white rounded-lg border border-dark-olive min-h-[600px]">
+  <main class="flex-1 bg-white rounded-2xl border border-gray-200 min-h-[600px] shadow-xl overflow-hidden">
+    <!-- Enhanced Header with Gradient -->
+    <div class="relative p-8 bg-gradient-to-br from-dark-olive via-olive-drab to-green-700 overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+        <div class="absolute top-8 right-8 w-20 h-20 bg-white rounded-full opacity-20"></div>
+        <div class="absolute bottom-0 right-0 w-40 h-40 bg-white rounded-full translate-x-20 translate-y-20"></div>
+      </div>
+      
+      <div class="relative z-10 text-center">
+        <div class="flex justify-center mb-4">
+          <div class="p-4 bg-white/20 rounded-full backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+        <h1 class="text-4xl font-bold text-white mb-3 tracking-tight">
+          Riwayat Top Up
+        </h1>
+        <p class="text-lime-100 text-lg font-medium">
+          Pantau semua aktivitas top up token Anda
+        </p>
+        <div class="mt-6 flex justify-center space-x-6 text-sm">
+          <div class="flex items-center text-lime-100">
+            <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+            <span>{{ $successPayments->count() }} Berhasil</span>
+          </div>
+          <div class="flex items-center text-lime-100">
+            <div class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+            <span>{{ $pendingPayments->count() }} Pending</span>
+          </div>
+          <div class="flex items-center text-lime-100">
+            <div class="w-2 h-2 bg-red-400 rounded-full mr-2"></div>
+            <span>{{ $failedPayments->count() }} Gagal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="p-4">
-      <h2 class="text-center font-bold text-lg mb-4">Riwayat Top Up</h2>
-
       <!-- Tabs -->
-       <div class="flex border-b border-gray-200 mb-6 space-x-4">
-          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="all">Semua</button>
-          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="success">Berhasil</button>
-          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="pending">Pending</button>
-          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="failed">Gagal</button>
-       </div>
-
+      <div class="flex border-b border-gray-200 mb-6 space-x-4">
+        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="all">Semua</button>
+        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="success">Berhasil</button>
+        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="pending">Pending</button>
+        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="failed">Gagal</button>
+      </div>
 
       <!-- Transaction Groups -->
       <div class="space-y-6 px-2">
@@ -174,7 +210,15 @@
                           </div>
                         </div>
                         <div class="text-right">
-                          <p class="text-lg font-semibold text-lime-700">{{ $payment->topupReport->token_amount ?? 0 }} Token</p>
+                          @if($payment->topupReport)
+                            <p class="text-lg font-semibold text-lime-700">
+                              {{ $payment->topupReport->qty_token }} Token
+                            </p>
+                          @else
+                            <p class="text-lg font-semibold text-lime-700">
+                            {{ floor($payment->qty_bill / 2000) }} Token
+                            </p>
+                          @endif
                           <p class="text-sm">Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}</p>
                         </div>
                       </div>
