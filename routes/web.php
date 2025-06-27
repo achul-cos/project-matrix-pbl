@@ -132,6 +132,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     // Unduh struk
     Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('topup.download-receipt');
+
     Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
 
     Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
@@ -217,11 +218,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 
-    Route::delete('/admin/saran-kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
+    Route::delete('/admin/management_kritik/{id}', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
-    Route::get('/admin/saran-kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
+    Route::get('/admin/management_kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
 
-    Route::get('/admin/saran-kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
+    Route::get('/admin/management_kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
 });
 
 

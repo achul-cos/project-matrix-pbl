@@ -25,7 +25,7 @@ class SuggestController extends Controller
             $query->whereDate('created_at', '<=', $request->to);
         }
 
-        $kritik = $query->orderBy('created_at', 'desc')->get();
+        $kritik = $query->orderBy('id', 'desc')->get();
         return view('pages.admin_saran_kritik', compact('kritik'));
     }
 
@@ -43,18 +43,15 @@ class SuggestController extends Controller
         $kritik = UserSuggest::findOrFail($id);
         $kritik->delete();
 
-        return redirect()->route('suggest.index')->with('success', 'Kritik berhasil dihapus.');
+        return redirect()->route('admin.management_kritik')->with('sukses', 'Kritik berhasil dihapus.');
     }
 
     public function clear()
     {
-    UserSuggest::truncate(); // Menghapus semua data di tabel user_suggest
-    return redirect()->route('suggest.index')->with('success', 'Semua kritik berhasil dihapus.');}
+        UserSuggest::truncate(); // Menghapus semua data di tabel user_suggest
 
-    // public function export()
-    // {
-    //     return Excel::download(new SuggestExport, 'data_kritik_matrix.xlsx');
-    // }
+        return redirect()->route('admin.management_kritik')->with('sukses', 'Semua kritik berhasil dihapus.');
+    }
 
     public function export(Request $request)
     {

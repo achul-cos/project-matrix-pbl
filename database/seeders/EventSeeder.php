@@ -64,7 +64,7 @@ class EventSeeder extends Seeder
         Event::create([
             'name' => 'Turnamen 5 vs 5 Battle Mini',
             'deskripsi' => '8 tim, single elimination.',
-            'image' => 'storage/event_images/5vs5-battle.webp',
+            'image' => 'storage/event_images/5vs5_battle.webp',
             'link' => 'https://example.com/event/laravel',
             'tanggal' => '2025-09-10',
             'status' => 'tidak aktif',
