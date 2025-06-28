@@ -7,7 +7,7 @@
         <li><a href="../profile/rent">Riwayat Penyewaan</a></li>
         <li><a href="../profile/topup">Riwayat Top Up</a></li>
         <li><a href="../profile">Pengaturan Akun</a></li>
-        <li><a href="{{ route('profile.change_password') }}">Ganti Password</a></li>
+        <li><a href="{{ route('profile.password') }}">Ganti Password</a></li>
         <li class="text-red-600 font-semibold"><a href="{{ route('logoutAccount') }}">Keluar Akun</a></li>
         <li class="text-red-700 font-bold">
             <a href="{{ route('hapus.akun') }}" onclick="return confirm('Yakin ingin menghapus akun Anda?')" class="hover:underline">Hapus Akun</a>

@@ -162,9 +162,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_live_rent_report');
     })->name('admin.live_rent_report');
 
-    Route::get('/admin/rent_report', function () {
-        return view('pages.admin_rent_report');
-    })->name('admin.rent_report');
+    // Route::get('/admin/rent_report', function () {
+    //     return view('pages.admin_rent_report');
+    // })->name('admin.rent_report');
+
+    Route::get('/admin/rent_report', [RentalController::class, 'rentReport'])->name('admin.rent_report');
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -224,7 +226,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('/admin/confirm-payment/{paymentId}', [TopupController::class, 'confirmPayment'])->name('admin.confirm-payment');
 
     // Lihat Riwayat Topup dan Pembayaran
-    Route::get('/admin/topup_report', [TopupController::class, 'getAllTopupAndPayments'])->name('admin.topup_report');
+    Route::get('/admin/topup_report', [TopupController::class, 'topupReport'])->name('admin.topup_report');
 
     Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 

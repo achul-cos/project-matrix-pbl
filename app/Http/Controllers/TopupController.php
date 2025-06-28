@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-
+use IntlDateFormatter;
 
 
 class TopupController extends Controller
@@ -135,35 +135,6 @@ class TopupController extends Controller
     }
 
     /**
-     * Topup online oleh user
-     */
-    // public function userTopup(Request $request)
-    // {
-    //     $request->validate([
-    //         'payment_method' => 'required|in:transfer,coupon',
-    //         'qty_token' => 'required_unless:payment_method,coupon|integer|min:1',
-    //         'coupon' => 'nullable|required_if:payment_method,coupon|string',
-    //         'note' => 'nullable|string',
-    //         'payment_photo' => 'required_unless:payment_method,coupon|image|mimes:jpeg,png,jpg,webp|max:2048'
-    //     ]);
-
-    //     DB::beginTransaction();
-
-    //     try {
-    //         $user = Auth::user();
-
-    //         if ($request->payment_method === 'coupon') {
-    //             return $this->processCouponTopup($request, $user, false);
-    //         } else {
-    //             return $this->processRegularTopup($request, $user, false);
-    //         }
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-    //     }
-    // }
-
-    /**
      * Proses topup reguler (cash/transfer)
      */
     private function processRegularTopup(Request $request, User $user, bool $isAdmin)
@@ -264,7 +235,6 @@ class TopupController extends Controller
         $paymentReport = PaymentReport::create([
             'user_id' => $user->id,
             'user_username' => $user->username,
-            'midtrans_id' => null,
             'qty_bill' => 0,
             'payment_method' => 'coupon',
             'status' => 'success',
@@ -336,7 +306,6 @@ class TopupController extends Controller
             $paymentReport = PaymentReport::create([
                 'user_id' => $user->id,
                 'user_username' => $user->username,
-                'midtrans_id' => null,
                 'qty_bill' => 0,
                 'payment_method' => 'coupon',
                 'status' => 'success',
@@ -365,31 +334,6 @@ class TopupController extends Controller
             return back()->withErrors(['coupon' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
-
-    /**
-     * Selesaikan proses topup
-     */
-    // private function completeTopup(PaymentReport $paymentReport, User $user, int $qtyToken, string $topupMethod)
-    // {
-    //     // Buat topup report
-    //     TopUpReport::create([
-    //         'user_id' => $user->id,
-    //         'payment_id' => $paymentReport->id,
-    //         'qty_token' => $qtyToken,
-    //         'qty_bill' => $paymentReport->qty_bill,
-    //         'topup_method' => $topupMethod,
-    //         'payment_method' => $paymentReport->payment_method,
-    //         'note' => $paymentReport->note,
-    //         'paid_at' => now()
-    //     ]);
-
-    //     // Tambah token ke user
-    //     $before = $user->token;
-    //     $user->increment('token', $qtyToken);
-    //     $after = $user->fresh()->token;
-
-    //     Log::info("✅ Token user $user->username: sebelum $before, tambah $qtyToken, setelah: $after");
-    // }
 
     /**
      * Konfirmasi pembayaran oleh admin (untuk topup online yang pending)
@@ -610,49 +554,148 @@ class TopupController extends Controller
     }
 
     /**
-     * Get pending payments untuk admin
-     */
-    // public function getPendingPayments()
-    // {
-    //     $pendingPayments = PaymentReport::with('user')
-    //                                   ->where('status', 'pending')
-    //                                   ->orderBy('payment_start', 'desc')
-    //                                   ->get();
-
-    //     return view('pages.admin_topup_report', compact('pendingPayments'));
-    // }
-
-    /**
-     * Get topup history
-     */
-    // public function getTopupHistory(Request $request)
-    // {
-    //     $query = TopupReport::with(['user', 'paymentReport']);
-
-    //     if ($request->user_id) {
-    //         $query->where('user_id', $request->user_id);
-    //     }
-
-    //     $topups = $query->orderBy('paid_at', 'desc')->paginate(20);
-
-    //     return view('pages.admin_topup_report', compact('topups'));
-    // }
-
-    /**
      * Read Topup and Payment Report
      */
-    public function getAllTopupAndPayments(Request $request)
+
+    public function topupReport()
     {
-        $topups = TopupReport::with(['user', 'paymentReport'])
-            ->orderByDesc('paid_at')
+        // Ambil data payment report yang berhasil
+        $payments = PaymentReport::with('topup', 'user')
+            ->whereNotNull('paid_at')
+            ->where('status', 'success')
+            ->orderBy('paid_at', 'asc')
             ->get();
 
-        $payments = PaymentReport::with('user')
-            ->orderByDesc('payment_start')
-            ->get();
+        // Inisialisasi variabel
+        $topupCounts = [];
+        $tokenTopupCountsPerDay = [];
+        $revenuePerDay = [];
 
-        return view('pages.admin_topup_report', compact('topups', 'payments'));
+        // Proses data per hari
+        foreach ($payments as $payment) {
+            $tanggalKey = $payment->paid_at->format('Y-m-d');
+            
+            // Jumlah transaksi
+            $topupCounts[$tanggalKey] = ($topupCounts[$tanggalKey] ?? 0) + 1;
+            
+            // Jumlah token (termasuk yang menggunakan kupon)
+            if ($payment->topup) {
+                $tokenTopupCountsPerDay[$tanggalKey] = ($tokenTopupCountsPerDay[$tanggalKey] ?? 0) + $payment->topup->qty_token;
+            }
+            
+            // Pendapatan (tidak termasuk yang menggunakan kupon)
+            // Karena kupon biasanya tidak menghasilkan uang
+            if ($payment->payment_method !== 'coupon') {
+                $revenuePerDay[$tanggalKey] = ($revenuePerDay[$tanggalKey] ?? 0) + $payment->qty_bill;
+            }
+        }
+
+        // Urutkan berdasarkan tanggal
+        ksort($topupCounts);
+        ksort($tokenTopupCountsPerDay);
+        ksort($revenuePerDay);
+
+        // Siapkan data untuk chart
+        $categories = [];
+        $data = []; // Transaksi
+        $tokenData = []; // Token
+        $revenueData = []; // Pendapatan
+
+        foreach ($topupCounts as $tanggal => $jumlah) {
+            $categories[] = Carbon::parse($tanggal)->isoFormat('D MMMM');
+            $data[] = $jumlah;
+            $tokenData[] = $tokenTopupCountsPerDay[$tanggal] ?? 0;
+            $revenueData[] = $revenuePerDay[$tanggal] ?? 0;
+        }
+
+        // Periode bulan ini
+        $startDate = Carbon::now()->subMonth()->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
+        
+        // Periode bulan sebelumnya
+        $prevStartDate = Carbon::now()->subMonths(2)->startOfDay();
+        $prevEndDate = Carbon::now()->subMonth()->endOfDay();
+
+        // Hitung statistik bulan ini
+        $statsBulanIni = $this->calculateStats($payments, $startDate, $endDate);
+        
+        // Hitung statistik bulan sebelumnya
+        $statsBulanSebelumnya = $this->calculateStats($payments, $prevStartDate, $prevEndDate);
+
+        // Hitung persentase perubahan
+        $persentase = $this->calculatePercentageChanges($statsBulanIni, $statsBulanSebelumnya);
+
+        // Format tanggal untuk tampilan
+        $fmt = new IntlDateFormatter('id_ID', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+        $startDateFormatted = $fmt->format($startDate);
+        $endDateFormatted = $fmt->format($endDate);
+
+        return view('pages.admin_topup_report', [
+            'payments' => $payments,
+            'categories' => $categories,
+            'data' => $data,
+            'tokenData' => $tokenData,
+            'revenueData' => $revenueData,
+            'statsBulanIni' => $statsBulanIni,
+            'statsBulanSebelumnya' => $statsBulanSebelumnya,
+            'persentase' => $persentase,
+            'startDateFormatted' => $startDateFormatted,
+            'endDateFormatted' => $endDateFormatted,
+        ]);
     }
+
+    private function calculateStats($payments, $startDate, $endDate)
+    {
+        $transaksi = 0;
+        $token = 0;
+        $pendapatan = 0;
+
+        foreach ($payments as $payment) {
+            if ($payment->paid_at >= $startDate && $payment->paid_at <= $endDate) {
+                $transaksi++;
+                
+                // $pendapatan += $payment->qty_bill;
+                
+                if ($payment->topup) {
+                    $token += $payment->topup->qty_token;
+                }
+
+                if ($payment->payment_method !== 'coupon') {
+                    $pendapatan += $payment->qty_bill;
+                }                
+            }
+        }
+
+        return [
+            'transaksi' => $transaksi,
+            'token' => $token,
+            'pendapatan' => $pendapatan,
+        ];
+    }
+
+    private function calculatePercentageChanges($current, $previous)
+    {
+        $persentase = [
+            'transaksi' => null,
+            'token' => null,
+            'pendapatan' => null,
+        ];
+
+        if ($previous['transaksi'] > 0) {
+            $persentase['transaksi'] = (($current['transaksi'] - $previous['transaksi']) / $previous['transaksi']) * 100;
+        }
+
+        if ($previous['token'] > 0) {
+            $persentase['token'] = (($current['token'] - $previous['token']) / $previous['token']) * 100;
+        }
+
+        if ($previous['pendapatan'] > 0) {
+            $persentase['pendapatan'] = (($current['pendapatan'] - $previous['pendapatan']) / $previous['pendapatan']) * 100;
+        }
+
+        return $persentase;
+    }
+
 
     public function userTopup(Request $request)
     {
