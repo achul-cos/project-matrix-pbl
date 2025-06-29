@@ -112,6 +112,13 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
+    Route::get('/forget', function () {
+    return view('pages.forget');
+})->name('password.request');
+
+Route::post('/forgot-submit', [ProfileController::class, 'forgotSubmit'])->name('forgot.submit');
+
+
     Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
 
     Route::get('/developer', function () {

@@ -39,7 +39,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if ($user->is_google) {
-            return back()->with('error', 'Akun Google tidak bisa ganti password.');
+           return back()->with('google_password_error', true);
         }
 
         $validator = Validator::make($request->all(), [
@@ -87,4 +87,26 @@ class ProfileController extends Controller
 
         return redirect('/login')->with('success', 'Akun Anda berhasil dihapus.');
     }
+    public function forgotSubmit(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+
+    $user = DB::table('users')->where('email', $request->email)->first();
+
+    if (!$user) {
+        // Hapus session email lama jika ada
+        session()->forget('email');
+        return back()->withErrors(['email' => 'Email belum terdaftar.'])->withInput();
+    }
+
+    // Simpan email ke session
+    session(['email' => $user->email]);
+
+    // Proses kirim OTP bisa ditambahkan di sini...
+
+    return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
+}
+
 }
