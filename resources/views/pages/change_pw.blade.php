@@ -26,14 +26,14 @@
             @csrf
             <div class="space-y-4">
                 <div>
-                    <label for="old_password" class="block text-sm font-medium text-gray-700">Current Password</label>
+                    <label for="old_password" class="block text-sm font-medium text-gray-700">Password Lama</label>
                     <input type="password" name="old_password" id="old_password" required class="w-full mt-1 border border-gray-300 rounded-lg p-2" />
                     @error('old_password')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
-                    <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
+                    <label for="new_password" class="block text-sm font-medium text-gray-700">Password Baru</label>
                     <input type="password" name="new_password" id="new_password" required class="w-full mt-1 border border-gray-300 rounded-lg p-2" />
                     @error('new_password')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
@@ -42,7 +42,7 @@
 
                 <!-- Confirm Password -->
                 <div>
-                    <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
                     <input type="password" name="new_password_confirmation" id="new_password_confirmation" required class="w-full mt-1 border border-gray-300 rounded-lg p-2" />
                 </div>
 
