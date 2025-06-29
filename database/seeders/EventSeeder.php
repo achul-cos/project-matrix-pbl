@@ -95,5 +95,15 @@ class EventSeeder extends Seeder
             'tanggal' => '2025-09-10',
             'status' => 'tidak aktif',
         ]);
+
+
+        Event::create([
+            'name' => 'Event Hari Nasional',
+            'deskripsi' => 'Hari libu nasional merupakan hari game matrix hehe.',
+            'image' => 'storage/event_images/paket_malam.webp',
+            'link' => 'https://example.com/event/laravel',
+            'tanggal' => '2025-09-10',
+            'status' => 'tidak aktif',
+        ]);
     }
 }

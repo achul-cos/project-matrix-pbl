@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Database\Seeder;
+use App\Models\Product;
 
 
 class InformasiController extends Controller
@@ -74,35 +77,50 @@ class InformasiController extends Controller
         return view('events.this_week', compact('events'));
     }
 
-    public function update(Request $request, Event $event)
-    {
-        $request->validate([
-            'name' => 'required',
-            'deskripsi' => 'required',
-            'link' => 'required',
-            'tanggal' => 'required|date'
-        ]);
+    public function update(Request $request, $id)
+{
+    $event = Event::findOrFail($id);
 
-        $event->update = ([
-            'name' => $request->name,
-            'deskripsi' => $request->deskripsi,
-            'link' => $request->link,
-            'tanggal' => $request->tanggal
-        ]);
+    $validated = $request->validate([
+        'name' => 'required|string|max:191',
+        'deskripsi' => 'required',
+        'link' => 'required|string|max:191',
+        'tanggal' => 'required|date',
+        'status' => 'required|in:aktif,tidak aktif',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        if ($request->hasFile('photo')) {
-            $imagePath = $request->file('photo')->store('event_images', 'public');
-            $data['photo'] = $imagePath;
+    // kalau user upload gambar baru
+    if ($request->hasFile('image')) {
+        // hapus gambar lama (opsional)
+        if ($event->image && file_exists(public_path($event->image))) {
+            unlink(public_path($event->image));
         }
 
-        $event->update($data);
-
-        return redirect()->back()->with('success', ['message' => 'Event berhasil diupdate!']);
+        // simpan gambar baru ke folder
+        $path = $request->file('image')->store('event_images', 'public');
+        $validated['image'] = 'storage/' . $path; // ini penting! 👈
+    } else {
+        // kalau gak upload, pakai gambar lama
+        $validated['image'] = $event->image;
     }
 
-    public function destroy(Event $event)
-    {
-        $event->delete();
-        return redirect()->back()->with('success', ['message' => 'Event berhasil dihapus!']);
-    }
+    $event->update($validated);
+
+    return redirect()->back()->with('success', 'Event berhasil diupdate!');
 }
+public function destroy($id)
+{
+    $event = Event::findOrFail($id);
+
+    // Hapus gambar jika ada
+    if ($event->image && file_exists(public_path($event->image))) {
+        unlink(public_path($event->image));
+    }
+
+    $event->delete();
+
+    return redirect()->back()->with('success', 'Event berhasil dihapus!');
+}
+}
+

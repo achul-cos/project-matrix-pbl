@@ -18,6 +18,7 @@ use App\Http\Controllers\RentalController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Middleware\VerifyCsrfToken;
 
+
 // Route::get('/', function () {
 //     return view('pages.landing');
 // });
@@ -29,6 +30,13 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/', [InformasiController::class, 'tampilHome'])->name('home');
+
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.detail');
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.show');
 
 Route::post('/simpanuser', [AuthController::class, 'simpanuser'])->name('registerAccount');
 
@@ -145,7 +153,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
 
     // Tambahkan route baru untuk check status
-    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');    
+    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');
 });
 
 
@@ -207,6 +215,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
+
+    Route::put('/admin/management_information/{id}', [InformasiController::class, 'update'])->name('informasi.update');
+
+    Route::delete('/admin/management_information/{id}', [InformasiController::class, 'destroy'])->name('products.destroy');
 
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 

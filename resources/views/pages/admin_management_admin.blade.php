@@ -207,21 +207,21 @@
 
             <!-- Preview Gambar Input -->
             <div class="w-auto mb-2">
-                <img id="preview-photo"
-                    src="{{ asset('images/ad/ara.jpg') }}"
+                <img id="preview-image0"
+                    src="{{ asset('img/ad/placeholder2.png') }}"
                     alt="Preview 1"
-                    class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                    class="object-cover w-full h-full aspect-auto border border-gray-300 rounded shadow-sm">
             </div>
 
             <!-- Input Gambar -->
             <div class="gap-4 mb-8">
-              <label for="photo" class="block text-base text-center mb-4 font-medium text-gray-700">Foto Admin</label>
+              <label for="image" class="block text-base text-center mb-4 font-medium text-gray-700">Foto Admin</label>
               <input type="file"
-                    name="photo"
-                    id="photo"
+                    name="image"
+                    id="image"
                     accept=".jpg,.jpeg,.png,.webp"
                     onchange="previewImage(event, 1)"
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500" required>
             </div>
 
             <!-- Input Name -->
@@ -354,9 +354,9 @@
 
                   <!-- Preview Gambar Input -->
                   <div class="w-auto mb-2">
-                    <img id="preview-photo"
-                        src="{{ $admin->photo ? asset('storage/' . $admin->photo) : asset('img/ad/placeholder2.png') }}"
-                        alt="Preview 1"
+                    <img id="preview-image1"
+                        src="{{ asset('img/ad/placeholder2.png') }}"
+                        alt="Preview"
                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                   </div>
 
@@ -371,7 +371,7 @@
                           onchange="previewImage(event, 1)"
                           class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
                     <a
-                      href="{{ $admin->photo ? asset('storage/' . $admin->photo) : asset('img/ad/placeholder2.png') }}"
+                      href="{{ $admin->photo ? asset('storage/public' . $admin->photo) : asset('img/ad/placeholder2.png') }}"
                       download="{{ $admin->name }}_photo.jpg"
                       class="block p-2 bg-slate-400 text-white rounded shadow hover:bg-slate-800 transition text-center"
                     >
@@ -477,6 +477,21 @@
           }
       });
   }
+  function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
 </script>
 
 @endsection

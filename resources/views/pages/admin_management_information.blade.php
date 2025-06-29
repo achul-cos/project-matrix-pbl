@@ -60,7 +60,7 @@
 
   <section id="product-tools" class="flex flex-row flex-wrap gap-2 p-4 bg-gray-300 rounded-xl mb-10">
     <div data-modal-target="add-modal" data-modal-toggle="add-modal" class="p-4 bg-gray-50 border-2 border-gray-300 shadow-lg rounded-2xl min-w-1/6 justify-center align-middle">
-      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 min-w-48">
+      <div class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2">
         <div class="inline-block relative scale-90 bg-gray-400 p-4 rounded-full border-4 transform transition-transform duration-100 hover:scale-100 active:scale-70 border-gray-50 z-10">
           <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
@@ -252,7 +252,7 @@
             </div>
 
             <!-- Input Gambar -->
-            <div class="flex flex-row gap-4 mb-8">
+            <div class="gap-4 mb-8">
               <div class="">
                 <div class="">
                   <label for="image" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
@@ -279,7 +279,7 @@
 
             <!-- Input deskripsi -->
             <label for="deskripsi" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">deskripsi</label>
-            <input  type="deskripsi"
+            <input  type="text"
                     id="deskripsi"
                     name="deskripsi"
                     placeholder="Masukkan deskripsi"
@@ -385,25 +385,29 @@
               <div class="p-4 md:p-5 space-y-4">
 
                 {{-- Form Input Gambar --}}
-                <form id="yourFormID" action="{{ route('informasi.update', $info->id) }}" method="POST" enctype="multipart/form-data" class="">
+                <form action="{{ route('informasi.update', $info->id) }}" method="POST" enctype="multipart/form-data" class="">
                 @csrf
                 @method('PUT')
+                @if ($info->image)
+  <img src="{{ asset($info->image) }}" alt="preview" class="w-32 h-32 object-cover mb-4">
+@endif
+
                 <div class="flex flex-col items-center gap-4 p-8">
 
                   <!-- Preview Gambar Input -->
                       <!-- Preview Gambar -->
                       <div class="w-auto mb-2">
-                          <img id="preview-image{{ $info->id }}"
-                              src="{{ isset($info) ? asset($info->image) : asset('img/ad/placeholder2.png') }}"
+                          <img id="preview-image"
+                                  src="{{ $info->image ? asset($info->image) : asset('img/ad/placeholder2.png') }}"
                               alt="Preview Gambar info"
-                              class="object-cover w-full h-full aspect-auto border border-gray-300 rounded shadow-sm">
+                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                       </div>
 
                       <!-- Input Gambar -->
-                      <div class="flex flex-row gap-4 mb-8">
+                      <div class="gap-4 flex gap-y-8 flex-col mb-8">
                           <div class="">
                               <div class="">
-                                  <label for="image" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
+                                  <label for="photo" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
                                   <input type="file"
                                         name="image"
                                         id="image"
@@ -449,7 +453,7 @@
                       <input type="date"
                             id="tanggal"
                             name="tanggal"
-                            value="{{ old('tanggal') }}"
+                            value="{{ old('tanggal', $info->tanggal ?? '') }}"
                             class="w-full rounded-full p-2 border border-gray-300"
                             required>
 
