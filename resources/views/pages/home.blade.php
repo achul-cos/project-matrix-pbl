@@ -4,6 +4,17 @@
 
 @section('content')
 
+@php
+    $setting = \App\Models\WarnetSetting::first();
+@endphp
+
+@if ($setting && !$setting->is_open)
+    <div class="bg-yellow-100 text-yellow-800 px-4 py-3 text-center font-medium">
+        ⚠️ Warnet saat ini tutup. Penyewaan komputer akan tersedia saat jam operasional (08:00 - 22:00)
+    </div>
+@endif
+
+
 <section class="flex flex-col p-4 space-y-4" id="welcome">
     <div class="mt-4 bg-white rounded-xl shadow-xl overflow-hidden transition-transform transform hover:scale-101">
         <div class="px-8 pt-8 pb-4 gap-4 grid grid-cols-12">
