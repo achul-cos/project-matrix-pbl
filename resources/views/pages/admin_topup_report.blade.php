@@ -5,291 +5,365 @@
 @section('content')
 
 @php
-    $topups = config('data_topup_dummy.topups');
-
-    $topupCounts = [];
-
-    foreach ($topups as $topup) {
-        // Gunakan 'waktu_pembayaran' untuk analisis waktu
-        $tanggalKey = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-
-        if (!isset($topupCounts[$tanggalKey])) {
-            $topupCounts[$tanggalKey] = 0;
-        }
-        $topupCounts[$tanggalKey]++;
-    }
-
-    // Urutkan berdasarkan tanggal
-    ksort($topupCounts);
-
-    // Siapkan data untuk chart atau visualisasi
-    $categories = [];
-    $data = [];
-
-    foreach ($topupCounts as $tanggalKey => $jumlah) {
-        $categories[] = date('d F', strtotime($tanggalKey));
-        $data[] = $jumlah;
-    }
-
-    // Ambil tanggal terbaru dari data topup
-    $maxDate = max(array_map(fn($topup) => strtotime($topup['waktu_pembayaran']), $topups));
-    $endDate = date('Y-m-d', $maxDate);
-    $startDate = date('Y-m-d', strtotime('-1 month', $maxDate));
-
-    // Hitung jumlah topup di bulan terakhir
-    $totalTopupSebulanTerakhir = collect($topups)
-        ->filter(function($topup) use ($startDate, $endDate) {
-            $tanggal = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-            return $tanggal >= $startDate && $tanggal <= $endDate;
-        })
-        ->count();
-
-    // Hitung untuk bulan sebelumnya
-    $prevEndDate = date('Y-m-d', strtotime('-1 day', strtotime($startDate)));
-    $prevStartDate = date('Y-m-d', strtotime('-1 month', strtotime($startDate)));
-
-    $totalTopupSebulanSebelumnya = collect($topups)
-        ->filter(function($topup) use ($prevStartDate, $prevEndDate) {
-            $tanggal = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-            return $tanggal >= $prevStartDate && $tanggal <= $prevEndDate;
-        })
-        ->count();
-
-    // Hitung persentase perubahan
-    if ($totalTopupSebulanSebelumnya > 0) {
-        $persentasePerubahan = (($totalTopupSebulanTerakhir - $totalTopupSebulanSebelumnya) / $totalTopupSebulanSebelumnya) * 100;
-    } else {
-        $persentasePerubahan = null; // atau 100 jika kamu ingin
-    }
-
-    // Format tanggal tampil
-    $fmt = new IntlDateFormatter('id_ID', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-    $startDateFormatted = $fmt->format(new DateTime($startDate));
-    $endDateFormatted = $fmt->format(new DateTime($endDate));
-
     // Tentukan warna berdasarkan tren
-    $textColor = 'gray-600';
-    if ($persentasePerubahan > 0) {
-        $textColor = 'green-600';
-    } elseif ($persentasePerubahan < 0) {
-        $textColor = 'red-600';
-    }
-
-    // Hitung jumlah token yang ditopup per hari
-    $tokenTopupCountsPerDay = [];
-
-    foreach ($topups as $topup) {
-        $tanggalTokenKey = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-        if (!isset($tokenTopupCountsPerDay[$tanggalTokenKey])) {
-            $tokenTopupCountsPerDay[$tanggalTokenKey] = 0;
-        }
-        $tokenTopupCountsPerDay[$tanggalTokenKey] += (int) $topup['jumlah_token'];
-    }
-
-    // Urutkan berdasarkan tanggal
-    ksort($tokenTopupCountsPerDay);
-
-    // Siapkan data token untuk chart
-    $tokenCategories = [];
-    $tokenData = [];
-
-    foreach ($tokenTopupCountsPerDay as $tanggal => $jumlahToken) {
-        $tokenCategories[] = date('d F', strtotime($tanggal));
-        $tokenData[] = $jumlahToken;
-    }
-
-    // Hitung jumlah token yang ditopup dari tanggal terbaru hingga satu bulan sebelumnya
-    $totalTokenSebulanTerakhir = collect($topups)
-        ->filter(function($topup) use ($startDate, $endDate) {
-            $tanggal = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-            return $tanggal >= $startDate && $tanggal <= $endDate;
-        })
-        ->sum('jumlah_token');
-
-    // Ambil tanggal terbaru dari data topup
-    $maxTokenDate = max(array_map(fn($topup) => strtotime($topup['waktu_pembayaran']), $topups));
-    $endTokenDate = date('Y-m-d', $maxTokenDate);
-    $startTokenDate = date('Y-m-d', strtotime('-1 month', $maxTokenDate));
-
-    // Hitung total token yang ditopup di bulan terakhir
-    $jumlahTokenBulanTerakhir = collect($topups)
-        ->filter(function($topup) use ($startTokenDate, $endTokenDate) {
-            $tanggal = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-            return $tanggal >= $startTokenDate && $tanggal <= $endTokenDate;
-        })
-        ->sum('jumlah_token');
-
-    // Hitung total token yang ditopup di bulan sebelumnya
-    $prevEndTokenDate = date('Y-m-d', strtotime('-1 day', strtotime($startTokenDate)));
-    $prevStartTokenDate = date('Y-m-d', strtotime('-1 month', strtotime($startTokenDate)));
-
-    $jumlahTokenBulanSebelumnya = collect($topups)
-        ->filter(function($topup) use ($prevStartTokenDate, $prevEndTokenDate) {
-            $tanggal = date('Y-m-d', strtotime($topup['waktu_pembayaran']));
-            return $tanggal >= $prevStartTokenDate && $tanggal <= $prevEndTokenDate;
-        })
-        ->sum('jumlah_token');
-
-    // Hitung persentase perubahan jumlah token
-    if ($jumlahTokenBulanSebelumnya > 0) {
-        $persentasePerubahanJumlahToken = (($jumlahTokenBulanTerakhir - $jumlahTokenBulanSebelumnya) / $jumlahTokenBulanSebelumnya) * 100;
-    } else {
-        $persentasePerubahanJumlahToken = null; // Atau 100 jika ingin mengasumsikan lonjakan awal
-    }
-
+    $textColorTransaksi = 'gray-600';
+    if ($persentase['transaksi'] > 0) $textColorTransaksi = 'green-600';
+    elseif ($persentase['transaksi'] < 0) $textColorTransaksi = 'red-600';
+    
+    $textColorToken = 'gray-600';
+    if ($persentase['token'] > 0) $textColorToken = 'green-600';
+    elseif ($persentase['token'] < 0) $textColorToken = 'red-600';
+    
+    $textColorPendapatan = 'gray-600';
+    if ($persentase['pendapatan'] > 0) $textColorPendapatan = 'green-600';
+    elseif ($persentase['pendapatan'] < 0) $textColorPendapatan = 'red-600';
 @endphp
 
-
-{{-- Tempat Kode Frontend halaman Topup Report --}}
-
 <div class="flex">
-    <!-- Main Content -->
     <section class="flex-1 px-8 py-10">
-      <h1 class="text-3xl font-bold mb-6">
-        <span class="text-slate-900">Topup Report </span>
-      </h1>
+        <h1 class="text-3xl font-bold mb-6">
+            <span class="text-slate-900">Topup Report </span>
+        </h1>
 
+        {{-- Grafik Jumlah Transaksi --}}
         <div class="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6 mb-20">
             <div class="flex justify-between">
-            <div>
-                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
-                {{ $totalTopupSebulanTerakhir ?? "error" }}
-                </h5>
-                <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                Total Jumlah Transaksi Bulan Ini ({{ $startDateFormatted ?? "error" }} - {{ $endDateFormatted ?? "error" }})
-                </p>
+                <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
+                        {{ $statsBulanIni['transaksi'] }}
+                    </h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Total Transaksi ({{ $startDateFormatted }} - {{ $endDateFormatted }})
+                    </p>
+                </div>
+                <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-{{ $textColorTransaksi }} text-center">
+                    @if(is_null($persentase['transaksi']))
+                        <p>📊 Tidak tersedia data bulan sebelumnya</p>
+                    @else
+                        @if($persentase['transaksi'] > 0)
+                            <p>📈 Naik {{ number_format(abs($persentase['transaksi']), 2) }}%</p>
+                        @elseif($persentase['transaksi'] < 0)
+                            <p>📉 Turun {{ number_format(abs($persentase['transaksi']), 2) }}%</p>
+                        @else
+                            <p>📊 Tidak ada perubahan</p>
+                        @endif
+                    @endif
+                </div>
             </div>
-            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-{{ $textColor ?? "gray-400" }} text-center">
-                @if (is_null($persentasePerubahan))
-                <p>📊 Tidak tersedia data bulan sebelumnya untuk menghitung persentase perubahan.</p>
-                @else
-                @if ($persentasePerubahan > 0)
-                    <p>📈 Jumlah top-up naik {{ number_format($persentasePerubahan, 2) }}% dibanding bulan sebelumnya.</p>
-                @elseif ($persentasePerubahan < 0)
-                    <p>📉 Jumlah top-up turun {{ number_format(abs($persentasePerubahan), 2) }}% dibanding bulan sebelumnya.</p>
-                @else
-                    <p>📊 Tidak ada perubahan jumlah top-up dibanding bulan sebelumnya.</p>
-                @endif
-                @endif
-            </div>
-            </div>
-            <div id="area-chart"></div>
-        </div>
-      
-        <div class="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6 mb-20">
-            <div class="flex justify-between">
-            <div>
-                <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
-                {{ $totalTokenSebulanTerakhir ?? "error" }}
-                </h5>
-                <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-                Total Jumlah Token Yang DiTopUp ({{ $startDateFormatted ?? "error" }} - {{ $endDateFormatted ?? "error" }})
-                </p>
-            </div>
-            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-{{ $textColor ?? "gray-400" }} text-center">
-                @if (is_null($persentasePerubahanJumlahToken))
-                <p>📊 Tidak tersedia data bulan sebelumnya untuk menghitung persentase perubahan.</p>
-                @else
-                @if ($persentasePerubahanJumlahTokenn > 0)
-                    <p>📈 Jumlah top-up naik {{ number_format($persentasePerubahanJumlahToken, 2) }}% dibanding bulan sebelumnya.</p>
-                @elseif ($persentasePerubahanJumlahToken < 0)
-                    <p>📉 Jumlah top-up turun {{ number_format(abs($persentasePerubahanJumlahToken), 2) }}% dibanding bulan sebelumnya.</p>
-                @else
-                    <p>📊 Tidak ada perubahan jumlah top-up dibanding bulan sebelumnya.</p>
-                @endif
-                @endif
-            </div>
-            </div>
-            <div id="area-chart-2"></div>
+            <div id="area-chart-transaksi"></div>
         </div>
 
+        {{-- Grafik Jumlah Token --}}
+        <div class="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6 mb-20">
+            <div class="flex justify-between">
+                <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
+                        {{ $statsBulanIni['token'] }}
+                    </h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Total Token ({{ $startDateFormatted }} - {{ $endDateFormatted }})
+                    </p>
+                </div>
+                <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-{{ $textColorToken }} text-center">
+                    @if(is_null($persentase['token']))
+                        <p>📊 Tidak tersedia data bulan sebelumnya</p>
+                    @else
+                        @if($persentase['token'] > 0)
+                            <p>📈 Naik {{ number_format(abs($persentase['token']), 2) }}%</p>
+                        @elseif($persentase['token'] < 0)
+                            <p>📉 Turun {{ number_format(abs($persentase['token']), 2) }}%</p>
+                        @else
+                            <p>📊 Tidak ada perubahan</p>
+                        @endif
+                    @endif
+                </div>
+            </div>
+            <div id="area-chart-token"></div>
+        </div>
+
+        {{-- Grafik Pendapatan --}}
+        <div class="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6 mb-20">
+            <div class="flex justify-between">
+                <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
+                        Rp {{ number_format($statsBulanIni['pendapatan'], 0, ',', '.') }}
+                    </h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Total Pendapatan ({{ $startDateFormatted }} - {{ $endDateFormatted }})
+                    </p>
+                </div>
+                <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-{{ $textColorPendapatan }} text-center">
+                    @if(is_null($persentase['pendapatan']))
+                        <p>📊 Tidak tersedia data bulan sebelumnya</p>
+                    @else
+                        @if($persentase['pendapatan'] > 0)
+                            <p>📈 Naik {{ number_format(abs($persentase['pendapatan']), 2) }}%</p>
+                        @elseif($persentase['pendapatan'] < 0)
+                            <p>📉 Turun {{ number_format(abs($persentase['pendapatan']), 2) }}%</p>
+                        @else
+                            <p>📊 Tidak ada perubahan</p>
+                        @endif
+                    @endif
+                </div>
+            </div>
+            <div id="area-chart-pendapatan"></div>
+        </div>
+
+        {{-- Statistik Ringkas --}}
         <div class="w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6 mb-15">
-        <div class="flex justify-between mb-5">
-            <div class="grid gap-4 grid-cols-2">
-            <div>
-                <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Jumlah Transaksi
-                <svg data-popover-target="clicks-info" data-popover-placement="bottom" class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <div data-popover id="clicks-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                    <div class="p-3 space-y-2">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Jumlah Transaksi Top Up</h3>
-                        <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
-                        <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
-                    </svg></a>
+            <div class="flex justify-between mb-5">
+                <div class="grid gap-4 grid-cols-3">
+                    {{-- Transaksi --}}
+                    <div>
+                        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+                            Jumlah Transaksi
+                        </h5>
+                        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">
+                            {{ $statsBulanIni['transaksi'] }}
+                        </p>
                     </div>
-                    <div data-popper-arrow></div>
-                </div>
-                </h5>
-                <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{{ $totalTopupSebulanTerakhir ?? "error" }}</p>
-            </div>
-            <div>
-                <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Jumlah Token Yang DiTopUp
-                <svg data-popover-target="cpc-info" data-popover-placement="bottom" class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <div data-popover id="cpc-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                    <div class="p-3 space-y-2">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Jumlah Token Yang DiTopUp</h3>
-                        <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
-                        <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
-                    </svg></a>
+                    
+                    {{-- Token --}}
+                    <div>
+                        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+                            Jumlah Token
+                        </h5>
+                        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold flex gap-2">
+                            {{ $statsBulanIni['token'] }} <img src="{{ asset('img/icon/Matrix_Token_Icon_White.svg') }}" class="w-5.5 h-5.5 invert">
+                        </p>
                     </div>
-                    <div data-popper-arrow></div>
+                    
+                    {{-- Pendapatan --}}
+                    <div>
+                        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+                            Total Pendapatan
+                        </h5>
+                        <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">
+                            Rp {{ number_format($statsBulanIni['pendapatan'], 0, ',', '.') }}
+                        </p>
+                    </div>
                 </div>
-                </h5>
-                <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold flex gap-2">{{ $totalTokenSebulanTerakhir ?? "error" }} <img src="../img/icon/Matrix_Token_Icon_White.svg" alt="" class="w-5.5 h-5.5 invert"></p>
             </div>
-            </div>
-            <div>
-        </div>
-        </div>
-        <div id="line-chart"></div>
+            <div id="line-chart"></div>
         </div>
 
-
-
-      <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
-        <table id="export-table">
-          <thead>
-            <tr class="bg-gray-200 text-sm text-gray-700">
-                @php
-                    $headers = ['ID', 'ID User', 'Nama', 'Metode', 'Biaya', 'Token', 'Pemesanan', 'Pembayaran'];
-                @endphp
-
-                @foreach($headers as $index => $header)
-                    <th class="p-3 {{ $index === 0 ? 'rounded-l-lg' : '' }} {{ $index === count($headers) - 1 ? 'rounded-r-lg' : '' }}">
-                        <span class="flex items-center">
-                            {{ $header }}
-                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
-                            </svg>
-                        </span>
-                    </th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($topups as $topup)
-                <tr class="bg-gray-100 rounded-xl">
-                    <td class="p-3">{{ $topup['id_topup'] }}</td>
-                    <td class="p-3">{{ $topup['id_user'] }}</td>
-                    <td class="p-3">{{ $topup['nama_user'] }}</td>
-                    <td class="p-3">{{ $topup['metode_pembayaran'] }}</td>
-                    <td class="p-3">{{ $topup['jumlah_biaya'] }}</td>
-                    <td class="p-3">{{ $topup['jumlah_token'] }}</td>
-                    <td class="p-3">{{ $topup['waktu_pemesanan'] }}</td>
-                    <td class="p-3">{{ $topup['waktu_pembayaran'] }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-        </table>
-      </div>
+        {{-- Tabel Data --}}
+        <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
+            <table id="export-table">
+                <thead>
+                    <tr class="bg-gray-200 text-sm text-gray-700">
+                        <th class="p-3 rounded-l-lg">ID</th>
+                        <th class="p-3">User</th>
+                        <th class="p-3">Metode</th>
+                        <th class="p-3">Biaya</th>
+                        <th class="p-3">Token</th>
+                        <th class="p-3">Tipe</th>
+                        <th class="p-3">Pembayaran</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3 rounded-r-lg">Catatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($payments as $payment)
+                    <tr class="bg-gray-100 rounded-xl">
+                        <td class="p-3">{{ $payment->id }}</td>
+                        <td class="p-3">{{ $payment->user->name ?? 'N/A' }}</td>
+                        <td class="p-3">
+                            {{ $payment->payment_method }}
+                            @if($payment->payment_method === 'coupon')
+                                <span class="ml-1 text-xs text-gray-500">
+                                    ({{ $payment->topup->note ?? 'Kupon' }})
+                                </span>
+                            @endif
+                        </td>
+                        <td class="p-3">
+                            @if($payment->payment_method !== 'coupon')
+                                Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}
+                            @else
+                                Gratis
+                            @endif
+                        </td>
+                        <td class="p-3">{{ $payment->topup->qty_token ?? 'N/A' }}</td>
+                        <td class="p-3">
+                            {{ $payment->topup->topup_method ?? 'N/A' }}
+                        </td>
+                        <td class="p-3">{{ $payment->paid_at->format('d M Y H:i') }}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-1 rounded-full 
+                                @if($payment->status === 'success') bg-green-200 text-green-800 
+                                @elseif($payment->status === 'pending') bg-yellow-200 text-yellow-800 
+                                @else bg-red-200 text-red-800 @endif">
+                                {{ $payment->status }}
+                            </span>
+                        </td>
+                        <td class="p-3 text-sm">
+                            {{ $payment->topup->note ?? $payment->note }}
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </section>
-  </div>
+</div>
 
+<script>
+    // Konfigurasi grafik transaksi
+    const transaksiChart = new ApexCharts(document.getElementById("area-chart-transaksi"), {
+        series: [{ name: "Transaksi", data: @json($data) }],
+        chart: { 
+            type: 'area', 
+            height: '150%',
+            fontFamily: 'Inter, sans-serif',
+            toolbar: { show: true }
+        },
+        colors: ['#1A56DB'],
+        dataLabels: { enabled: true },
+        stroke: { width: 6 },
+        grid: { 
+            show: true, 
+            strokeDashArray: 4,
+            padding: { left: 2, right: 2, top: 0 }
+        },
+        xaxis: {
+            categories: @json($categories),
+            labels: { show: true },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        yaxis: { show: false },
+        tooltip: { enabled: true }
+    });
+    transaksiChart.render();
+
+    // Konfigurasi grafik token
+    const tokenChart = new ApexCharts(document.getElementById("area-chart-token"), {
+        series: [{ name: "Token", data: @json($tokenData) }],
+        chart: { 
+            type: 'area', 
+            height: '150%',
+            fontFamily: 'Inter, sans-serif',
+            toolbar: { show: true }
+        },
+        colors: ['#1c8a3e'],
+        dataLabels: { enabled: true },
+        stroke: { width: 6 },
+        grid: { 
+            show: true, 
+            strokeDashArray: 4,
+            padding: { left: 2, right: 2, top: 0 }
+        },
+        xaxis: {
+            categories: @json($categories),
+            labels: { show: true },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        yaxis: { show: false },
+        tooltip: { enabled: true }
+    });
+    tokenChart.render();
+
+    // Konfigurasi grafik pendapatan
+    const pendapatanChart = new ApexCharts(document.getElementById("area-chart-pendapatan"), {
+        series: [{ name: "Pendapatan", data: @json($revenueData) }],
+        chart: { 
+            type: 'area', 
+            height: '150%',
+            fontFamily: 'Inter, sans-serif',
+            toolbar: { show: true }
+        },
+        colors: ['#8F2D2D'],
+        dataLabels: { enabled: true },
+        stroke: { width: 6 },
+        grid: { 
+            show: true, 
+            strokeDashArray: 4,
+            padding: { left: 2, right: 2, top: 0 }
+        },
+        xaxis: {
+            categories: @json($categories),
+            labels: { show: true },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        yaxis: {
+            labels: {
+                formatter: function(val) {
+                    return 'Rp ' + val.toLocaleString('id-ID');
+                }
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function(val) {
+                    return 'Rp ' + val.toLocaleString('id-ID');
+                }
+            }
+        }
+    });
+    pendapatanChart.render();
+
+    // Grafik kombinasi
+    const lineChart = new ApexCharts(document.getElementById("line-chart"), {
+        series: [
+            { name: "Transaksi", data: @json($data) },
+            { name: "Token", data: @json($tokenData) },
+            { name: "Pendapatan", data: @json($revenueData) }
+        ],
+        chart: { 
+            type: 'line', 
+            height: '150%',
+            fontFamily: 'Inter, sans-serif',
+            toolbar: { show: true }
+        },
+        colors: ['#1A56DB', '#1c8a3e', '#8F2D2D'],
+        stroke: { width: 4, curve: 'smooth' },
+        grid: { 
+            show: true, 
+            strokeDashArray: 4,
+            padding: { left: 2, right: 2, top: 0 }
+        },
+        xaxis: {
+            categories: @json($categories),
+            labels: { show: true },
+            axisBorder: { show: true },
+            axisTicks: { show: true }
+        },
+        yaxis: [
+            {
+                title: { text: "Transaksi" }
+            },
+            {
+                opposite: true,
+                title: { text: "Token" }
+            },
+            {
+                opposite: true,
+                title: { text: "Pendapatan (Rp)" },
+                labels: {
+                    formatter: function(val) {
+                        return 'Rp ' + val.toLocaleString('id-ID');
+                    }
+                }
+            }
+        ],
+        tooltip: {
+            y: [
+                { formatter: undefined },
+                { formatter: undefined },
+                {
+                    formatter: function(val) {
+                        return 'Rp ' + val.toLocaleString('id-ID');
+                    }
+                }
+            ]
+        }
+    });
+    lineChart.render();
+</script>
+
+{{-- Script untuk tabel dan ekspor data --}}
 <script>
   if (document.getElementById("export-table") && typeof simpleDatatables.DataTable !== 'undefined') {
 
@@ -429,230 +503,6 @@
           })
       })
   }
-</script>
-
-<script>
-    const options = {
-        chart: {
-        height: "150%",
-        maxWidth: "100%",
-        type: "area",
-        fontFamily: "Inter, sans-serif",
-        dropShadow: {
-            enabled: false,
-        },
-        toolbar: {
-            show: true,
-        },
-        },
-        tooltip: {
-        enabled: true,
-        x: {
-            show: true,
-        },
-        },
-        fill: {
-        type: "gradient",
-        gradient: {
-            opacityFrom: 0.55,
-            opacityTo: 0,
-            shade: "#1C64F2",
-            gradientToColors: ["#1C64F2"],
-        },
-        },
-        dataLabels: {
-        enabled: true,
-        },
-        stroke: {
-        width: 6,
-        },
-        grid: {
-        show: true,
-        strokeDashArray: 4,
-        padding: {
-            left: 2,
-            right: 2,
-            top: 0
-        },
-        },
-        series: [
-        {
-            name: "Jumlah Transaksi", // Ubah label sesuai konteks data
-            data: @json($data), // contoh: [4, 3, 5, 2, ...]
-            color: "#1A56DB",
-        },
-        ],
-        xaxis: {
-        categories: @json($categories), // contoh: ['01 January', '02 January', ...]
-        labels: {
-            show: true,
-        },
-        axisBorder: {
-            show: true,
-        },
-        axisTicks: {
-            show: true,
-        },
-        },
-        yaxis: {
-        show: false,
-        },
-    }
-
-    const options_2 = {
-        chart: {
-        height: "150%",
-        maxWidth: "100%",
-        type: "area",
-        fontFamily: "Inter, sans-serif",
-        dropShadow: {
-            enabled: false,
-        },
-        toolbar: {
-            show: true,
-        },
-        },
-        tooltip: {
-        enabled: true,
-        x: {
-            show: true,
-        },
-        },
-        fill: {
-        type: "gradient",
-        gradient: {
-            opacityFrom: 0.55,
-            opacityTo: 0,
-            shade: "#1C64F2",
-            gradientToColors: ["#1c8a3e"],
-        },
-        },
-        dataLabels: {
-        enabled: true,
-        },
-        stroke: {
-        width: 6,
-        },
-        grid: {
-        show: true,
-        strokeDashArray: 4,
-        padding: {
-            left: 2,
-            right: 2,
-            top: 0
-        },
-        },
-        series: [
-        {
-            name: "Jumlah Token Yang DiTopup",
-            data: @json($tokenData),
-            color: "#1c8a3e",
-        },
-        ],
-        xaxis: {
-        categories: @json($tokenCategories),
-        labels: {
-            show: true,
-        },
-        axisBorder: {
-            show: true,
-        },
-        axisTicks: {
-            show: true,
-        },
-        },
-        yaxis: {
-        show: false,
-        },
-    }
-
-    if (document.getElementById("area-chart") && typeof ApexCharts !== 'undefined') {
-        const chart = new ApexCharts(document.getElementById("area-chart"), options);
-        chart.render();
-    }
-
-    if (document.getElementById("area-chart-2") && typeof ApexCharts !== 'undefined') {
-        const chart = new ApexCharts(document.getElementById("area-chart-2"), options_2);
-        chart.render();
-    }
-
-    const options_3 = {
-    chart: {
-        height: "150%",
-        maxWidth: "100%",
-        type: "line",
-        fontFamily: "Inter, sans-serif",
-        dropShadow: {
-        enabled: false,
-        },
-        toolbar: {
-        show: true,
-        },
-    },
-    tooltip: {
-        enabled: true,
-        x: {
-        show: true,
-        },
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    stroke: {
-        width: 6,
-    },
-    grid: {
-        show: true,
-        strokeDashArray: 4,
-        padding: {
-        left: 2,
-        right: 2,
-        top: -26
-        },
-    },
-    series: [
-        {
-        name: "Jumlah Transaksi", // Ubah label sesuai konteks data
-        data: @json($data), // contoh: [4, 3, 5, 2, ...]
-        color: "#1A56DB",
-        },
-        {
-        name: "Jumlah Token Yang DiTopup",
-        data: @json($tokenData),
-        color: "#1c8a3e",
-        },
-    ],
-    legend: {
-        show: true
-    },
-    stroke: {
-        curve: 'smooth'
-    },
-    xaxis: {
-        categories: @json($categories), // contoh: ['01 January', '02 January', ...]
-        labels: {
-        show: true,
-        style: {
-            fontFamily: "Inter, sans-serif",
-            cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-        }
-        },
-        axisBorder: {
-        show: false,
-        },
-        axisTicks: {
-        show: true,
-        },
-    },
-    yaxis: {
-        show: true,
-    },
-    }
-
-    if (document.getElementById("line-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("line-chart"), options_3);
-    chart.render();
-    }
 </script>
 
 @endsection

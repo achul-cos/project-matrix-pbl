@@ -32,6 +32,7 @@
                 </button>
             </form>
 
+
             <!-- Countdown Timer -->
 <div id="countdown" class="text-center text-sm text-gray-600 mb-4">
     Kode OTP akan kedaluwarsa dalam <span id="timer">60</span> detik.
@@ -53,17 +54,14 @@
     </p>
 </div>
 
+@if (session('success'))
+    <div class="text-green-500 text-center mb-2">
+        {{ session('success') }}
+    </div>
+@endif
 
 
-            <!-- WhatsApp Button (jika pernah digunakan sebelumnya) -->
-            @if (session('whatsapp_url'))
-                <div class="text-center mt-4">
-                    <a href="{{ session('whatsapp_url') }}" target="_blank"
-                        class="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg">
-                        Buka WhatsApp
-                    </a>
-                </div>
-            @endif
+
 
         </div>
     </div>
@@ -71,11 +69,6 @@
 
 
 
-@if (session('success'))
-    <div class="text-green-500 mb-2">
-        {{ session('success') }}
-    </div>
-@endif
 
 <script>
     // Untuk navigasi input OTP jika pakai input digit per digit nanti
@@ -114,3 +107,4 @@
 
 </script>
 @endsection
+

@@ -19,6 +19,8 @@ use App\Http\Controllers\WarnetController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Route as RoutingRoute;
+use App\Http\Controllers\CouponController;
+
 
 // Route::get('/', function () {
 //     return view('pages.landing');
@@ -31,6 +33,8 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.detail');
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.show');
 
 Route::post('/simpanuser', [AuthController::class, 'simpanuser'])->name('registerAccount');
 
@@ -106,6 +110,13 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
+    Route::get('/forget', function () {
+    return view('pages.forget');
+})->name('password.request');
+
+Route::post('/forgot-submit', [ProfileController::class, 'forgotSubmit'])->name('forgot.submit');
+
+
     Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
 
     Route::get('/developer', function () {
@@ -147,7 +158,7 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
 
     // Tambahkan route baru untuk check status
-    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');    
+    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');
 });
 
 
@@ -164,9 +175,11 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
         return view('pages.admin_live_rent_report');
     })->name('admin.live_rent_report');
 
-    Route::get('/admin/rent_report', function () {
-        return view('pages.admin_rent_report');
-    })->name('admin.rent_report');
+    // Route::get('/admin/rent_report', function () {
+    //     return view('pages.admin_rent_report');
+    // })->name('admin.rent_report');
+
+    Route::get('/admin/rent_report', [RentalController::class, 'rentReport'])->name('admin.rent_report');
 
     Route::get('/admin/management_warnet', function () {
         return view('pages.admin_management_warnet');
@@ -208,6 +221,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
 
     Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
 
+    Route::put('/admin/management_information/{id}', [InformasiController::class, 'update'])->name('informasi.update');
+
+    Route::delete('/admin/management_information/{id}', [InformasiController::class, 'destroy'])->name('products.destroy');
+
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
     Route::delete('/admin/management_account/delete_user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
@@ -226,7 +243,7 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('/admin/confirm-payment/{paymentId}', [TopupController::class, 'confirmPayment'])->name('admin.confirm-payment');
 
     // Lihat Riwayat Topup dan Pembayaran
-    Route::get('/admin/topup_report', [TopupController::class, 'getAllTopupAndPayments'])->name('admin.topup_report');
+    Route::get('/admin/topup_report', [TopupController::class, 'topupReport'])->name('admin.topup_report');
 
     Route::get('/admin/management_kritik', [SuggestController::class, 'index'])->name('admin.management_kritik');
 
@@ -241,6 +258,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('/admin/management_warnet/update', [WarnetController::class, 'updateAvailableComputers'])->name('admin.management_warnet.update');
 
     Route::post('/admin/management_warnet/status', [WarnetController::class, 'updateStatus'])->name('admin.management_warnet.status');
+
+    Route::resource('coupon', CouponController::class)->names('admin.coupon');
 });
 
 // API Routes untuk AJAX
