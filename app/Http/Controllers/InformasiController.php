@@ -108,19 +108,20 @@ class InformasiController extends Controller
     $event->update($validated);
 
     return redirect()->back()->with('success', 'Event berhasil diupdate!');
-}
-public function destroy($id)
-{
-    $event = Event::findOrFail($id);
+    }
+    public function destroy($id)
+    {
+        $event = Event::findOrFail($id);
 
-    // Hapus gambar jika ada
-    if ($event->image && file_exists(public_path($event->image))) {
-        unlink(public_path($event->image));
+        // Hapus gambar jika ada
+        if ($event->image && file_exists(public_path($event->image))) {
+            unlink(public_path($event->image));
+        }
+
+        $event->delete();
+
+        return redirect()->back()->with('success', 'Event berhasil dihapus!');
     }
 
-    $event->delete();
-
-    return redirect()->back()->with('success', 'Event berhasil dihapus!');
-}
 }
 

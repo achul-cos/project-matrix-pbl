@@ -91,7 +91,7 @@
     </div>
 
 </section>
-<section class="flex flex-col p-4 space-y-4 mt-4" id="event">
+{{-- <section class="flex flex-col p-4 space-y-4 mt-4" id="event">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
         <div class="col-span-4 lg:col-span-4 sm:col-span-2">
             <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
@@ -203,6 +203,89 @@
                         </svg>
                         <span class="sr-only">Next</span>
                     </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section> --}}
+<section class="flex flex-col p-4 space-y-4 mt-4" id="event">
+    <!-- ... bagian judul ... -->
+
+    <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <!-- Carousel Pertama -->
+        <div>
+            <div id="carousel1" class="relative w-full" data-carousel="slide">
+                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                    @foreach($eventsCarousel1 as $index => $event)
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <a href="{{ $event->link }}" target="_blank" class="block relative group">
+                            <img src="{{ asset($event->image) }}"
+                                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                 alt="{{ $event->name }}">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
+                                <div class="text-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <h3 class="text-white text-xl font-bold">{{ $event->name }}</h3>
+                                    <p class="text-gray-200 mt-2 text-sm">{{ $event->deskripsi }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+                <!-- Indicators -->
+                <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
+                    @foreach($eventsCarousel1 as $index => $event)
+                    <button type="button"
+                            class="w-3 h-3 rounded-full {{ $index==0 ? 'bg-white' : 'bg-white/50' }}"
+                            aria-label="Slide {{ $index+1 }}"
+                            data-carousel-slide-to="{{ $index }}"></button>
+                    @endforeach
+                </div>
+                <!-- Controls -->
+                <button type="button" data-carousel-prev class="absolute top-0 start-0 z-30 ...">
+                    <!-- ... kode tombol prev ... -->
+                </button>
+                <button type="button" data-carousel-next class="absolute top-0 end-0 z-30 ...">
+                    <!-- ... kode tombol next ... -->
+                </button>
+            </div>
+        </div>
+
+        <!-- Carousel Kedua -->
+        <div>
+            <div id="carousel2" class="relative w-full" data-carousel="slide">
+                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                    @foreach($eventsCarousel2 as $index => $event)
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <a href="{{ $event->link }}" target="_blank" class="block relative group">
+                            <img src="{{ asset($event->image) }}"
+                                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                 alt="{{ $event->name }}">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
+                                <div class="text-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <h3 class="text-white text-xl font-bold">{{ $event->name }}</h3>
+                                    <p class="text-gray-200 mt-2 text-sm">{{ $event->deskripsi }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+                <!-- Indicators -->
+                <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
+                    @foreach($eventsCarousel2 as $index => $event)
+                    <button type="button"
+                            class="w-3 h-3 rounded-full {{ $index==0 ? 'bg-white' : 'bg-white/50' }}"
+                            aria-label="Slide {{ $index+1 }}"
+                            data-carousel-slide-to="{{ $index }}"></button>
+                    @endforeach
+                </div>
+                <!-- Controls -->
+                <button type="button" data-carousel-prev class="absolute top-0 start-0 z-30 ...">
+                    <!-- ... kode tombol prev ... -->
+                </button>
+                <button type="button" data-carousel-next class="absolute top-0 end-0 z-30 ...">
+                    <!-- ... kode tombol next ... -->
                 </button>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Product;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class ProductController extends Controller
         // Bentuk ulang menjadi format untuk komponen monitor
         $monitors = $allProducts->map(function ($p) {
             $booking = $p->activeRental;
-            
+
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -116,7 +117,7 @@ class ProductController extends Controller
 
         $monitors = $allProducts->map(function ($p) {
             $booking = $p->activeRental;
-            
+
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -548,14 +549,33 @@ private function formatGpu($gpu)
     return Str::contains(strtolower($gpu), 'rtx') ? 'rtx' : (Str::contains(strtolower($gpu), 'gtx') ? 'gtx' : 'unknown');
 }
 
-public function homePage()
-{
-    $productTopList = Product::orderByDesc('rent')->take(8)->get(); // Ambil 8 produk dengan penyewaan terbanyak
+    public function homePage()
+    {
+        // $events = \App\Models\Event::where('status', 'aktif')
+        //             ->latest()
+        //             ->take(10)
+        //             ->get(['image', 'id', 'name', 'deskripsi', 'tanggal']); // atau ambil yang kamu butuh
 
+        $productTopList = Product::orderByDesc('rent')
+                        ->take(8)
+                        ->get();
 
-    return view('pages.home', compact('productTopList'));
-}
+        // Ambil event aktif, urutkan terbaru, bagi jadi dua grup
+        $activeEvents = Event::where('status', 'aktif')
+                            ->orderBy('tanggal', 'desc')
+                            ->get();
 
+        $eventsCarousel1 = $activeEvents->take(5); // 5 item pertama
+        $eventsCarousel2 = $activeEvents->slice(5)->take(5); // 5 item berikutnya
+
+        return view('pages.home', compact(
+            'productTopList',
+            'eventsCarousel1',
+            'eventsCarousel2'
+        ));
+
+        // return view('pages.home', compact('events', 'productTopList'));
+    }
 
 public function showTop($id)
 {
