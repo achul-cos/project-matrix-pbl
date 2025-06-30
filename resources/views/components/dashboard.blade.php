@@ -186,6 +186,15 @@
             <span class="flex-1 ms-3 whitespace-nowrap">Management Warnet</span>
          </a>
       </li>
+      <li>
+         <li>
+        <a href="{{ route('admin.coupon.index') }}" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded">
+           <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7V3a1 1 0 00-1-1H9a1 1 0 00-1 1v4H5a2 2 0 00-2 2v5h18V9a2 2 0 00-2-2h-4zM3 14v6a1 1 0 001 1h4v-5H4v-2H3zm16 0v2h-4v5h4a1 1 0 001-1v-6h-1z" />
+              </svg>
+              <span>Manajemen Kupon</span>
+         </a>
+      </li>
       </ul>
    </div>
 </aside>

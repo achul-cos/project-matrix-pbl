@@ -8,54 +8,18 @@
   @include('components.sidebar_profile')
 
   <!-- Main Section -->
-  <main class="flex-1 bg-white rounded-2xl border border-gray-200 min-h-[600px] shadow-xl overflow-hidden">
-    <!-- Enhanced Header with Gradient -->
-    <div class="relative p-8 bg-gradient-to-br from-dark-olive via-olive-drab to-green-700 overflow-hidden">
-      <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
-        <div class="absolute top-8 right-8 w-20 h-20 bg-white rounded-full opacity-20"></div>
-        <div class="absolute bottom-0 right-0 w-40 h-40 bg-white rounded-full translate-x-20 translate-y-20"></div>
-      </div>
-      
-      <div class="relative z-10 text-center">
-        <div class="flex justify-center mb-4">
-          <div class="p-4 bg-white/20 rounded-full backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-        </div>
-        <h1 class="text-4xl font-bold text-white mb-3 tracking-tight">
-          Riwayat Top Up
-        </h1>
-        <p class="text-lime-100 text-lg font-medium">
-          Pantau semua aktivitas top up token Anda
-        </p>
-        <div class="mt-6 flex justify-center space-x-6 text-sm">
-          <div class="flex items-center text-lime-100">
-            <div class="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-            <span>{{ $successPayments->count() }} Berhasil</span>
-          </div>
-          <div class="flex items-center text-lime-100">
-            <div class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
-            <span>{{ $pendingPayments->count() }} Pending</span>
-          </div>
-          <div class="flex items-center text-lime-100">
-            <div class="w-2 h-2 bg-red-400 rounded-full mr-2"></div>
-            <span>{{ $failedPayments->count() }} Gagal</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <main class="flex-1 bg-white rounded-lg border border-dark-olive min-h-[600px]">
     <div class="p-4">
+      <h2 class="text-center font-bold text-lg mb-4">Riwayat Top Up</h2>
+      
       <!-- Tabs -->
-      <div class="flex border-b border-gray-200 mb-6 space-x-4">
-        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="all">Semua</button>
-        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="success">Berhasil</button>
-        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="pending">Pending</button>
-        <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="failed">Gagal</button>
-      </div>
+       <div class="flex border-b border-gray-200 mb-6 space-x-4">
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="all">Semua</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="success">Berhasil</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="pending">Pending</button>
+          <button class="tab-btn py-2 px-4 font-medium border-b-4 border-transparent text-gray-600" data-tab="failed">Gagal</button>
+       </div>
+
 
       <!-- Transaction Groups -->
       <div class="space-y-6 px-2">
@@ -99,7 +63,7 @@
                         </div>
                       </div>
                       <div class="text-right">
-                       @if($payment->topupReport)
+                        @if($payment->topupReport)
                        <p class="text-lg font-semibold text-lime-700">
                             {{ $payment->topupReport->qty_token }} Token
                           </p>
@@ -107,7 +71,7 @@
                           <p class="text-lg font-semibold text-lime-700">
                            {{ floor($payment->qty_bill / 2000) }} Token
                           </p>
-                          @endif
+                        @endif
 
                         <p class="{{ $payment->status === 'success' ? 'text-sm' : 'text-lg font-semibold' }}">
                           Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}
@@ -210,15 +174,11 @@
                           </div>
                         </div>
                         <div class="text-right">
-                          @if($payment->topupReport)
-                            <p class="text-lg font-semibold text-lime-700">
-                              {{ $payment->topupReport->qty_token }} Token
-                            </p>
-                          @else
-                            <p class="text-lg font-semibold text-lime-700">
-                            {{ floor($payment->qty_bill / 2000) }} Token
-                            </p>
-                          @endif
+                        @if($payment->topupReport)
+                          <p class="text-lg font-semibold text-lime-700">{{ $payment->topupReport->qty_token }} Token</p>
+                        @else
+                          <p class="text-lg font-semibold text-lime-700">{{ floor($payment->qty_bill / 2000) }} Token</p>
+                        @endif
                           <p class="text-sm">Rp {{ number_format($payment->qty_bill, 0, ',', '.') }}</p>
                         </div>
                       </div>
@@ -275,44 +235,33 @@
 </div>
 
 <!-- Transaction Detail Modal -->
-<div id="transaction-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/85">
-  <div id="transaction-receipt" class="bg-white bg-opacity-90 rounded-2xl shadow-xl w-80 md:w-96 relative m-4">
-    <button onclick="closeModal()" class="absolute right-3 top-3 text-gray-500 hover:text-red-600 text-2xl font-bold">×</button>
-    <div class="p-6 space-y-4">
-      <h3 id="modal-title" class="text-center font-bold text-base">Detail Transaksi</h3>
-      <div class="text-sm space-y-3">
-        <div class="flex justify-between">
-          <p class="text-gray-600">ID Transaksi:</p>
-          <p id="modal-transaction-id" class="font-semibold text-gray-800 text-end"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Tanggal:</p>
-          <p id="modal-date" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Metode:</p>
-          <p id="modal-method" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Jumlah Token:</p>
-          <p id="modal-tokens" class="font-semibold text-gray-800"></p>
-        </div>
-        <div class="flex justify-between">
-          <p class="text-gray-600">Total Bayar:</p>
-          <p id="modal-amount" class="font-semibold text-gray-800"></p>
-        </div>
-        <div id="modal-coupon-container" class="hidden">
-          <div class="flex justify-between">
-            <p class="text-gray-600">Kode Kupon:</p>
-            <p id="modal-coupon" class="font-semibold text-gray-800"></p>
-          </div>
-        </div>
-        <div id="modal-payment-container" class="hidden">
-          <div class="flex justify-between">
-            <p class="text-gray-600">Status:</p>
-            <p id="modal-status" class="font-semibold"></p>
-          </div>
-        </div>
+<div id="transaction-modal" class="hidden fixed inset-0 z-1000 flex items-center justify-center bg-black/50">
+  <div id="transaction-receipt" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 border border-lime-800 relative animate-fade-in">
+    
+    <!-- Tombol close -->
+    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold">×</button>
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <h3 class="text-xl font-bold text-lime-800 mb-1 flex justify-center items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-lime-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 0v2m6-2v2m-9-2h12a2 2 0 012 2v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1a2 2 0 012-2z" />
+        </svg>
+        Detail Transaksi
+      </h3>
+      <p class="text-sm text-gray-500">Berikut adalah ringkasan transaksi Anda</p>
+    </div>
+
+    <!-- Isi -->
+    <div class="space-y-3 text-sm text-gray-800">
+      <div class="flex justify-between"><span class="font-medium">ID Transaksi:</span><span id="modal-transaction-id"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Tanggal:</span><span id="modal-date"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Metode:</span><span id="modal-method"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Jumlah Token:</span><span id="modal-tokens" class="text-lime-700 font-semibold"></span></div>
+      <div class="flex justify-between"><span class="font-medium">Total Bayar:</span><span id="modal-amount" class="font-bold"></span></div>
+
+      <div id="modal-coupon-container" class="hidden flex justify-between">
+        <span class="font-medium">Kode Kupon:</span><span id="modal-coupon"></span>
       </div>
 
       <div id="modal-payment-container" class="hidden flex justify-between">
