@@ -165,7 +165,6 @@ class TopupController extends Controller
         $paymentReport = PaymentReport::create([
             'user_id' => $user->id,
             'user_username' => $user->username,
-            'midtrans_id' => null,
             'qty_bill' => $qtyBill,
             'payment_method' => $request->payment_method,
             'status' => $isAdmin ? 'success' : 'pending',
@@ -447,69 +446,69 @@ class TopupController extends Controller
         return response()->json(['snapToken' => $snapToken]);
     }
 
-    public function midtransCallback(Request $request)
-    {
-        Log::info('📩 Callback Midtrans masuk', $request->all());
+    // public function midtransCallback(Request $request)
+    // {
+    //     Log::info('📩 Callback Midtrans masuk', $request->all());
 
-        $serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
-        $signature = hash(
-            'sha512',
-            $request->order_id .
-                $request->status_code .
-                $request->gross_amount .
-                $serverKey
-        );
+    //     $serverKey = 'SB-Mid-server-idLBWpOyQV1zigXLzgqL67S7';
+    //     $signature = hash(
+    //         'sha512',
+    //         $request->order_id .
+    //             $request->status_code .
+    //             $request->gross_amount .
+    //             $serverKey
+    //     );
 
-        if ($signature !== $request->signature_key) {
-            return response()->json(['message' => 'Invalid signature'], 403);
-        }
+    //     if ($signature !== $request->signature_key) {
+    //         return response()->json(['message' => 'Invalid signature'], 403);
+    //     }
 
-        // Cek status berhasil
-        if (in_array($request->transaction_status, ['capture', 'settlement'])) {
-            $payment = PaymentReport::where('midtrans_id', $request->order_id)->first();
+    //     // Cek status berhasil
+    //     if (in_array($request->transaction_status, ['capture', 'settlement'])) {
+    //         $payment = PaymentReport::where('midtrans_id', $request->order_id)->first();
 
-            if ($payment) {
-                if ($payment->status !== 'success') {
-                    $payment->status = 'success';
-                    $payment->payment_end = now();
-                    $payment->midtrans_payment_type = $request->payment_type ?? null;
-                    $payment->save();
-                }
+    //         if ($payment) {
+    //             if ($payment->status !== 'success') {
+    //                 $payment->status = 'success';
+    //                 $payment->payment_end = now();
+    //                 $payment->midtrans_payment_type = $request->payment_type ?? null;
+    //                 $payment->save();
+    //             }
 
-                // Cek apakah sudah ada entri topup_report
-                $alreadyExists = TopUpReport::where('payment_id', $payment->id)->exists();
+    //             // Cek apakah sudah ada entri topup_report
+    //             $alreadyExists = TopUpReport::where('payment_id', $payment->id)->exists();
 
-                if (!$alreadyExists) {
-                    $jumlahToken = $this->hitungToken($payment->qty_bill);
+    //             if (!$alreadyExists) {
+    //                 $jumlahToken = $this->hitungToken($payment->qty_bill);
 
-                    TopUpReport::create([
-                        'user_id' => $payment->user_id,
-                        'payment_id' => $payment->id,
-                        'qty_token' => $jumlahToken,
-                        'qty_bill' => $payment->qty_bill,
-                        'topup_method' => 'online',
-                        'payment_method' => 'transfer',
-                        'note' => 'Topup otomatis dari Midtrans',
-                        'paid_at' => now(),
-                    ]);
+    //                 TopUpReport::create([
+    //                     'user_id' => $payment->user_id,
+    //                     'payment_id' => $payment->id,
+    //                     'qty_token' => $jumlahToken,
+    //                     'qty_bill' => $payment->qty_bill,
+    //                     'topup_method' => 'online',
+    //                     'payment_method' => 'transfer',
+    //                     'note' => 'Topup otomatis dari Midtrans',
+    //                     'paid_at' => now(),
+    //                 ]);
 
-                    // ✅ INI DIA FIX-NYA
-                    $user = User::find($payment->user_id);
-                    if ($user) {
-                        $before = $user->token;
-                        $user->increment('token', $jumlahToken);
-                        $after = $user->fresh()->token;
+    //                 // ✅ INI DIA FIX-NYA
+    //                 $user = User::find($payment->user_id);
+    //                 if ($user) {
+    //                     $before = $user->token;
+    //                     $user->increment('token', $jumlahToken);
+    //                     $after = $user->fresh()->token;
 
-                        Log::info("✅ Token user $user->username: sebelum $before, tambah $jumlahToken, setelah: $after");
-                    } else {
-                        Log::error("❌ User dengan ID {$payment->user_id} tidak ditemukan saat proses token topup.");
-                    }
-                }
-            }
-        }
+    //                     Log::info("✅ Token user $user->username: sebelum $before, tambah $jumlahToken, setelah: $after");
+    //                 } else {
+    //                     Log::error("❌ User dengan ID {$payment->user_id} tidak ditemukan saat proses token topup.");
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        return response()->json(['message' => 'Callback handled']);
-    }
+    //     return response()->json(['message' => 'Callback handled']);
+    // }
 
     private function hitungToken($bill)
     {
@@ -574,15 +573,15 @@ class TopupController extends Controller
         // Proses data per hari
         foreach ($payments as $payment) {
             $tanggalKey = $payment->paid_at->format('Y-m-d');
-            
+
             // Jumlah transaksi
             $topupCounts[$tanggalKey] = ($topupCounts[$tanggalKey] ?? 0) + 1;
-            
+
             // Jumlah token (termasuk yang menggunakan kupon)
             if ($payment->topup) {
                 $tokenTopupCountsPerDay[$tanggalKey] = ($tokenTopupCountsPerDay[$tanggalKey] ?? 0) + $payment->topup->qty_token;
             }
-            
+
             // Pendapatan (tidak termasuk yang menggunakan kupon)
             // Karena kupon biasanya tidak menghasilkan uang
             if ($payment->payment_method !== 'coupon') {
@@ -611,14 +610,14 @@ class TopupController extends Controller
         // Periode bulan ini
         $startDate = Carbon::now()->subMonth()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
-        
+
         // Periode bulan sebelumnya
         $prevStartDate = Carbon::now()->subMonths(2)->startOfDay();
         $prevEndDate = Carbon::now()->subMonth()->endOfDay();
 
         // Hitung statistik bulan ini
         $statsBulanIni = $this->calculateStats($payments, $startDate, $endDate);
-        
+
         // Hitung statistik bulan sebelumnya
         $statsBulanSebelumnya = $this->calculateStats($payments, $prevStartDate, $prevEndDate);
 
@@ -653,16 +652,16 @@ class TopupController extends Controller
         foreach ($payments as $payment) {
             if ($payment->paid_at >= $startDate && $payment->paid_at <= $endDate) {
                 $transaksi++;
-                
+
                 // $pendapatan += $payment->qty_bill;
-                
+
                 if ($payment->topup) {
                     $token += $payment->topup->qty_token;
                 }
 
                 if ($payment->payment_method !== 'coupon') {
                     $pendapatan += $payment->qty_bill;
-                }                
+                }
             }
         }
 

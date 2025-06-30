@@ -9,19 +9,38 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code')->unique();
-            $table->string('sponsor')->nullable();
-            $table->text('desc')->nullable();
-            $table->integer('qty_use')->default(0);
-            $table->integer('qty_can_use');
-            $table->integer('qty_token');
-            $table->timestamp('expired');
+            $table->string('username');
+            $table->string('phone')->nullable();
+            $table->string('email');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->string('photo')->nullable();
+            $table->integer('token')->nullabel();
+            $table->boolean('is_block')->default(false);
+            $table->boolean('is_google')->default(false);
+            $table->timestamp('last_online')->nullable();
             $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
@@ -30,6 +49,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };
