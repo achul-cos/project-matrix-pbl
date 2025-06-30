@@ -9,18 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->string('sponsor')->nullable();
-            $table->text('desc')->nullable();
-            $table->integer('qty_use')->default(0);
-            $table->integer('qty_can_use');
-            $table->integer('qty_token');
-            $table->timestamp('expired');
             $table->timestamps();
         });
     }

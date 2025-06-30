@@ -15,8 +15,11 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopupController;
 use App\Http\Controllers\SuggestController;
 use App\Http\Controllers\RentalController;
+use App\Http\Controllers\WarnetController;
 use App\Http\Controllers\XenditPaymentController;
 use App\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Route as RoutingRoute;
+use App\Http\Controllers\CouponController;
 
 // Route::get('/', function () {
 //     return view('pages.landing');
@@ -29,6 +32,8 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.detail');
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.show');
 
 Route::post('/simpanuser', [AuthController::class, 'simpanuser'])->name('registerAccount');
 
@@ -235,6 +240,14 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_kritik/export', [SuggestController::class, 'export'])->name('suggest.export');
 
     Route::get('/admin/management_kritik/export-pdf', [SuggestController::class, 'exportPdf'])->name('suggest.export_pdf');
+
+    Route::get('/admin/management_warnet', [WarnetController::class, 'index'])->name('admin.management_warnet');
+
+    Route::post('/admin/management_warnet/update', [WarnetController::class, 'updateAvailableComputers'])->name('admin.management_warnet.update');
+
+    Route::post('/admin/management_warnet/status', [WarnetController::class, 'updateStatus'])->name('admin.management_warnet.status');
+
+    Route::resource('coupon', CouponController::class)->names('admin.coupon');
 });
 
 // API Routes untuk AJAX
