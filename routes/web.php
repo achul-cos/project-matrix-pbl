@@ -78,6 +78,10 @@ Route::get('/otp', function () {
     return view('pages.otp');
 });
 
+ Route::get('/forget', function () {
+    return view('pages.forget');
+})->name('password.request');
+
 Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback'])->withoutMiddleware([VerifyCsrfToken::class]);
 
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
@@ -130,6 +134,8 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
     Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
 
     Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
+
+    Route::post('/forgot-submit', [ProfileController::class, 'forgotSubmit'])->name('forgot.submit');
 
     Route::get('/payment', [PaymentController::class, 'index']);
 
@@ -212,6 +218,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/management_information', [InformasiController::class, 'index'])->name('admin.management_information');
 
     Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
+
+    Route::put('/admin/management_information/{id}', [InformasiController::class, 'update'])->name('informasi.update');
+
+    Route::delete('/admin/management_information/{id}', [InformasiController::class, 'destroy'])->name('products.destroy');
 
     Route::patch('/admin/management_account/unban_user/{id}', [UserController::class, 'unban'])->name('account.unban');
 
