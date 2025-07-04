@@ -37,7 +37,7 @@
                              d="M17 9V7a4 4 0 00-8 0v2M5 9h14l1 12H4L5 9z"/></svg>
                         <span>Token Dibeli</span>
                     </div>
-                    <span class="font-bold">{{ $tokens ?? '10' }}</span>
+                    <span class="font-bold">{{ $total/2000 ?? '10' }}</span>
                 </div>
                 <div class="flex justify-between items-center border-b border-dashed pb-2">
                     <div class="flex items-center gap-2">

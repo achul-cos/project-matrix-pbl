@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Models\UserSuggest;
 use App\Exports\SuggestExport;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -31,8 +32,28 @@ class SuggestController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['message' => 'required|string|max:500']);
+        $request->validate([
+            'message' => 'required|string|max:500',
+            'g-recaptcha-response' => 'required',
+        ], [
+            'g-recaptcha-response.required' => 'Silakan centang kotak captcha untuk melanjutkan.',
+        ]);
 
+        // Validasi CAPTCHA manual ke server Google
+        $captchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('NOCAPTCHA_SECRET'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        // Cek hasil dari Google
+        if (!$captchaResponse->json('success')) {
+            return redirect()->back()
+                ->withErrors(['g-recaptcha-response' => 'Captcha tidak valid. Silakan coba lagi.'])
+                ->withInput();
+        }
+
+        // Simpan ke database kalau lolos captcha
         UserSuggest::create(['message' => $request->message]);
 
         return redirect()->back()->with('success', 'Terima kasih atas kritik dan saran Anda!');
@@ -69,25 +90,6 @@ class SuggestController extends Controller
 
     return Excel::download(new \App\Exports\SuggestExportFiltered($data), 'data_kritik_matrix_filtered.xlsx');
     }
-
-    // public function exportPdf(Request $request)
-    // {
-    // $query = \App\Models\UserSuggest::query();
-
-    // if ($request->filled('from')) {
-    //     $query->whereDate('created_at', '>=', $request->from);
-    // }
-
-    // if ($request->filled('to')) {
-    //     $query->whereDate('created_at', '<=', $request->to);
-    // }
-
-    // $kritik = $query->orderBy('created_at', 'desc')->get();
-
-    // $pdf = Pdf::loadView('pdf.kritik_saran', compact('kritik'));
-    // return $pdf->download('kritik_saran_matrix.pdf');
-    // }
-
 
     public function exportPdf()
     {

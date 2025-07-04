@@ -74,13 +74,21 @@
     @endif
 
     {{-- Form Saran & Kritik --}}
-    <div class="mt-10 border-t border-gray-300 pt-10">
+    <div class=" relative z-10 mt-10 border-t border-gray-300 pt-10">
         <h2 class="text-2xl font-bold text-[#2F5F00] mb-4">Berikan Saran & Kritik</h2>
         <form action="{{ route('suggest.store') }}" method="POST" class="space-y-4">
             @csrf
-            <textarea name="message" rows="4" required class="w-full border border-[#A3C57C] p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3C57C]" placeholder="Tulis saran atau kritik Anda di sini..."></textarea> <p>
-            note: Form ini bersifat anonim. silakan tulis dengan bebas dan sejujur jujur nya.
-        </p>
+            <textarea name="message" rows="4" required class="w-full border border-[#A3C57C] p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3C57C]" placeholder="Tulis saran atau kritik Anda di sini..."></textarea> 
+            
+             {!! NoCaptcha::display() !!}
+
+            @if ($errors->has('g-recaptcha-response'))
+                <span class="text-red-500 text-sm">{{ $errors->first('g-recaptcha-response') }}</span>
+            @endif
+            
+            <p>
+                note: Form ini bersifat anonim. silakan tulis dengan bebas dan sejujur jujur nya.
+            </p>
             <button type="submit" class="bg-[#2F5F00] text-white px-6 py-2 rounded-lg hover:bg-[#3A7500] transition">Kirim</button>
         </form>
        
@@ -122,6 +130,8 @@
     <img class="absolute bottom-8 -right-6 h-60 w-auto animate-spin-slow" src="{{ asset('img/icon/abstract.png') }}" />
   </div>    
 </div>
+
+{!! NoCaptcha::renderJs() !!}
 
 <script>
     document.querySelectorAll('[data-toggle]').forEach(button => {
