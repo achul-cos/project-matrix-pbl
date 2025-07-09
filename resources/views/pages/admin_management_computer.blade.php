@@ -54,7 +54,7 @@
 <div class="flex-1 px-8 py-10">
   <section id="title">
     <h1 class="text-3xl font-bold mb-6">
-      <span class="text-slate-900">Managament Computer</span>
+      <span class="text-slate-900">Manajemen Komputer</span>
     </h1>
   </section>
 
@@ -156,7 +156,7 @@
       <thead>
         <tr class="bg-gray-200 text-sm text-gray-700">
           @php
-            $headers = ['ID', 'Kode', 'Nama', 'Lantai', 'Ruangan', 'Status', 'Action'];
+            $headers = ['ID', 'Kode', 'Nama', 'Lantai', 'Ruangan', 'Status', 'Aksi'];
           @endphp
           @foreach($headers as $i => $h)
             <th class="p-3 {{ $i==0?'rounded-l-lg':'' }} {{ $i==count($headers)-1?'rounded-r-lg':'' }}">

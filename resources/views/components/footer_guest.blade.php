@@ -16,7 +16,7 @@
                     <svg class="w-4 h-4 text-lime-950 mb-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                         <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
                     </svg>
-                    <p class="font-bold text-sm text-wrap max-w-40 whitespace-normal text-lime-950">Matrix Adalah Situs Penyewaan/Booking PC Warnet.</p></a>
+                    <p class="font-bold text-sm text-wrap max-w-40 whitespace-normal text-lime-950">Matrix Adalah Situs Penyewaan PC Warnet.</p></a>
                     <p class="font-medium mt-4 text-sm text-wrap max-w-40 whitespace-normal text-lime-950">- Matrix Team</p></a>
                     <div class="mt-8"><p class="font-light text-2xl pb-4">Ikuti Kami</p></div>
                     {{-- <div class="transform transition-transform hover:scale-103 pb-2"><a href="#" class="flex gap-4"><svg class="w-auto h-6 opacity-75 transform transition-transform hover:scale-103" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg><p class="font-bold text-xl">Facebook</p></a></div> --}}
@@ -62,7 +62,7 @@
     </div>
     <div class="bg-lime-800 p-4">
         <p class="text-white text-center font-light text-md indent-8">
-            ©2025 Matrix, All Rights Reserved
+            ©2025 Matrix, Hak Cipta Dilindungi Undang-Undang
         </p>
     </div>
 </footer>

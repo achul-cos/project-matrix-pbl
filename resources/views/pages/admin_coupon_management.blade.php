@@ -9,15 +9,15 @@
   </section>
 
   {{-- Form Tambah Voucher --}}
-  <section class="flex flex-row flex-wrap gap-4 p-4 bg-sky-100 rounded-xl mb-10">
-    <div class="p-4 bg-white border-2 border-sky-300 shadow-lg rounded-2xl min-w-[14rem]">
+  <section class="flex flex-row flex-wrap gap-4 p-4 bg-gray-100 rounded-xl mb-10">
+    <div class="p-4 bg-white border-2 border-gray-300 shadow-lg rounded-2xl min-w-[14rem]">
       <div data-modal-target="add-coupon-modal" data-modal-toggle="add-coupon-modal" class="transform transition-transform hover:scale-105 justify-items-center active:scale-95 group -mt-2 cursor-pointer">
-        <div class="inline-block relative scale-90 bg-sky-500 p-4 rounded-full border-4 border-white z-10">
+        <div class="inline-block relative scale-90 bg-gray-500 p-4 rounded-full border-4 border-white z-10">
           <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
         </div>
-        <div class="-mt-10 bg-sky-500 p-4 rounded-lg z-0">
+        <div class="-mt-10 bg-gray-400 p-4 w-auto rounded-lg z-0 justify-center">
           <div class="mt-6 text-white font-bold text-center text-xl tracking-widest">TAMBAH</div>
           <hr class="w-auto mt-3 h-0.5 bg-white border-0 mx-6">
           <div class="font-light text-sm text-white text-center max-w-36 mt-4">Tambah Voucher Baru</div>
@@ -27,10 +27,10 @@
   </section>
 
   {{-- Tabel Voucher --}}
-  <section class="bg-white p-6 rounded-2xl border-4 border-sky-700 shadow-xl">
+  <section class="bg-white p-6 rounded-2xl border-4 border-gray-700 shadow-xl">
     <table id="couponTable" class="text-left border-separate border-spacing-y-3 w-full">
       <thead>
-        <tr class="bg-sky-200 text-sm text-gray-700">
+        <tr class="bg-gray-200 text-sm text-gray-700">
           @php
             $headers = ['ID', 'Nama', 'Kode', 'Sponsor', 'Token', 'Tersisa', 'Kadaluarsa', 'Aksi'];
           @endphp
@@ -46,7 +46,7 @@
       </thead>
       <tbody>
         @foreach ($coupons as $coupon)
-          <tr class="bg-sky-50 rounded-xl">
+          <tr class="bg-gray-50 rounded-xl">
             <td class="p-3">{{ $coupon->id }}</td>
             <td class="p-3">{{ $coupon->name }}</td>
             <td class="p-3">{{ $coupon->code }}</td>
@@ -72,7 +72,7 @@
 <div id="add-coupon-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 justify-center items-center overflow-y-auto overflow-x-hidden w-full h-full bg-black/30">
   <div class="relative w-full max-w-4xl mx-auto p-6">
     <div class="bg-white rounded-lg shadow-xl">
-      <div class="flex items-center justify-between p-4 border-b bg-sky-700 rounded-t">
+      <div class="flex items-center justify-between p-4 border-b bg-gray-700 rounded-t">
         <h3 class="text-lg font-semibold text-white">Tambah Voucher Baru</h3>
         <button type="button" class="text-white hover:text-gray-200" data-modal-hide="add-coupon-modal">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +91,7 @@
           <input type="number" name="qty_can_use" placeholder="Jumlah Pemakaian" required class="w-full border px-4 py-2 rounded-lg">
           <input type="datetime-local" name="expired" placeholder="Tanggal Kadaluarsa" required class="w-full border px-4 py-2 rounded-lg">
           <div class="md:col-span-2 flex justify-end">
-            <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg">Tambah Voucher</button>
+            <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg">Tambah Voucher</button>
           </div>
         </form>
       </div>

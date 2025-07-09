@@ -111,7 +111,7 @@
                 @endfor
 
                 <div class="m-6 flex justify-end">
-                    <button type="submit" class="px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-600">
                         Simpan Perubahan
                     </button>
                 </div>

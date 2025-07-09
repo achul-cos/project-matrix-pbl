@@ -13,7 +13,7 @@
             <div class="hidden max-sm:row-span-8 max-sm:flex">
                 <div class="flex-row gap-y-4">
                     <p class="font-light text-2xl pb-4">Jelajahi Kami</p>
-                    <a href="{{ route('home') }}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Home</p></a>
+                    <a href="{{ route('home') }}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Beranda</p></a>
                     <a href="{{ route('profile') }}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Pengaturan Akun</p></a>
                     <a href="{{ route('developer') }}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Tentang Pengembang</p></a>
                     <a href="{{ route('topup') }}"><p class="font-bold text-xl pb-2 transform transition-transform hover:scale-103">Top Up Token</p></a>
@@ -61,7 +61,7 @@
     </div>
     <div class="bg-lime-800 p-4">
         <p class="text-white text-center font-light text-md indent-8">
-            ©2025 Matrix, All Rights Reserved
+            ©2025 Matrix, Hak Cipta Dilindungi Undang-Undang
         </p>
     </div>
 </footer>

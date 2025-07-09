@@ -8,8 +8,8 @@
         </a>
 
         <div class="flex order-1 space-x-3 md:space-x-0 rtl:space-x-reverse gap-4">
-          <a href="/login"><button type="button" class="text-lime-950 bg-lime-600 border-1 border-gray-950 hover:bg-lime-800 hover:text-lime-50 focus:ring-2 focus:outline-none focus:ring-lime-900 font-black text-lg px-3 py-2 text-center rounded-full">Login</button></a>
-          <a href="/register"><button type="button" class="text-lime-950 bg-lime-600 border-1 border-gray-950 hover:bg-lime-800 hover:text-lime-50 focus:ring-2 focus:outline-none focus:ring-lime-900 font-black text-lg px-3 py-2 text-center rounded-full">Register</button></a>
+          <a href="/login"><button type="button" class="text-lime-950 bg-lime-600 border-1 border-gray-950 hover:bg-lime-800 hover:text-lime-50 focus:ring-2 focus:outline-none focus:ring-lime-900 font-black text-lg px-3 py-2 text-center rounded-full">Masuk</button></a>
+          <a href="/register"><button type="button" class="text-lime-950 bg-lime-600 border-1 border-gray-950 hover:bg-lime-800 hover:text-lime-50 focus:ring-2 focus:outline-none focus:ring-lime-900 font-black text-lg px-3 py-2 text-center rounded-full">Daftar</button></a>
         </div>
 
     </div>
