@@ -21,142 +21,169 @@ use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Route as RoutingRoute;
 use App\Http\Controllers\CouponController;
 
-// Route::get('/', function () {
-//     return view('pages.landing');
-// });
+/**
+ * Guest Side - No Authentication
+ */
 
+//Landing Page
 Route::get('/', [ProductController::class, 'LandingPage'])->name('pages.landing');
 
+//Register Page
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 
-
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-
-Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.detail');
-Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.show');
-
+//Register Page - Menyimpan data kaun
 Route::post('/simpanuser', [AuthController::class, 'simpanuser'])->name('registerAccount');
 
+//Login Page
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 
+//Login Page - Autentikasi Pengguna
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
 
-
+//Log Out
 Route::get('/logout', [AuthController::class, 'logout'])->name('logoutAccount');
+
+//Login Page - Login with google
+Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
+
+//Login Page - Callback Login Form Google
+Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
+    /**
+     * Forget Password Section
+     */
+
+    //Input Email
+    Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');   
+
+    //Input Email - Kirim Kode OTP Ke Email
+    Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
+    // Route::post('/forgot-submit', [ProfileController::class, 'forgotSubmit'])->name('forgot.submit');
+
+    //Input OTP
+    Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
+
+    //Input OTP - Resend Otp
+    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
+
+    //Input OTP - Verifikasi Otp
+    Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
+
+    //Reset Password
+    Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
+
+    //Reset Password - Update Password
+    Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
+
+    /**
+     * Forget Password Section - Done
+     */
+
+/**
+ * Guest Side - Done
+ */
+
+/**
+ * User Side
+ */
 
 
 Route::post('/settingacount', [UserController::class, 'updateAccount'])->middleware('auth')->name('update.account');
 
-
-Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
-
-
-Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
-Route::get('/forgot-password', [OtpController::class, 'showForgetForm'])->name('forget.form');
-Route::post('/forgot-password', [OtpController::class, 'submitEmail'])->name('forgot.submit');
-
-Route::get('/otp-verification', [OtpController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/otp-verification', [OtpController::class, 'verifyOtp'])->name('verify.otp');
-
-Route::get('/reset-password', [OtpController::class, 'showResetForm'])->name('password.reset.form');
-Route::post('/reset-password', [OtpController::class, 'storeNewPassword'])->name('password.store');
-
-Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
-
-Route::get('/reset', function () {
-    return view('pages.reset');
-});
-
-
-Route::get('/forget', function () {
-    return view('pages.forget');
-});
-
-
-Route::get('/otp', function () {
-    return view('pages.otp');
-});
-
- Route::get('/forget', function () {
-    return view('pages.forget');
-})->name('password.request');
-
-Route::post('/midtrans/callback', [TopupController::class, 'midtransCallback'])->withoutMiddleware([VerifyCsrfToken::class]);
-
 Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(function () {
 
+    // Home Page
     Route::get('/home', [ProductController::class, 'homePage'])->name('home');
 
-    Route::get('/product/{id}', [ProductController::class, 'showTop'])->name('products.top');
-
-    Route::get('/topup', function () {
-        return view('pages.topup');
-    })->name('topup');
-
-    Route::get('/profile', function () {
-        return view('pages.profile');
-    })->name('profile');
-
-    Route::get('/profile/topup', [TopupController::class, 'userTopupHistory'])->name('profile.history_topup');
-
-    // Route::get('/profile/rent', function () {
-    //     return view('pages.history_rent');
-    // })->name('profile.history_rent');
-
-    Route::get('/profile/rent', [RentalController::class, 'rentalHistory'])->name('profile.history_rent');
-
-
-    Route::get('/profile/change_password', function () {
-        return view('pages.change_pw');
-    })->name('profile.password');
-
+    // Search Page
     Route::get('/search', [ProductController::class, 'showSearchPage'])->name('search.page');
 
-    Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun')->middleware('auth');
+    // Product Page
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
 
+    //Developer Page
     Route::get('/developer', function () {
         return view('pages.developer');
     })->name('developer');
 
+    //Faq Page
     Route::get('/faq', function () {
         return view('pages.faq');
-    })->name('faq');
+    })->name('faq');    
 
-    Route::get('/invoice', function () {
-        return view('pages.invoice_pc');
-    })->name('invoice');
-
-    Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->middleware('auth')->name('profile.photo.update');
-
-    Route::get('/product/{id}', [ProductController::class, 'show'])->name('productPage.show');
-
-    Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password')->middleware('auth');
-
-    Route::post('/change_pw', [ProfileController::class, 'changePassword'])->name('change_pw');
-
-    Route::post('/forgot-submit', [ProfileController::class, 'forgotSubmit'])->name('forgot.submit');
-
-    Route::get('/payment', [PaymentController::class, 'index']);
-
-    // Ini redirect ke halaman sukses, bawa ID
-    Route::get('/topup-success/{paymentId}', [TopupController::class, 'showSuccessPage'])->name('topup.success');
-
-    // Unduh struk
-    Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('topup.download-receipt');
-
+    //Faq Page - Make Suggestion - Function
     Route::post('/suggest/store', [SuggestController::class, 'store'])->name('suggest.store');
 
-    Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
+    /**
+     * Profile Section
+     */
+    
+        //Profile - Setting Account
+        Route::get('/profile', function () {
+            return view('pages.profile');
+        })->name('profile');
 
-    Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
-    Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
+        //Profile - Setting Account - Update Photo Profile - Function
+        Route::post('/updateprofile', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');
 
-    Route::get('/topup-success', [XenditPaymentController::class, 'topupSuccess'])->name('topup.success');
-    Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
+        //Profile - Topup History
+        Route::get('/profile/topup', [TopupController::class, 'userTopupHistory'])->name('profile.history_topup');
 
-    // Tambahkan route baru untuk check status
-    Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');
+        //Profile - Rent History
+        Route::get('/profile/rent', [RentalController::class, 'rentalHistory'])->name('profile.history_rent');
+
+        //Profile - Change Password
+        Route::get('/profile/change_password', function () {
+            return view('pages.change_pw');
+        })->name('profile.password');
+        
+        //Profile - Change Password - Function
+        Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password');   
+
+        //Profile - Delete Account - Function
+        Route::delete('/profile/delete-account', [ProfileController::class, 'hapusAkun'])->name('hapus.akun');
+
+    /**
+     * Profile Section - Done
+     */
+
+    /**
+     * Topup Section
+     */
+
+        //Topup Page
+        Route::get('/topup', function () {
+            return view('pages.topup');
+        })->name('topup');
+
+        //Topup Page - Redeem Coupon - Function
+        Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
+
+        //Payment Page
+        Route::get('/payment', [PaymentController::class, 'index']);
+
+        //Payment Page - Make Payment - Function
+        Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
+
+        //Payment Page - Xendit Payment Page - Function
+        Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
+
+        //Topup Success
+        Route::get('/topup-success', [XenditPaymentController::class, 'topupSuccess'])->name('topup.success');
+
+        //Topup Fail
+        Route::get('/topup-fail', [XenditPaymentController::class, 'topupFail'])->name('topup.fail');
+
+        //Unduh Struk - Functions
+        Route::get('/download-receipt/{id}', [TopupController::class, 'downloadReceipt'])->name('topup.download-receipt');
+
+        //Payment Status
+        Route::get('/payment-status/{paymentId}', [XenditPaymentController::class, 'checkPaymentStatus'])->name('payment.status');
+
+    /**
+     * Topup Section - Done
+     */
+    
 });
 
 
@@ -172,10 +199,6 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::get('/admin/live_rent_report', function () {
         return view('pages.admin_live_rent_report');
     })->name('admin.live_rent_report');
-
-    // Route::get('/admin/rent_report', function () {
-    //     return view('pages.admin_rent_report');
-    // })->name('admin.rent_report');
 
     Route::get('/admin/rent_report', [RentalController::class, 'rentReport'])->name('admin.rent_report');
 
@@ -311,3 +334,6 @@ Route::get('/rental/confirmation/{rental}', [RentalController::class, 'showConfi
     ->name('user.rental.confirmation');
 
 Route::get('/product/rent/{product}', [RentalController::class, 'rentComputer'])->name('rent.computer');
+
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.detail');
+Route::get('/event/{id}', [InformasiController::class, 'showEvent'])->name('event.show');

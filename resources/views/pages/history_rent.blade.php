@@ -95,7 +95,7 @@
                         </div>
                         <h3 class="text-2xl font-bold text-gray-700 mb-3">Belum ada riwayat penyewaan</h3>
                         <p class="text-gray-500 mb-8 text-lg">Mulai petualangan gaming Anda di Matrix Warnet</p>
-                        <a href="{{ route('computers.index') }}" class="inline-flex items-center bg-gradient-to-r from-dark-olive to-olive-drab hover:from-olive-drab hover:to-dark-olive text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <a href="{{ route('home') }}" class="inline-flex items-center bg-gradient-to-r from-dark-olive to-olive-drab hover:from-olive-drab hover:to-dark-olive text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
