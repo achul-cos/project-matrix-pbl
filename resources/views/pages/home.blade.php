@@ -35,8 +35,13 @@
                     <p class="text-xl mt-4 text-gray-500">Hari ini sewa komputer apa ya?</p>
                 </div>
                 <div class="flex items-end content-end gap-2">
-                    <div class="bg-lime-600 w-5 h-5"></div>
-                    <div class="text-lime-600 font-bold">Warnet Online</div>
+                    @if ($setting && !$setting->is_open)
+                        <div class="bg-red-600 w-5 h-5"></div>
+                        <div class="text-red-600 font-bold">Warnet Tutup</div>
+                    @else
+                        <div class="bg-lime-600 w-5 h-5"></div>
+                        <div class="text-lime-600 font-bold">Warnet Buka</div>
+                    @endif
                 </div>
             </div>
             <div class="grid grid-flow-row grid-rows-2 auto-rows-max justify-end gap-4 pr-2 ml-2">

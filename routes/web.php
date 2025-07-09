@@ -149,6 +149,8 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
 
     Route::post('/topup/redeem-coupon', [TopupController::class, 'redeemCoupon'])->name('user.redeem-coupon');
 
+    Route::post('/redeem-voucher', [CouponController::class, 'redeem'])->name('user.redeem-coupon');
+
     Route::post('/payment-process', [XenditPaymentController::class, 'makePayment']);
     Route::post('/xendit/webhook', [XenditPaymentController::class, 'handleCallback']);
 
@@ -256,6 +258,8 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('/admin/management_warnet/update', [WarnetController::class, 'updateAvailableComputers'])->name('admin.management_warnet.update');
 
     Route::post('/admin/management_warnet/status', [WarnetController::class, 'updateStatus'])->name('admin.management_warnet.status');
+
+    Route::post('/admin/management_warnet/closures/update', [WarnetController::class, 'updateClosures'])->name('admin.management_warnet.closures');
 
     Route::resource('coupon', CouponController::class)->names('admin.coupon');
 });

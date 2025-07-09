@@ -33,7 +33,7 @@
       <div class="mb-8">
         <label for="customToken" class="block mb-2 font-medium text-[#2F5F00]">Masukkan Jumlah Token</label>
         <input type="number" name="customToken" id="customToken" min="1" placeholder="Contoh: 5"
-               class="w-full p-3 border border-[#A3C57C] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#497F00]">
+               class="w-full p-3 border border-[#A3C57C] rounded-full focus:outline-none focus:ring-2 focus:ring-[#497F00]">
       </div>
 
       <!-- Quick Token Buttons -->
@@ -58,7 +58,7 @@
 
   <div class="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-[#E0F0CC] mt-10">
     <div class="mb-5 flex justify-center">
-      <p class="text-xl font-bold text-center bg-[#2F5F00] text-white px-3 py-2 inline-block">Redeem Kode Kupon atau Vocher</p>
+      <p class="text-xl font-bold text-center bg-[#2F5F00] text-white px-3 py-2 inline-block">Redeem Kode Voucher</p>
     </div>
 
     {{-- Notifikasi sukses --}}
