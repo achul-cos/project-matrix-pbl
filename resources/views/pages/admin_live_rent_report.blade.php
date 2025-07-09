@@ -8,7 +8,7 @@
     <!-- Main Content -->
     <section class="flex-1 px-8 py-10">
       <h1 class="text-3xl font-bold mb-6">
-        <span class="text-slate-900">Live Rent Report</span>
+        <span class="text-slate-900">Laporan Sewa secara Langsung</span>
       </h1>
 
       <div class="bg-white p-6 rounded-2xl border-4 border-[#8F2D2D] shadow-xl">
@@ -17,7 +17,7 @@
           <input type="text" placeholder="Search User"
             class="w-full md:w-1/2 px-4 py-2 rounded-xl border border-gray-300 bg-purple-50 focus:outline-none focus:ring-2 focus:ring-[#556B2F]" />
           <button class="bg-purple-50 border border-gray-300 px-4 py-2 rounded-xl text-sm flex items-center gap-2 hover:bg-purple-100 transition">
-            <span class="text-xl font-bold">+</span> Add User
+            <span class="text-xl font-bold">+</span> Tambahkan Peengguna
           </button>
         </div>
 
@@ -44,9 +44,9 @@
                 <td class="p-3">AMD</td>
                 <td class="p-3">RTX</td>
                 <td class="p-3">8 GB</td>
-                <td class="p-3">Private Room</td>
+                <td class="p-3">Privat Ruang</td>
                 <td class="p-3">
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Online</span>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Aktif</span>
                 </td>
               </tr>
               </tr>
@@ -59,9 +59,9 @@
               <td class="p-3">AMD</td>
               <td class="p-3">RTX</td>
               <td class="p-3">9 GB</td>
-              <td class="p-3">Private Room</td>
+              <td class="p-3">Privat Ruang</td>
               <td class="p-3">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">offline</span>
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Tidak Aktif</span>
               </td>
             </tr>
             <tr class="bg-gray-100 rounded-xl">
@@ -73,7 +73,7 @@
               <td class="p-3">AMD</td>
               <td class="p-3">RTX</td>
               <td class="p-3">8 GB</td>
-              <td class="p-3">Public Room</td>
+              <td class="p-3">Publik Ruang</td>
               <td class="p-3">
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">available</span>
               </td>
@@ -87,9 +87,9 @@
               <td class="p-3">AMD</td>
               <td class="p-3">RTX</td>
               <td class="p-3">8 GB</td>
-              <td class="p-3">Private Room</td>
+              <td class="p-3">Privat Ruang</td>
               <td class="p-3">
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">online</span>
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Aktif</span>
               </td>
             </tr>
             <tr class="bg-gray-100 rounded-xl">
@@ -100,9 +100,9 @@
                 <td class="p-3">AMD</td>
                 <td class="p-3">RTX</td>
                 <td class="p-3">8 GB</td>
-                <td class="p-3">Public Room</td>
+                <td class="p-3">Publik Ruang</td>
                 <td class="p-3">
-                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">offline</span>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Tidak Aktif</span>
                   </td>
           </tbody>
         </table>

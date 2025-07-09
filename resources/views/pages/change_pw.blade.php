@@ -34,16 +34,6 @@
                     <label for="old_password" class="block text-sm font-medium text-gray-700">Password Lama</label>
                     <div class="relative">
                         <input type="password" name="old_password" id="old_password" required class="w-full mt-1 border border-gray-300 rounded-lg p-2 pr-10" />
-                        <span class="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer" onclick="togglePasswordVisibility('old_password', 'eye_old_password')">
-                            <svg id="eye_old_password" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7
-                                       -1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </span>
                     </div>
                 </div>
 
@@ -52,16 +42,6 @@
                     <label for="new_password" class="block text-sm font-medium text-gray-700">Password Baru</label>
                     <div class="relative">
                         <input type="password" name="new_password" id="new_password" required class="w-full mt-1 border border-gray-300 rounded-lg p-2 pr-10" />
-                        <span class="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer" onclick="togglePasswordVisibility('new_password', 'eye_new_password')">
-                            <svg id="eye_new_password" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7
-                                       -1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </span>
                     </div>
                 </div>
 
@@ -70,16 +50,6 @@
                     <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
                     <div class="relative">
                         <input type="password" name="new_password_confirmation" id="new_password_confirmation" required class="w-full mt-1 border border-gray-300 rounded-lg p-2 pr-10" />
-                        <span class="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer" onclick="togglePasswordVisibility('new_password_confirmation', 'eye_new_password_confirmation')">
-                            <svg id="eye_new_password_confirmation" class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7
-                                       -1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </span>
                     </div>
                 </div>
 
@@ -131,35 +101,6 @@
         return true;
     }
 
-    function togglePasswordVisibility(fieldId, iconId) {
-        const input = document.getElementById(fieldId);
-        const icon = document.getElementById(iconId);
-
-        if (input.type === "password") {
-            input.type = "text";
-            icon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19
-                    c-4.478 0-8.269-2.943-9.542-7
-                    a10.05 10.05 0 012.331-3.638m2.042-1.469
-                    A9.953 9.953 0 0112 5
-                    c4.478 0 8.269 2.943 9.542 7
-                    a10.027 10.027 0 01-4.51 5.795
-                    M15 12a3 3 0 11-6 0 3 3 0 016 0z
-                    M3 3l18 18" />
-            `;
-        } else {
-            input.type = "password";
-            icon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5
-                    c4.477 0 8.268 2.943 9.542 7
-                    -1.274 4.057-5.065 7-9.542 7
-                    -4.477 0-8.268-2.943-9.542-7z" />
-            `;
-        }
-    }
+    
 </script>
 @endpush

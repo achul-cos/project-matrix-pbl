@@ -16,13 +16,13 @@
       <a href="{{ route('login') }}">
         <button id="login"
           class="bg-transparent text-white border border-white font-black text-lg px-3 py-2 rounded-full transition duration-300 hover:bg-white/10">
-          Login
+          Masuk
         </button>
       </a>
       <a href="{{ route('register') }}">
         <button id="register"
           class="bg-transparent text-white border border-white font-black text-lg px-3 py-2 rounded-full transition duration-300 hover:bg-white/10">
-          Register
+          Daftar
         </button>
       </a>
     </div>

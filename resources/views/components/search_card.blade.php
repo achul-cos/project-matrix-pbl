@@ -31,11 +31,11 @@
 
                     @if ($room == 'public')
                         <span class="bg-gray-100 text-gray-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded-sm">
-                        Public Room
+                        Ruang Publik
                         </span>
                     @elseif ($room == 'private')
                         <span class="bg-gray-800 text-gray-50 text-xs font-semibold me-2 px-2.5 py-0.5 rounded-sm">
-                        Private Room
+                        Ruang Privat
                         </span>
                     @else
                     @endif

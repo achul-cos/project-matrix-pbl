@@ -53,7 +53,7 @@
     </div>
     <div class="bg-slate-800 p-4">
         <p class="text-white text-center font-light text-md indent-8">
-            ©2025 Matrix, All Rights Reserved
+            ©2025 Matrix, Hak Cipta Dilindungi Undang-Undang
         </p>
     </div>
 </footer>

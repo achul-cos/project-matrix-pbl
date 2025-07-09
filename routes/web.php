@@ -134,6 +134,10 @@ Route::middleware(['auth:user', 'update_last_online'])->prefix('')->group(functi
         return view('pages.change_pw');
     })->name('profile.password');
 
+    Route::get('/forget', function () {
+        return view('pages.forget');
+    })->name('password.request');
+
     //Profile - Change Password - Function
     Route::post('/profile/change_pw', [ProfileController::class, 'changePassword'])->name('profile.change_password');
 

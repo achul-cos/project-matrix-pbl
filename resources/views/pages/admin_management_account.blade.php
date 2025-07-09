@@ -53,7 +53,7 @@
 <div class="flex-1 px-8 py-10">
   <section id="title">
     <h1 class="text-3xl font-bold mb-6">
-      <span class="text-slate-900">Managament Account</span>
+      <span class="text-slate-900">Manajemen Akun</span>
     </h1>
   </section>
 
@@ -173,7 +173,7 @@
       <thead>
         <tr class="bg-gray-200 text-sm text-gray-700">
           @php
-            $headers = ['ID', 'Username', 'Email', 'Telepon', 'Last Online', 'Action'];
+            $headers = ['ID', 'Nama Pengguna', 'Email', 'Telepon', 'Terakhir Aktif', 'Aksi'];
           @endphp
           @foreach($headers as $i => $h)
             <th class="p-3 {{ $i==0?'rounded-l-lg':'' }} {{ $i==count($headers)-1?'rounded-r-lg':'' }}">
@@ -256,7 +256,7 @@
           <!-- Modal header -->
           <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t bg-slate-800 border-gray-200">
             <h3 class="text-xl font-bold text-white">
-                Topup Token User
+                Topup Token Pengguna
             </h3>
             <button type="button" class="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="topup-modal">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -298,9 +298,9 @@
                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition"
                         required>
                 <option disabled selected>Pilih Metode Pembayaran</option>
-                <option value="cash">Cash (Uang Tunai)</option>
+                <option value="cash">Uang Tunai</option>
                 <option value="transfer">Transfer (QRIS, Transfer Bank dll)</option>
-                <option value="coupon">Kupon (Voucher, Promo dll)</option>
+                <option value="coupon">Voucher</option>
                 </select>
 
                 <!-- Input untuk Cash dan Transfer -->
@@ -350,7 +350,7 @@
                 </div>
 
                 <!-- Input Note -->
-                <label for="note" class="font-medium text-gray-700 mt-4 block">Note/Catatan:</label>
+                <label for="note" class="font-medium text-gray-700 mt-4 block">Catatan:</label>
                 <textarea id="note"
                           rows="2"
                           name="note"
@@ -735,10 +735,10 @@
                       @csrf
                       @method('PUT')
          
-                      <label for="name" class="font-medium">Nama Pengguna:</label>
+                      <label for="name" class="font-medium">Nama Lengkap:</label>
                       <input type="text" name="name" placeholder="Nama Pengguna" autofocus required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ $user->name }}" />
          
-                      <label for="name" class="font-medium">Username:</label>
+                      <label for="name" class="font-medium">Nama Pengguna:</label>
                       <input type="text" name="username" placeholder="Username" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-600 transition" value="{{ $user->username }}" />
          
                       <label for="name" class="font-medium">Email:</label>
@@ -809,7 +809,7 @@
                         download="{{ $user->username }}_photo.jpg"
                         class="px-4 py-2 bg-slate-400 text-white rounded shadow hover:bg-slate-800 transition text-center"
                       >
-                        Download Foto
+                        Unduh Foto
                       </a>
 
 
@@ -818,7 +818,7 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Update</button>
+                    <button type="submit" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Perbaharui</button>
                     <input data-modal-hide="edit-modal-{{ $user->id }}" type="reset" value="Batal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-slate-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                     </form>
                 </div>

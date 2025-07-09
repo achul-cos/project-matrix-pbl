@@ -54,7 +54,7 @@
 <div class="flex-1 px-8 py-10">
   <section id="title">
     <h1 class="text-3xl font-bold mb-6">
-      <span class="text-slate-900">Managament Admin</span>
+      <span class="text-slate-900">Manajemen Admin</span>
     </h1>
   </section>
 
@@ -235,7 +235,7 @@
                     required>
 
             <!-- Input Password -->
-            <label for="password" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Password</label>
+            <label for="password" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Kata Sandi</label>
             <div class="w-full mb-4 relative">
                 <input id="password" type="password" name="password" placeholder="Masukkan Password" minlength="8" value="{{ old('password') }}" required
                     class="w-full border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-600 transition" />
@@ -265,7 +265,7 @@
                     required>
 
             <!-- Input role -->
-            <label for="role" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Role</label>
+            <label for="role" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Peran</label>
             <select id="role"
                     name="role"
                     placeholder="Role admin"
@@ -400,7 +400,7 @@
                           required>
 
                   <!-- Input role -->
-                  <label for="role" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Role Admin</label>
+                  <label for="role" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Peran Admin</label>
                   <select id="role"
                     name="role"
                     placeholder="Role Admin"

@@ -83,7 +83,7 @@ $allColorClasses = [
                         </div>
                         <div class="flex flex-col">
                             <p class="font-bold text-gray-800">
-                                Available
+                                Tersedia
                             </p>
                             <p class="text-xs text-gray-600 w-40">
                                 Komputer Tersedia, Sedang Tidak Digunakan dan Belum Disewa
@@ -96,7 +96,7 @@ $allColorClasses = [
                         </div>
                         <div class="flex flex-col">
                             <p class="font-bold text-gray-800">
-                                Online/On Use
+                                Digunakan
                             </p>
                             <p class="text-xs text-gray-600 w-40">
                                 Komputer Tidak Tersedia, Sedang Digunakan dan Telah Disewa Sekarang
@@ -109,7 +109,7 @@ $allColorClasses = [
                         </div>
                         <div class="flex flex-col">
                             <p class="font-bold text-gray-800">
-                                Offline/Close
+                                Tidak Tersedia
                             </p>
                             <p class="text-xs text-gray-600 w-40">
                                 Komputer Tidak Tersedia, Tidak Dapat Digunakan atau Warnet Tutup
@@ -122,7 +122,7 @@ $allColorClasses = [
                         </div>
                         <div class="flex flex-col">
                             <p class="font-bold text-gray-800">
-                                Maintenance
+                                Pemeliharaan
                             </p>
                             <p class="text-xs text-gray-600 w-40">
                                 Komputer Tidak Tersedia, Sedang Perbaikan atau Telah Digunakan
@@ -135,7 +135,7 @@ $allColorClasses = [
                         </div>
                         <div class="flex flex-col">
                             <p class="font-bold text-gray-800">
-                                Prepare
+                                Persiapan
                             </p>
                             <p class="text-xs text-gray-600 w-40">
                                 Komputer Tidak Tersedia, Telah Disewa dan Akan Digunakan Segera.
@@ -168,7 +168,7 @@ $allColorClasses = [
                     <p class="inline-flex">{{ $computer['status_komputer'] }}</p>
                 </div>
                 <p id="booking_komputer" class="mt-2 font-bold">
-                    Booked : {{ $computer['jam_awal_booking_komputer'] }} - {{ $computer['jam_akhir_booking_komputer'] }}
+                    Pemesanan : {{ $computer['jam_awal_booking_komputer'] }} - {{ $computer['jam_akhir_booking_komputer'] }}
                 </p>
                 <div class="grid grid-cols-2 mt-2" id="informasi_komputer">
                     <div class="flex flex-col gap-y-2">

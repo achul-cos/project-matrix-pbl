@@ -121,7 +121,7 @@
       <thead>
         <tr class="bg-gray-200 text-sm text-gray-700">
           @php
-            $headers = ['ID', 'Foto', 'Event', 'Deskripsi', 'Link', 'Tanggal Event', 'status', 'Aksi'];
+            $headers = ['ID', 'Foto', 'Event', 'Deskripsi', 'Tautan', 'Tanggal Event', 'Status', 'Aksi'];
           @endphp
           @foreach($headers as $i => $h)
             <th class="p-3 {{ $i==0?'rounded-l-lg':'' }} {{ $i==count($headers)-1?'rounded-r-lg':'' }}">
@@ -288,7 +288,7 @@
                     required>
 
             <!-- Input link -->
-            <label for="link" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">link</label>
+            <label for="link" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Tautan</label>
             <input type="url"
                     id="link"
                     name="link"
@@ -389,9 +389,8 @@
                 @csrf
                 @method('PUT')
                 @if ($info->image)
-  <img src="{{ asset($info->image) }}" alt="preview" class="w-32 h-32 object-cover mb-4">
-@endif
-
+                  <img src="{{ asset($info->image) }}" alt="preview" class="w-32 h-32 object-cover mb-4">
+                @endif
                 <div class="flex flex-col items-center gap-4 p-8">
 
                   <!-- Preview Gambar Input -->
