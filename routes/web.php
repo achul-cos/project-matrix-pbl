@@ -370,10 +370,10 @@ Route::middleware(['auth:admin', 'is_admin'])->group(function () {
     Route::post('/admin/management_information', [InformasiController::class, 'store'])->name('events.store');
 
     //Management Information Page - Edit Event - FUnction
-    Route::put('/admin/management_information/{id}', [InformasiController::class, 'update'])->name('informasi.update');
+    Route::put('/admin/management_information/edit/{id}', [InformasiController::class, 'update'])->name('events.update');
 
     //Management Information Page - Delete Event - Function
-    Route::delete('/admin/management_information/{id}', [InformasiController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/admin/management_information/delete/{id}', [InformasiController::class, 'destroy'])->name('events.destroy');
 
     /**
      * Management Information Section - Done
