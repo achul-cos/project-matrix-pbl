@@ -18,26 +18,26 @@ class InformasiController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:191',
-        'deskripsi' => 'required',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'link' => 'nullable|string|max:191',
-        'tanggal' => 'required|date',
-        'status' => 'required|in:aktif,tidak aktif',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:191',
+            'deskripsi' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'link' => 'nullable|string|max:191',
+            'tanggal' => 'required|date',
+            'status' => 'required|in:aktif,tidak aktif',
+        ]);
 
-    // simpan file kalau ada
-    if ($request->hasFile('image')) {
-        $path = $request->file('image')->store('event_images', 'public');
-        $validated['image'] = 'storage/' . $path;
+        // simpan file kalau ada
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('event_images', 'public');
+            $validated['image'] = 'storage/' . $path;
+        }
+
+        Event::create($validated);
+
+        return redirect()->back()->with('success', 'Event berhasil disimpan!');
     }
-
-    Event::create($validated);
-
-    return redirect()->back()->with('success', 'Event berhasil disimpan!');
-}
 
     // public function store(Request $request)
     // {
@@ -78,36 +78,36 @@ class InformasiController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $event = Event::findOrFail($id);
+    {
+        $event = Event::findOrFail($id);
 
-    $validated = $request->validate([
-        'name' => 'required|string|max:191',
-        'deskripsi' => 'required',
-        'link' => 'required|string|max:191',
-        'tanggal' => 'required|date',
-        'status' => 'required|in:aktif,tidak aktif',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-    ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:191',
+            'deskripsi' => 'required',
+            'link' => 'required|string|max:191',
+            'tanggal' => 'required|date',
+            'status' => 'required|in:aktif,tidak aktif',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
-    // kalau user upload gambar baru
-    if ($request->hasFile('image')) {
-        // hapus gambar lama (opsional)
-        if ($event->image && file_exists(public_path($event->image))) {
-            unlink(public_path($event->image));
+        // kalau user upload gambar baru
+        if ($request->hasFile('image')) {
+            // hapus gambar lama (opsional)
+            if ($event->image && file_exists(public_path($event->image))) {
+                unlink(public_path($event->image));
+            }
+
+            // simpan gambar baru ke folder
+            $path = $request->file('image')->store('event_images', 'public');
+            $validated['image'] = 'storage/' . $path; // ini penting! 👈
+        } else {
+            // kalau gak upload, pakai gambar lama
+            $validated['image'] = $event->image;
         }
 
-        // simpan gambar baru ke folder
-        $path = $request->file('image')->store('event_images', 'public');
-        $validated['image'] = 'storage/' . $path; // ini penting! 👈
-    } else {
-        // kalau gak upload, pakai gambar lama
-        $validated['image'] = $event->image;
-    }
+        $event->update($validated);
 
-    $event->update($validated);
-
-    return redirect()->back()->with('success', 'Event berhasil diupdate!');
+        return redirect()->back()->with('success', 'Event berhasil diupdate!');
     }
     public function destroy($id)
     {
@@ -122,6 +122,4 @@ class InformasiController extends Controller
 
         return redirect()->back()->with('success', 'Event berhasil dihapus!');
     }
-
 }
-

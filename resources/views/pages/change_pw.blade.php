@@ -110,7 +110,7 @@
 
         if (isGoogleUser) {
             alert("Akun Anda terhubung dengan Google. Untuk mengganti password, silakan gunakan fitur lupa password.");
-            window.location.href = "{{ route('password.request') }}";
+            window.location.href = "{{ route('forget.form') }}";
             return false;
         }
 
