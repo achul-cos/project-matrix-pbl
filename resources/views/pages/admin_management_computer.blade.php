@@ -915,14 +915,46 @@ function showToast(message, type = 'success') {
 </script> --}}
 
 <script>
-
   if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
       const dataTable = new simpleDatatables.DataTable("#search-table", {
           searchable: true,
           sortable: false
       });
   }
+</script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Flowbite modals
+        @foreach ($products as $product)
+            if (document.getElementById('edit-modal-{{ $product->id }}')) {
+                new Flowbite.Modal(document.getElementById('edit-modal-{{ $product->id }}'));
+            }
+            if (document.getElementById('delete-modal-{{ $product->id }}')) {
+                new Flowbite.Modal(document.getElementById('delete-modal-{{ $product->id }}'));
+            }
+        @endforeach
+        if (document.getElementById('add-modal')) {
+            new Flowbite.Modal(document.getElementById('add-modal'));
+        }
+        if (document.getElementById('delete-all-modal')) {
+            new Flowbite.Modal(document.getElementById('delete-all-modal'));
+        }
+
+        // Image preview function
+        window.previewImage = function (event, index) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById(`preview-image${index}`);
+                if (output) {
+                    output.src = reader.result;
+                } else {
+                    console.error(`Image preview element preview-image${index} not found`);
+                }
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    });
 </script>
 
 
