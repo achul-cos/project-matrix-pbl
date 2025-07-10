@@ -152,7 +152,7 @@
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
-    <table id="filter-table" class="text-left border-separate border-spacing-y-3">
+    <table id="search-table" class="text-left border-separate border-spacing-y-3">
       <thead>
         <tr class="bg-gray-200 text-sm text-gray-700">
           @php
@@ -913,6 +913,17 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.remove(), 4000);
 }
 </script> --}}
+
+<script>
+
+  if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+      const dataTable = new simpleDatatables.DataTable("#search-table", {
+          searchable: true,
+          sortable: false
+      });
+  }
+
+</script>
 
 
 @endsection
