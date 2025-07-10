@@ -192,19 +192,19 @@
               </span>
             </td>
 
-            <td class="p-3 space-x-2">
+            <td class="p-3 space-x-2 flex flex-row gap-y-4">
               <div  id="editButton"
                     data-modal-target="edit-modal-{{ $product->id }}"
                     data-modal-toggle="edit-modal-{{ $product->id }}"
                     class="inline-block bg-emerald-700 px-3 py-2 text-white rounded-md shadow active:scale-90">EDIT
               </div>
 
-              <button id="deleteButton"
+              <div id="deleteButton"
                       data-modal-target="delete-modal-{{ $product->id }}"
                       data-modal-toggle="delete-modal-{{ $product->id }}"
                       class="inline-block bg-red-800 px-3 py-2 text-white rounded-md shadow active:scale-90">
                 HAPUS
-              </button>
+            </div>
             </td>
           </tr>
 
