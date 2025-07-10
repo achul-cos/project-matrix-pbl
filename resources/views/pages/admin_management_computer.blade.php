@@ -152,9 +152,9 @@
   </section>
 
   <section id="product-table" class="bg-white p-6 rounded-2xl border-4 border-slate-800 shadow-xl">
-    <table id="search-table" class="text-left border-separate border-spacing-y-3">
+    <table id="search-table" class="w-full flex flex-col text-left border-separate border-spacing-y-3">
       <thead>
-        <tr class="bg-gray-200 text-sm text-gray-700">
+        <tr class="bg-gray-200 text-sm text-gray-700 block grid grid-cols-7">
           @php
             $headers = ['ID', 'Kode', 'Nama', 'Lantai', 'Ruangan', 'Status', 'Aksi'];
           @endphp
@@ -169,12 +169,12 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody class="flex flex-col gap-4 mt-4">
         @foreach ($products as $product)
           @php
             $badgeClass = $statusColorMap[$product->status] ?? 'bg-gray-300 text-gray-700';
           @endphp
-          <tr class="bg-gray-100 rounded-xl">
+          <tr class="bg-gray-100 rounded-xl grid grid-cols-7">
             <td class="p-3">{{ $product->id }}</td>
             <td class="p-3">{{ $product->code }}</td>
 
