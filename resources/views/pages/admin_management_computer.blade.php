@@ -274,26 +274,26 @@
                     <div class="flex flex-col items-center gap-4 p-8">
 
                       <!-- Preview Gambar Input -->
-                          <div class="w-auto mb-2">
-                              <img id="preview-image1"
-                                  src="{{ asset("../" . $product->image1) }}"
-                                  alt="Preview 1"
-                                  class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                          </div>
-                          <div class="flex flex-row mb-2 justify-between flex-wrap">
-                              <img id="preview-image2"
-                                  src="{{ asset("../" . $product->image2) }}"
-                                  alt="Preview 2"
-                                  class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                              <img id="preview-image3"
-                                  src="{{ asset("../" . $product->image3) }}"
-                                  alt="Preview 3"
-                                  class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                              <img id="preview-image4"
-                                  src="{{ asset("../" . $product->image4) }}"
-                                  alt="Preview 4"
-                                  class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
-                          </div>
+                      <div class="w-auto mb-2">
+                          <img id="preview-image1"
+                              src="{{ asset("../" . $product->image1) }}"
+                              alt="Preview 1"
+                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                      </div>
+                      <div class="flex flex-row mb-2 justify-between flex-wrap">
+                          <img id="preview-image2"
+                              src="{{ asset("../" . $product->image2) }}"
+                              alt="Preview 2"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                          <img id="preview-image3"
+                              src="{{ asset("../" . $product->image3) }}"
+                              alt="Preview 3"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                          <img id="preview-image4"
+                              src="{{ asset("../" . $product->image4) }}"
+                              alt="Preview 4"
+                              class="object-cover w-3/10 aspect-square border border-gray-300 rounded shadow-sm">
+                      </div>
 
                       <!-- Input Gambar -->
                       <div class="flex flex-row gap-4 mb-8">
@@ -477,6 +477,7 @@
               </div>
           </div>
       </div>
+    </div>
 
       @endforeach
 
