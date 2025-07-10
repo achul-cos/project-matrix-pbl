@@ -23,7 +23,8 @@
         @include('components.footer_admin')
     </div>
     <!-- Scripts -->
-    <script src="../styles/flowbite.min.js"></script>
+    {{-- @vite('resources/js/flowbite.min.js') --}}
+    {{-- <script src="../styles/flowbite.min.js"></script> --}}
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
