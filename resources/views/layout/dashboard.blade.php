@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Laravel app')</title>
+    <title>@yield('title', 'Matrix')</title>
     <link rel="icon" href="{{ asset('../favicon.ico') }}">
     <!-- Stylesheets -->
     <link href="../styles/flowbite.min.css" rel="stylesheet">
