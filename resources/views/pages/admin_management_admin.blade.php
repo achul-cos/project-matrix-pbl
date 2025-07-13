@@ -143,7 +143,7 @@
             <td class="p-3">{{ $admin->id }}</td>
 
             <td class="p-3 flex items-center gap-3">
-            <img src="{{ $admin->photo ? asset('storage/' . str_replace('storage/', '', $admin->photo)) : asset('img/default-profile.png') }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+                <img src="{{ $admin->photo ? asset($admin->photo) : asset('img/default-profile.png') }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
 
 
 
@@ -355,7 +355,7 @@
                   <!-- Preview Gambar Input -->
                   <div class="w-auto mb-2">
                     <img id="preview-image-edit-{{ $admin->id }}"
-                src="{{ $admin->photo ? asset($admin->photo) : asset('img/ad/placeholder2.png') }}"
+               src="{{ $admin->photo ? asset($admin->photo) : asset('img/ad/placeholder2.png') }}"
                         alt="Preview"
                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
                   </div>
