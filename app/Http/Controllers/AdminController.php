@@ -25,7 +25,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:admins',
             'password' => 'required|min:8',
             'role' => 'required|in:super_admin,admin',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $data = [
@@ -40,16 +40,17 @@ class AdminController extends Controller
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('admin_images', 'public');
             $data['photo'] = 'storage/' . $path;
-
         }
 
         Admin::create($data);
 
-        return redirect()->route('pages.admin_management_admin')->with('success', 'Admin berhasil ditambahkan.');
+        return redirect()->route('admin.management_admin')->with('success', 'Admin berhasil ditambahkan.');
     }
 
-   public function update(Request $request, Admin $admin)
+    public function update(Request $request, $id)
     {
+        $admin = Admin::findOrFail($id);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email,' . $admin->id,
@@ -61,7 +62,7 @@ class AdminController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
-            'is_active' => $request->has('is_active') ? true : false,
+            'is_active' => $admin->is_active,
         ];
 
         if ($request->hasFile('photo')) {
@@ -70,16 +71,18 @@ class AdminController extends Controller
             }
 
             $path = $request->file('photo')->store('admin_images', 'public');
-            $data['photo'] = Storage::url($path);
+            $data['photo'] = 'storage/' . $path;
         }
 
         $admin->update($data);
 
         return redirect()->route('admin.management_admin')->with('success', 'Admin berhasil diperbarui.');
-
     }
-    public function destroy(Admin $admin)
+
+    public function destroy($id)
     {
+        $admin = Admin::findOrFail($id);
+
         if ($admin->photo && Storage::disk('public')->exists(str_replace('storage/', '', $admin->photo))) {
             Storage::disk('public')->delete(str_replace('storage/', '', $admin->photo));
         }
@@ -88,5 +91,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.management_admin')->with('success', 'Admin berhasil dihapus.');
     }
-
 }
