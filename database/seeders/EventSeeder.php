@@ -59,23 +59,23 @@ class EventSeeder extends Seeder
             'image' => 'storage/event_images/ranking_warnet.jpg',
             'link' => 'https://example.com/event/laravel',
             'tanggal' => '2025-09-10',
-            'status' => 'tidak aktif',
+            'status' => 'aktif',
         ]);
         Event::create([
             'name' => 'Turnamen 5 vs 5 Battle Mini',
             'deskripsi' => '8 tim, single elimination.',
             'image' => 'storage/event_images/5vs5_battle.webp',
-            'link' => 'https://example.com/event/laravel',
+            'link' => 'https://example.com/event/uiux',
             'tanggal' => '2025-09-10',
-            'status' => 'tidak aktif',
+            'status' => 'aktif',
         ]);
         Event::create([
             'name' => 'Event Malam Gaming',
             'deskripsi' => 'Begadang Battle. Jam 10 malam - 6 pagi.',
             'image' => 'storage/event_images/paket_malam.webp',
-            'link' => 'https://example.com/event/mlbb',
+            'link' => 'https://example.com/event/laravel',
             'tanggal' => '2025-08-15',
-            'status' => 'aktif',
+            'status' => 'tidak aktif',
         ]);
 
         Event::create([

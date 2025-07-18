@@ -514,7 +514,7 @@ class ProductController extends Controller
             ->get();
 
         $eventsCarousel1 = $activeEvents->take(5); // 5 item pertama
-        $eventsCarousel2 = $activeEvents->slice(5)->take(5); // 5 item berikutnya
+        $eventsCarousel2 = $activeEvents->slice(1)->take(5); // 5 item berikutnya
 
         return view('pages.home', compact(
             'productTopList',

@@ -105,129 +105,12 @@
         </div>
         @endforeach
     </div>
-
 </section>
-{{-- <section class="flex flex-col p-4 space-y-4 mt-4" id="event">
-    <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
-            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
-        </div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-8 m-auto shadow-md"><span class="flex font-bold lg:text-2xl md:text-xl max-sm:text-xs text-white bg-lime-600 text-center px-2 py-1">Event Terbaru</span></div>
-        <div class="col-span-4 lg:col-span-4 sm:col-span-2">
-            <hr class="w-auto h-1.75 bg-stone-700 border-0 rounded-lg">
-        </div>
-    </div>
-    <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
-        <div class="">
-            <div id="default-carousel" class="relative w-full" data-carousel="slide">
-                <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                    <!-- Item 1 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-20 translate-x-0 z-30" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-10 translate-x-full z-20" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10 hidden" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 5 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10 hidden" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                </div>
-                <!-- Slider indicators -->
-                <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white dark:bg-gray-800" aria-current="true" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
-                </div>
-                <!-- Slider controls -->
-                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev="">
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"></path>
-                        </svg>
-                        <span class="sr-only">Previous</span>
-                    </span>
-                </button>
-                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next="">
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"></path>
-                        </svg>
-                        <span class="sr-only">Next</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-        <div class="">
-            <div id="default-carousel" class="relative w-full" data-carousel="slide">
-                <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                    <!-- Item 1 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-20 translate-x-0 z-30" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-10 translate-x-full z-20" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10 hidden" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 5 -->
-                    <div class="duration-700 ease-in-out absolute inset-0 transition-transform transform z-30 -translate-x-full z-10 hidden" data-carousel-item="">
-                        <img src="img/ad/placeholder1.png" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                </div>
-                <!-- Slider indicators -->
-                <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white dark:bg-gray-800" aria-current="true" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
-                    <button type="button" class="w-3 h-3 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
-                </div>
-                <!-- Slider controls -->
-                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev="">
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"></path>
-                        </svg>
-                        <span class="sr-only">Previous</span>
-                    </span>
-                </button>
-                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next="">
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"></path>
-                        </svg>
-                        <span class="sr-only">Next</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-</section> --}}
+
 <section class="flex flex-col p-4 space-y-4 mt-4" id="event">
     <!-- ... bagian judul ... -->
-
     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-4 p-4">
+
         <!-- Carousel Pertama -->
         <div>
             <div id="carousel1" class="relative w-full" data-carousel="slide">
@@ -248,6 +131,7 @@
                     </div>
                     @endforeach
                 </div>
+
                 <!-- Indicators -->
                 <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
                     @foreach($eventsCarousel1 as $index => $event)
@@ -257,6 +141,7 @@
                             data-carousel-slide-to="{{ $index }}"></button>
                     @endforeach
                 </div>
+
                 <!-- Controls -->
                 <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev="">
                     <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -280,12 +165,13 @@
         <!-- Carousel Kedua -->
         <div>
             <div id="carousel2" class="relative w-full" data-carousel="slide">
+
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                     @foreach($eventsCarousel2 as $index => $event)
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
                         <a href="{{ $event->link }}" target="_blank" class="block relative group">
                             <img src="{{ asset($event->image) }}"
-                                 class="absolute block w-full -translate-x-1/2 top-1/2 left-1/2"
+                                 class="absolute block w-full -translate-x-1/2 top-0 left-1/2 aspect-video object-cover"
                                  alt="{{ $event->name }}">
                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
                                 <div class="text-center p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -297,6 +183,7 @@
                     </div>
                     @endforeach
                 </div>
+
                 <!-- Indicators -->
                 <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
                     @foreach($eventsCarousel2 as $index => $event)
@@ -306,17 +193,30 @@
                             data-carousel-slide-to="{{ $index }}"></button>
                     @endforeach
                 </div>
+
                 <!-- Controls -->
-                <button type="button" data-carousel-prev class="absolute top-0 start-0 z-30 ...">
-                    <!-- ... kode tombol prev ... -->
+                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev="">
+                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"></path>
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </span>
                 </button>
-                <button type="button" data-carousel-next class="absolute top-0 end-0 z-30 ...">
-                    <!-- ... kode tombol next ... -->
+                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next="">
+                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"></path>
+                        </svg>
+                        <span class="sr-only">Next</span>
+                    </span>
                 </button>
+                
             </div>
         </div>
     </div>
 </section>
+
 <section class="flex flex-col p-4 space-y-4 mt-4" id="artikel">
     <div class="px-8 py-2 gap-4 sm:gap-2 grid grid-cols-12 items-center">
         <div class="col-span-4 lg:col-span-4 sm:col-span-2">
