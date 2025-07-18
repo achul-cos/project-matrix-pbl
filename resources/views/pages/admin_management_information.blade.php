@@ -23,7 +23,7 @@
           </svg>
           <span class="sr-only">Check icon</span>
       </div>
-      <div class="ms-3 text-sm font-normal">{{ session('success.message') }}</div>
+      <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
       <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success-update" aria-label="Close">
           <span class="sr-only">Close</span>
           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -41,7 +41,7 @@
           </svg>
           <span class="sr-only">Error icon</span>
       </div>
-      <div class="ms-3 text-sm font-normal">{{ session('error.message') }}</div>
+      <div class="ms-3 text-sm font-normal">{{ session('error') }}</div>
       <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-danger-update" aria-label="Close">
           <span class="sr-only">Close</span>
           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -148,7 +148,11 @@
             <td class="p-3">{{ $info->id }}</td>
 
             <td class="p-3 flex items-center gap-3">
-              <img src="{{ asset($info->image) }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+              @if(file_exists(public_path($info->image)))
+                <img src="{{ asset($info->image) }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
+              @else
+                <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16"></div>
+              @endif
             </td>
             <td class="p-3">{{ $info->name }}</td>
             <td class="p-3">{{ $info->deskripsi }}</td>
@@ -210,7 +214,7 @@
 
             <!-- Preview Gambar Input -->
             <div class="w-auto mb-2">
-              <img id="preview-image0"
+              <img id="preview-image"
                   src="{{ asset('img/ad/placeholder2.png') }}"
                   alt="Preview 1"
                   class="object-cover w-full h-full aspect-auto border border-gray-300 rounded shadow-sm">
@@ -225,9 +229,10 @@
                         name="image"
                         id="image"
                         accept=".jpg,.jpeg,.png,.webp"
-                        onchange="previewImage(event, 0)"
+                        onchange="previewAddImage(event)"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
                         required>
+
                 </div>
               </div>
             </div>
@@ -300,7 +305,7 @@
               <!-- Modal header -->
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Konfirmasi Hapus Data Komputer {{ $info->name }}
+                    Konfirmasi Hapus Data Event {{ $info->name }}
                   </h3>
                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $info->id }}">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -312,7 +317,7 @@
               <!-- Modal body -->
               <div class="p-4 md:p-5 space-y-4">
                   <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                      Perlu anda perhatikan, bahwa data data komputer {{ $info->name }} warnet anda yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data komputer ini dapat dihapus semuanya.
+                      Perlu anda perhatikan, bahwa data event {{ $info->name }} yang akan dihapus <span class='font-bold'>TIDAK DAPAT DIKEMBALIKAN</span>. Konfirmasi kembali apakah data ini dapat dihapus.
                   </p>
               </div>
               <!-- Modal footer -->
@@ -336,7 +341,7 @@
               <!-- Modal header -->
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                      Edit Data info {{ $info->name }}
+                      Edit Data Event {{ $info->name }}
                   </h3>
                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="edit-modal-{{ $info->id }}">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -353,83 +358,78 @@
                 <form action="{{ route('events.update', $info->id) }}" method="POST" enctype="multipart/form-data" class="">
                 @csrf
                 @method('PUT')
-                @if ($info->image)
-                  <img src="{{ asset($info->image) }}" alt="preview" class="w-32 h-32 object-cover mb-4">
-                @endif
                 <div class="flex flex-col items-center gap-4 p-8">
 
                   <!-- Preview Gambar Input -->
-                      <!-- Preview Gambar -->
-                      <div class="w-auto mb-2">
-                          <img id="preview-image"
-                                  src="{{ $info->image ? asset($info->image) : asset('img/ad/placeholder2.png') }}"
-                              alt="Preview Gambar info"
-                              class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
-                      </div>
+                  <div class="w-auto mb-2">
+                    <img id="preview-image-edit-{{ $info->id }}"
+                         src="{{ $info->image ? asset($info->image) : asset('img/ad/placeholder2.png') }}"
+                         alt="Preview Gambar Event"
+                         class="object-cover w-full h-full aspect-square border border-gray-300 rounded shadow-sm">
+                  </div>
 
-                      <!-- Input Gambar -->
-                      <div class="gap-4 flex gap-y-8 flex-col mb-8">
+                  <!-- Input Gambar -->
+                  <div class="gap-4 flex gap-y-8 flex-col mb-8">
+                      <div class="">
                           <div class="">
-                              <div class="">
-                                  <label for="photo" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar 1 (Utama)</label>
-                                  <input type="file"
-                                        name="image"
-                                        id="image"
-                                        accept=".jpg,.jpeg,.png,.webp"
-                                        onchange="previewImage(event, {{ $info->id }})"
-                                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500"
-                                        {{ !isset($info) ? 'required' : '' }}>
-                              </div>
+                              <label for="photo" class="block text-base text-center mb-4 font-medium text-gray-700">Gambar Event</label>
+                              <input type="file"
+                                    name="image"
+                                    id="image"
+                                    accept=".jpg,.jpeg,.png,.webp"
+                                    onchange="previewEditImage(event, {{ $info->id }})"
+                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:slate-blue-500">
                           </div>
                       </div>
+                  </div>
 
-                      <!-- Input Nama -->
-                      <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama info</label>
-                      <input type="text"
-                            id="name"
-                            name="name"
-                            placeholder="Nama info"
-                            value="{{ old('name', $info->name ?? '') }}"
-                            class="w-full rounded-full p-2 border border-gray-300"
-                            required>
+                  <!-- Input Nama -->
+                  <label for="name" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Nama Event</label>
+                  <input type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Nama Event"
+                        value="{{ old('name', $info->name) }}"
+                        class="w-full rounded-full p-2 border border-gray-300"
+                        required>
 
-                      <!-- Input Deskripsi -->
-                      <label for="deskripsi" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi</label>
-                      <textarea id="deskripsi"
-                              name="deskripsi"
-                              placeholder="Masukkan deskripsi"
-                              class="w-full rounded-lg p-2 border border-gray-300"
-                              rows="4"
-                              required>{{ old('deskripsi', $info->deskripsi ?? '') }}</textarea>
+                  <!-- Input Deskripsi -->
+                  <label for="deskripsi" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Deskripsi</label>
+                  <textarea id="deskripsi"
+                          name="deskripsi"
+                          placeholder="Masukkan deskripsi"
+                          class="w-full rounded-lg p-2 border border-gray-300"
+                          rows="4"
+                          required>{{ old('deskripsi', $info->deskripsi) }}</textarea>
 
-                      <!-- Input Link -->
-                      <label for="link" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Link info</label>
-                      <input type="url"
-                            id="link"
-                            name="link"
-                            placeholder="https://example.com"
-                            value="{{ old('link', $info->link ?? '') }}"
-                            class="w-full rounded-full p-2 border border-gray-300"
-                            required>
+                  <!-- Input Link -->
+                  <label for="link" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Link Event</label>
+                  <input type="url"
+                        id="link"
+                        name="link"
+                        placeholder="https://example.com"
+                        value="{{ old('link', $info->link) }}"
+                        class="w-full rounded-full p-2 border border-gray-300"
+                        required>
 
-                      <!-- Input Tanggal -->
-                      <label for="tanggal" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Tanggal info</label>
-                      <input type="date"
-                            id="tanggal"
-                            name="tanggal"
-                            value="{{ old('tanggal', $info->tanggal ?? '') }}"
-                            class="w-full rounded-full p-2 border border-gray-300"
-                            required>
+                  <!-- Input Tanggal -->
+                  <label for="tanggal" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Tanggal Event</label>
+                  <input type="date"
+                        id="tanggal"
+                        name="tanggal"
+                        value="{{ old('tanggal', $info->tanggal) }}"
+                        class="w-full rounded-full p-2 border border-gray-300"
+                        required>
 
-                      <!-- Input Status -->
-                      <label for="status" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Status</label>
-                      <select id="status"
-                            name="status"
-                            class="w-full rounded-full p-2 border border-gray-300"
-                            required>
-                          <option value="aktif" {{ old('status', $info->status ?? '') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                          <option value="tidak aktif" {{ old('status', $info->status ?? '') == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                      </select>
+                  <!-- Input Status -->
+                  <label for="status" class="self-start rounded-md bg-slate-700 text-white inline-block px-4 py-2 font-bold">Status</label>
+                  <select id="status"
+                        name="status"
+                        class="w-full rounded-full p-2 border border-gray-300"
+                        required>
+                      <option value="aktif" {{ old('status', $info->status) == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                      <option value="tidak aktif" {{ old('status', $info->status) == 'tidak aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                  </select>
                 </div>
               </div>
               <!-- Modal footer -->
@@ -500,19 +500,47 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.classList.add('hidden');
         }, 5000);
     }
+
+    // Auto-hide update toasts
+    const successUpdateToast = document.getElementById('toast-success-update');
+    if (successUpdateToast) {
+        setTimeout(() => {
+            successUpdateToast.style.display = 'none';
+        }, 5000);
+    }
+
+    const dangerUpdateToast = document.getElementById('toast-danger-update');
+    if (dangerUpdateToast) {
+        setTimeout(() => {
+            dangerUpdateToast.style.display = 'none';
+        }, 5000);
+    }
 });
 
-function previewImage(info, number) {
-    const input = info.target;
-    const preview = document.getElementById(`preview-image${number}`);
+// Preview untuk modal tambah
+function previewAddImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('preview-image');
 
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-
         reader.onload = function(e) {
             preview.src = e.target.result;
         }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
+// Preview untuk modal edit
+function previewEditImage(event, id) {
+    const input = event.target;
+    const preview = document.getElementById(`preview-image-edit-${id}`);
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
         reader.readAsDataURL(input.files[0]);
     }
 }

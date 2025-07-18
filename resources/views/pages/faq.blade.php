@@ -78,20 +78,20 @@
         <h2 class="text-2xl font-bold text-[#2F5F00] mb-4">Berikan Saran & Kritik</h2>
         <form action="{{ route('suggest.store') }}" method="POST" class="space-y-4">
             @csrf
-            <textarea name="message" rows="4" required class="w-full border border-[#A3C57C] p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3C57C]" placeholder="Tulis saran atau kritik Anda di sini..."></textarea> 
-            
+            <textarea name="message" rows="4" required class="w-full border border-[#A3C57C] p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3C57C]" placeholder="Tulis saran atau kritik Anda di sini..."></textarea>
+
              {!! NoCaptcha::display() !!}
 
             @if ($errors->has('g-recaptcha-response'))
                 <span class="text-red-500 text-sm">{{ $errors->first('g-recaptcha-response') }}</span>
             @endif
-            
+
             <p>
                 note: Form ini bersifat anonim. silakan tulis dengan bebas dan sejujur jujur nya.
             </p>
             <button type="submit" class="bg-[#2F5F00] text-white px-6 py-2 rounded-lg hover:bg-[#3A7500] transition">Kirim</button>
         </form>
-       
+
     </div>
 
     {{-- Kontak Developer & Lokasi --}}
@@ -114,7 +114,7 @@
         <div class="w-full h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
             <iframe
                 class="w-full h-full"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127504.44013558096!2d104.00053436241162!3d1.1281182612964378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d98c2ff37f7f47%3A0xf4ccdc7f01170586!2sBatam%2C%20Kota%20Batam%2C%20Kepulauan%20Riau!5e0!3m2!1sid!2sid!4v1650450987654!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.0577989797293!2d104.0458816734901!3d1.1187258622782366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d98921856ddfab%3A0xf9d9fc65ca00c9d!2sPoliteknik%20Negeri%20Batam!5e0!3m2!1sen!2sid!4v1752823398279!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                 style="border:0;"
                 allowfullscreen=""
                 loading="lazy"
@@ -128,7 +128,7 @@
     <img class="absolute bottom-8 -left-12 h-72 w-auto animate-shake-slow" src="{{ asset('img/icon/keyboard.png') }}" />
     <img class="absolute -top-3 -right-12 h-62 w-auto animate-shake-slow" src="{{ asset('img/icon/headset.png') }}" />
     <img class="absolute bottom-8 -right-6 h-60 w-auto animate-spin-slow" src="{{ asset('img/icon/abstract.png') }}" />
-  </div>    
+  </div>
 </div>
 
 {!! NoCaptcha::renderJs() !!}

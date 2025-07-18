@@ -33,14 +33,11 @@ class UserController extends Controller
         /** @var \App\Models\User|null $user */
         $user = Auth::user();
 
-
-        // Update informasi user
         $user->username = $request->username;
         $user->email = $request->email;
         $user->phone = $request->phone;
 
 
-        // Simpan perubahan
         $user->save();
 
 
