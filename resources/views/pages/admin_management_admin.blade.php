@@ -143,9 +143,7 @@
             <td class="p-3">{{ $admin->id }}</td>
 
             <td class="p-3 flex items-center gap-3">
-                <img src="{{ $admin->photo ? asset($admin->photo) : asset('img/default-profile.png') }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
-
-
+                <img src="{{ $admin->photo ? asset($admin->photo) : asset('img/ad/placeholder2.png') }}" alt="thumb" class="w-10 h-10 rounded object-cover" />
 
             </td>
             <td class="p-3">{{ $admin->name }}</td>

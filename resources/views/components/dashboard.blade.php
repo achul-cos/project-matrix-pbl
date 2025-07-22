@@ -19,7 +19,7 @@
               <div>
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                   <span class="sr-only">Open user menu</span>
-                  <div class="border-2 rounded-full border-white"><img class="w-10 h-10 rounded-full border-4 border-slate-800" src="https://static.wikitide.net/hoyodexwiki/3/30/Kaedehara_Kazuha_%28YS-MU%29.png" alt="user photo"></div>
+                  <div class="border-2 rounded-full border-white"><img class="w-10 h-10 rounded-full border-4 border-slate-800" src="{{ $admin->photo ? asset($admin->photo) : asset('img/ad/placeholder2.png') }}" alt="user photo"></div>
                 </button>
               </div>
               <div class="min-w-48 z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
