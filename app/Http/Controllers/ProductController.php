@@ -1,25 +1,32 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
+
 use App\Models\Product;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
-    public function productPage(Request $request)
+    public function productPage(Request $request, Product $product)
     {
         // Ambil semua produk dengan urutan lantai dan kode
-        $allProducts = Product::orderBy('floor')
+        $allProducts = Product::with('activeRental')
+            ->orderBy('floor')
             ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
             ->get();
 
         // Bentuk ulang menjadi format untuk komponen monitor
         $monitors = $allProducts->map(function ($p) {
+            $booking = $p->activeRental;
+
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -31,26 +38,30 @@ class ProductController extends Controller
                 'room_komputer'   => $p->room,
                 'biaya_komputer'  => $p->price,
                 'status_komputer' => $p->status,
-                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
-                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+                'jam_awal_booking_komputer'  => $booking ? $booking->booked_start->format('H:i') : '-',
+                'jam_akhir_booking_komputer' => $booking ? $booking->booked_end->format('H:i') : '-',
             ];
         });
 
-        // Kirim hanya data monitors ke view
-        return view('pages.product', compact('monitors'));
+        // Kirim detail produk + data monitor ke view
+        return view('pages.product', compact('product', 'monitors'));
     }
+
     public function monitoringComputer(Request $request)
     {
         /* ───────────────────────────────
         1. Query dasar produk sekali saja
         ─────────────────────────────── */
-        $baseQuery = Product::orderBy('floor')
+        $baseQuery = Product::with('activeRental')
+            ->orderBy('floor')
             ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)");
 
         /* ── a. Data lengkap (untuk layout) ───────────────────────── */
         $allProducts = $baseQuery->get();
 
         $monitors = $allProducts->map(function ($p) {
+            $booking = $p->activeRental;
+
             return [
                 'id_komputer'     => $p->id,
                 'nama_komputer'   => $p->name,
@@ -62,11 +73,10 @@ class ProductController extends Controller
                 'room_komputer'   => $p->room,
                 'biaya_komputer'  => $p->price,
                 'status_komputer' => $p->status,
-                'jam_awal_booking_komputer'  => optional($p->activeBooking)->book_start?->format('H:i') ?? '-',
-                'jam_akhir_booking_komputer' => optional($p->activeBooking)->book_end?->format('H:i')   ?? '-',
+                'jam_awal_booking_komputer'  => $booking ? $booking->booked_start->format('H:i') : '-',
+                'jam_akhir_booking_komputer' => $booking ? $booking->booked_end->format('H:i') : '-',
             ];
         });
-
 
         /* ── b. Data paginated (untuk tabel) ──────────────────────── */
         // kita kloning query agar tidak bentrok dengan get() di atas
@@ -95,6 +105,7 @@ class ProductController extends Controller
     {
         $products = Product::latest()->get();
 
+
         // Peta warna status → badge
         $statusColorMap = [
             'available' => 'bg-lime-200 text-lime-800',
@@ -105,12 +116,14 @@ class ProductController extends Controller
             'undefined' => 'bg-gray-200 text-gray-800'
         ];
 
+
         return view('pages.admin_management_computer', compact('products', 'statusColorMap'));
     }
     public function store(Request $request)
     {
         try {
             DB::beginTransaction();
+
 
             $validated = $request->validate([
                 'name'      => 'required|string|max:255',
@@ -122,7 +135,7 @@ class ProductController extends Controller
                 'rating'    => 'nullable|integer|min:1|max:5',
                 'room'      => 'required|in:public,private',
                 'status'    => 'maintenance',
-                'book_start'=> 'nullable|date',
+                'book_start' => 'nullable|date',
                 'book_end'  => 'nullable|date|after_or_equal:book_start',
                 'image1'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
                 'image2'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -132,12 +145,15 @@ class ProductController extends Controller
                 'rent'      => 'nullable|integer|min:0',
             ]);
 
+
             // Generate kode produk berdasarkan lantai dan urutan
             $floor = (int) $validated['floor'];
             $letter = chr(64 + $floor); // 65 = A, 66 = B, dst
 
+
             // Cari nomor urut terkecil yang belum dipakai untuk lantai ini
             $existingCodes = Product::where('floor', $floor)->pluck('code')->toArray();
+
 
             $nextNumber = 1;
             while (in_array($letter . $nextNumber, $existingCodes)) {
@@ -146,43 +162,53 @@ class ProductController extends Controller
             $validated['code'] = $letter . $nextNumber;
             $validated['rent'] = $validated['rent'] ?? 0;
 
+
             // Proses upload dan konversi gambar ke JPEG
             foreach (['image1', 'image2', 'image3', 'image4'] as $img) {
                 $image = $request->file($img);
                 $filename = uniqid() . '.jpg';
                 $path = public_path('products/' . $filename);
 
+
                 // Pastikan folder products ada
                 if (!file_exists(public_path('products'))) {
                     mkdir(public_path('products'), 0755, true);
                 }
 
+
                 // Konversi dan simpan gambar ke JPEG
                 Image::make($image)->encode('jpg', 90)->save($path);
+
 
                 // Simpan path relatif ke validated data (misal: products/abc123.jpg)
                 $validated[$img] = 'products/' . $filename;
             }
 
+
             Product::create($validated);
             DB::commit();
 
+
             // return redirect()->route('admin.management_computer')->with('success', 'Data berhasil ditambahkan!');
+
 
             if ($request->ajax()) {
                 return response()->json(['redirect' => route('admin.management_computer')]);
             }
 
-            return redirect()->route('admin.management_computer')->with('success', 'Data berhasil ditambahkan!');
 
+            return redirect()->route('admin.management_computer')->with('success', 'Data berhasil ditambahkan!');
         } catch (\Exception $e) {
             DB::rollBack();
 
+
             Log::error('Gagal menyimpan produk: ' . $e->getMessage());
+
 
             if ($request->ajax()) {
                 return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
             }
+
 
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -192,13 +218,16 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
+
             // Hapus semua data dan reset AUTO_INCREMENT
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             Product::query()->delete(); // lebih aman daripada truncate
             DB::statement('ALTER TABLE products AUTO_INCREMENT = 1;');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
+
             DB::commit();
+
 
             return redirect()->back()->with('success', 'Semua data berhasil dihapus.');
         } catch (\Exception $e) {
@@ -225,6 +254,7 @@ class ProductController extends Controller
             'image4' => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
+
         try {
             DB::transaction(function () use ($request, $id) {
                 $p         = Product::findOrFail($id);
@@ -232,10 +262,20 @@ class ProductController extends Controller
                 $oldNum    = intval(substr($p->code, 1));  // A4 → 4
                 $newFloor  = (int) $request->floor;
 
+
                 // Update field umum
                 $p->fill($request->only([
-                    'name', 'ram', 'cpu', 'gpu', 'price', 'room', 'desc', 'floor', 'status'
+                    'name',
+                    'ram',
+                    'cpu',
+                    'gpu',
+                    'price',
+                    'room',
+                    'desc',
+                    'floor',
+                    'status'
                 ]));
+
 
                 // Jika pindah lantai, ubah kode dan geser kode lama
                 if ($oldFloor !== $newFloor) {
@@ -245,13 +285,16 @@ class ProductController extends Controller
                         ->selectRaw("MAX(CAST(SUBSTRING(code, 2) AS UNSIGNED)) as max")
                         ->value('max') ?? 0;
 
+
                     $p->code = $letter . ($maxNum + 1);
+
 
                     // 2️⃣ Geser kode di lantai asal
                     $affected = Product::where('floor', $oldFloor)
                         ->whereRaw("CAST(SUBSTRING(code,2) AS UNSIGNED) > ?", [$oldNum])
                         ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
                         ->get();
+
 
                     foreach ($affected as $item) {
                         $num        = intval(substr($item->code, 1)) - 1;
@@ -260,6 +303,7 @@ class ProductController extends Controller
                     }
                 }
 
+
                 // Upload gambar jika ada
                 foreach (['image1', 'image2', 'image3', 'image4'] as $img) {
                     if ($request->hasFile($img)) {
@@ -267,14 +311,15 @@ class ProductController extends Controller
                     }
                 }
 
+
                 $p->save();
             });
+
 
             return back()->with('success', [
                 'type' => 'success',
                 'message' => 'Produk berhasil diperbarui dan kode diperbarui otomatis!',
             ]);
-
         } catch (\Exception $e) {
             return back()->with('error', [
                 'type' => 'error',
@@ -290,17 +335,20 @@ class ProductController extends Controller
             $oldNum = intval(substr($product->code, 1));
             $product->delete();
 
+
             // Geser ulang kode di lantai tersebut
             $affected = Product::where('floor', $floor)
-                        ->whereRaw("CAST(SUBSTRING(code,2) AS UNSIGNED) > ?", [$oldNum])
-                        ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
-                        ->get();
+                ->whereRaw("CAST(SUBSTRING(code,2) AS UNSIGNED) > ?", [$oldNum])
+                ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
+                ->get();
+
 
             foreach ($affected as $item) {
                 $num = intval(substr($item->code, 1)) - 1;
                 $item->code = chr(64 + $floor) . $num;
                 $item->save();
             }
+
 
             return back()->with('toast', [
                 'type' => 'success',
@@ -313,17 +361,54 @@ class ProductController extends Controller
             ]);
         }
     }
-    public function show($id)
+
+    public function show($id, Request $request)
     {
-        // Ambil produk berdasarkan ID untuk detail
         $product = Product::findOrFail($id);
 
-        // Ambil semua produk untuk ditampilkan dalam komponen monitor
+        // Ambil data rentals dengan pagination
+        $rentals = $product->rentals()
+            ->with('user') // Eager load user relationship
+            ->where('booked_end', '>', now())
+            ->orderBy('booked_start', 'desc')
+            ->paginate(5);
+
+        // Jika request AJAX, kembalikan data dalam format JSON
+        if ($request->ajax()) {
+            // Transform rentals data untuk JavaScript
+            $rentalsData = $rentals->map(function ($rental) {
+                return [
+                    'id' => $rental->id,
+                    'booked_start' => $rental->booked_start,
+                    'booked_end' => $rental->booked_end,
+                    'duration' => $rental->duration,
+                    'status' => $rental->status,
+                    'user' => [
+                        'name' => $rental->user ? sensorNama($rental->user->name) : 'Unknown'
+                    ]
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'rentals' => $rentalsData,
+                'pagination' => [
+                    'current_page' => $rentals->currentPage(),
+                    'last_page' => $rentals->lastPage(),
+                    'per_page' => $rentals->perPage(),
+                    'total' => $rentals->total(),
+                    'from' => $rentals->firstItem(),
+                    'to' => $rentals->lastItem(),
+                    'has_more_pages' => $rentals->hasMorePages()
+                ]
+            ]);
+        }
+
+        // Ambil semua produk untuk komponen monitor
         $allProducts = Product::orderBy('floor')
             ->orderByRaw("CAST(SUBSTRING(code,2) AS UNSIGNED)")
             ->get();
 
-        // Mapping ulang data produk ke format komponen monitor
         $monitors = $allProducts->map(function ($p) {
             return [
                 'id_komputer'     => $p->id,
@@ -341,346 +426,144 @@ class ProductController extends Controller
             ];
         });
 
-        // Kirim detail produk + data monitor ke view
-        return view('pages.product', compact('product', 'monitors'));
+        return view('pages.product', compact('product', 'monitors', 'rentals'));
     }
-    // public function showSearchPage()
-    // {
-    //     $products = Product::latest()->get();
 
-    //     return view('pages.search', compact('products'));
-    // }
-    // public function showSearchPage(Request $request)
-    // {
-    //     $query = Product::query();
-        
-    //     // Search berdasarkan nama (dari parameter search)
-    //     if ($request->has('search') && !empty($request->search)) {
-    //         $searchTerm = $request->search;
-    //         $query->where('name', 'LIKE', '%' . $searchTerm . '%');
-    //     }
-        
-    //     // Filter berdasarkan CPU
-    //     if ($request->has('cpu') && !empty($request->cpu)) {
-    //         $cpuFilter = $request->cpu;
-    //         if ($cpuFilter === 'cpu-intel') {
-    //             $query->where('cpu', 'LIKE', '%intel%');
-    //         } elseif ($cpuFilter === 'cpu-amd') {
-    //             $query->where('cpu', 'LIKE', '%amd%');
-    //         }
-    //     }
-        
-    //     // Filter berdasarkan GPU
-    //     if ($request->has('gpu') && !empty($request->gpu)) {
-    //         $gpuFilter = $request->gpu;
-    //         if ($gpuFilter === 'gpu-rtx') {
-    //             $query->where('gpu', 'LIKE', '%rtx%');
-    //         } elseif ($gpuFilter === 'gpu-gtx') {
-    //             $query->where('gpu', 'LIKE', '%gtx%');
-    //         }
-    //     }
-        
-    //     // Filter berdasarkan Room
-    //     if ($request->has('room') && !empty($request->room)) {
-    //         $roomFilter = $request->room;
-    //         if ($roomFilter === 'room-public') {
-    //             $query->where('room', 'public');
-    //         } elseif ($roomFilter === 'room-private') {
-    //             $query->where('room', 'private');
-    //         }
-    //     }
-        
-    //     // Filter berdasarkan RAM
-    //     if ($request->has('ram') && !empty($request->ram)) {
-    //         $ramFilter = (int)$request->ram;
-    //         if ($ramFilter === 8) {
-    //             $query->where('ram', '>=', 8)->where('ram', '<', 16);
-    //         } elseif ($ramFilter === 16) {
-    //             $query->where('ram', '>=', 16);
-    //         }
-    //     }
-        
-    //     // Filter berdasarkan Token (price)
-    //     if ($request->has('token') && !empty($request->token)) {
-    //         $tokenFilter = (int)$request->token;
-    //         if ($tokenFilter > 1) {
-    //             $query->where('price', '<=', $tokenFilter);
-    //         }
-    //     }
-        
-    //     // Ambil data products dengan filter yang diterapkan
-    //     $products = $query->latest()->get();
-        
-    //     // Transform data untuk menambahkan cpu_formatted dan gpu_formatted
-    //     $products = $products->map(function ($product) {
-    //         // Deteksi CPU formatted
-    //         $cpuLower = strtolower($product->cpu ?? '');
-    //         if (strpos($cpuLower, 'intel') !== false) {
-    //             $product->cpu_formatted = 'intel';
-    //         } elseif (strpos($cpuLower, 'amd') !== false) {
-    //             $product->cpu_formatted = 'amd';
-    //         } else {
-    //             $product->cpu_formatted = 'unknown';
-    //         }
-            
-    //         // Deteksi GPU formatted
-    //         $gpuLower = strtolower($product->gpu ?? '');
-    //         if (strpos($gpuLower, 'rtx') !== false) {
-    //             $product->gpu_formatted = 'rtx';
-    //         } elseif (strpos($gpuLower, 'gtx') !== false) {
-    //             $product->gpu_formatted = 'gtx';
-    //         } else {
-    //             $product->gpu_formatted = 'unknown';
-    //         }
-            
-    //         return $product;
-    //     });
-        
-    //     return view('pages.search', compact('products'));
-    // }
 
-    // Method tambahan untuk AJAX filter (opsional) 
+    public function showSearchPage(Request $request)
+    {
+        $searchTerm = $request->input('search');
 
-    // public function filterProducts(Request $request)
-    // {
-    //     $query = Product::query();
-        
-    //     // Terapkan semua filter yang sama seperti di atas
-    //     if ($request->has('search') && !empty($request->search)) {
-    //         $searchTerm = $request->search;
-    //         $query->where('name', 'LIKE', '%' . $searchTerm . '%');
-    //     }
-        
-    //     if ($request->has('cpu') && !empty($request->cpu)) {
-    //         $cpuFilter = $request->cpu;
-    //         if ($cpuFilter === 'cpu-intel') {
-    //             $query->where('cpu', 'LIKE', '%intel%');
-    //         } elseif ($cpuFilter === 'cpu-amd') {
-    //             $query->where('cpu', 'LIKE', '%amd%');
-    //         }
-    //     }
-        
-    //     if ($request->has('gpu') && !empty($request->gpu)) {
-    //         $gpuFilter = $request->gpu;
-    //         if ($gpuFilter === 'gpu-rtx') {
-    //             $query->where('gpu', 'LIKE', '%rtx%');
-    //         } elseif ($gpuFilter === 'gpu-gtx') {
-    //             $query->where('gpu', 'LIKE', '%gtx%');
-    //         }
-    //     }
-        
-    //     if ($request->has('room') && !empty($request->room)) {
-    //         $roomFilter = $request->room;
-    //         if ($roomFilter === 'room-public') {
-    //             $query->where('room', 'public');
-    //         } elseif ($roomFilter === 'room-private') {
-    //             $query->where('room', 'private');
-    //         }
-    //     }
-        
-    //     if ($request->has('ram') && !empty($request->ram)) {
-    //         $ramFilter = (int)$request->ram;
-    //         if ($ramFilter === 8) {
-    //             $query->where('ram', '>=', 8)->where('ram', '<', 16);
-    //         } elseif ($ramFilter === 16) {
-    //             $query->where('ram', '>=', 16);
-    //         }
-    //     }
-        
-    //     if ($request->has('token') && !empty($request->token)) {
-    //         $tokenFilter = (int)$request->token;
-    //         if ($tokenFilter > 1) {
-    //             $query->where('price', '<=', $tokenFilter);
-    //         }
-    //     }
-        
-    //     $products = $query->latest()->get();
-        
-    //     // Transform data
-    //     $products = $products->map(function ($product) {
-    //         $cpuLower = strtolower($product->cpu ?? '');
-    //         if (strpos($cpuLower, 'intel') !== false) {
-    //             $product->cpu_formatted = 'intel';
-    //         } elseif (strpos($cpuLower, 'amd') !== false) {
-    //             $product->cpu_formatted = 'amd';
-    //         } else {
-    //             $product->cpu_formatted = 'unknown';
-    //         }
-            
-    //         $gpuLower = strtolower($product->gpu ?? '');
-    //         if (strpos($gpuLower, 'rtx') !== false) {
-    //             $product->gpu_formatted = 'rtx';
-    //         } elseif (strpos($gpuLower, 'gtx') !== false) {
-    //             $product->gpu_formatted = 'gtx';
-    //         } else {
-    //             $product->gpu_formatted = 'unknown';
-    //         }
-            
-    //         return $product;
-    //     });
-        
-    //     return response()->json([
-    //         'success' => true,
-    //         'products' => $products,
-    //         'count' => $products->count()
-    //     ]);
-    // }
-// public function showSearchPage(Request $request)
-// {
-//     // Get the search query from the request
-//     $searchQuery = $request->input('search');
 
-//     // Initialize the query
-//     $query = Product::query();
+        // Query pencarian jika ada input 'search', jika tidak ambil semua
+        $query = Product::query();
 
-//     // Apply search filter
-//     if ($searchQuery) {
-//         $query->where('name', 'LIKE', '%' . $searchQuery . '%');
-//     }
 
-//     // Apply CPU filter
-//     if ($request->input('cpu')) {
-//         $cpuFilter = $request->input('cpu');
-//         if ($cpuFilter === 'cpu-intel') {
-//             $query->where('cpu', 'LIKE', '%Intel%');
-//         } elseif ($cpuFilter === 'cpu-amd') {
-//             $query->where('cpu', 'LIKE', '%AMD%');
-//         }
-//     }
+        if ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('cpu', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('gpu', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('code', 'like', '%' . $searchTerm . '%');
+            });
+        }
 
-//     // Apply GPU filter
-//     if ($request->input('gpu')) {
-//         $gpuFilter = $request->input('gpu');
-//         if ($gpuFilter === 'gpu-rtx') {
-//             $query->where('gpu', 'LIKE', '%RTX%');
-//         } elseif ($gpuFilter === 'gpu-gtx') {
-//             $query->where('gpu', 'LIKE', '%GTX%');
-//         }
-//     }
 
-//     // Apply Room filter
-//     if ($request->input('room')) {
-//         $roomFilter = $request->input('room');
-//         if ($roomFilter === 'room-public') {
-//             $query->where('room', 'public');
-//         } elseif ($roomFilter === 'room-private') {
-//             $query->where('room', 'private');
-//         }
-//     }
+        $products = $query->latest()->get();
 
-//     // Apply RAM filter (assuming you have a ram column in your products table)
-//     if ($request->input('ram')) {
-//         $ramValue = (int)$request->input('ram');
-//         $query->where('ram', '>=', $ramValue);
-//     }
 
-//     // Apply Token filter (assuming you have a token column in your products table)
-//     if ($request->input('token')) {
-//         $tokenValue = (int)$request->input('token');
-//         $query->where('token', '>=', $tokenValue);
-//     }
+        // Tambahkan cpu_formatted dan gpu_formatted
+        $products->transform(function ($product) {
+            // CPU formatted
+            if (stripos($product->cpu, 'intel') !== false) {
+                $product->cpu_formatted = 'Intel';
+            } elseif (stripos($product->cpu, 'amd') !== false) {
+                $product->cpu_formatted = 'AMD';
+            } else {
+                $product->cpu_formatted = 'Unknown';
+            }
 
-//     // Fetch the filtered products
-//     $products = $query->latest()->get();
 
-//     // Format CPU and GPU data
-//     foreach ($products as $product) {
-//         $product->cpu_formatted = $this->formatCpu($product->cpu);
-//         $product->gpu_formatted = $this->formatGpu($product->gpu);
-//     }
+            // GPU formatted
+            if (stripos($product->gpu, 'rtx') !== false) {
+                $product->gpu_formatted = 'RTX';
+            } elseif (stripos($product->gpu, 'gtx') !== false) {
+                $product->gpu_formatted = 'GTX';
+            } else {
+                $product->gpu_formatted = 'Unknown';
+            }
 
-//     return view('pages.search', compact('products'));
-// }
-// private function formatCpu($cpu)
-// {
-//     if (strpos($cpu, 'Intel') !== false) {
-//         return 'intel';
-//     } elseif (strpos($cpu, 'AMD') !== false) {
-//         return 'amd';
-//     }
-//     return 'unknown';
-// }
-// private function formatGpu($gpu)
-// {
-//     if (strpos($gpu, 'RTX') !== false) {
-//         return 'rtx';
-//     } elseif (strpos($gpu, 'GTX') !== false) {
-//         return 'gtx';
-//     }
-//     return 'unknown';
-// }
 
-public function showSearchPage(Request $request)
-{
-    $searchTerm = $request->input('search');
-
-    // Query pencarian jika ada input 'search', jika tidak ambil semua
-    $query = Product::query();
-
-    if ($searchTerm) {
-        $query->where(function ($q) use ($searchTerm) {
-            $q->where('name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('cpu', 'like', '%' . $searchTerm . '%')
-            ->orWhere('gpu', 'like', '%' . $searchTerm . '%')
-            ->orWhere('code', 'like', '%' . $searchTerm . '%');
+            return $product;
         });
+
+
+        $products = $products->map(function ($product) {
+            $product->cpu_formatted = $this->formatCpu($product->cpu);
+            $product->gpu_formatted = $this->formatGpu($product->gpu);
+            return $product;
+        });
+
+
+        return view('pages.search', compact('products'));
+    }
+    private function formatCpu($cpu)
+    {
+        return Str::contains(strtolower($cpu), 'intel') ? 'intel' : (Str::contains(strtolower($cpu), 'amd') ? 'amd' : 'unknown');
     }
 
-    $products = $query->latest()->get();
+    private function formatGpu($gpu)
+    {
+        return Str::contains(strtolower($gpu), 'rtx') ? 'rtx' : (Str::contains(strtolower($gpu), 'gtx') ? 'gtx' : 'unknown');
+    }
 
-    // Tambahkan cpu_formatted dan gpu_formatted
-    $products->transform(function ($product) {
-        // CPU formatted
-        if (stripos($product->cpu, 'intel') !== false) {
-            $product->cpu_formatted = 'Intel';
-        } elseif (stripos($product->cpu, 'amd') !== false) {
-            $product->cpu_formatted = 'AMD';
-        } else {
-            $product->cpu_formatted = 'Unknown';
+    public function homePage()
+    {
+        // $events = \App\Models\Event::where('status', 'aktif')
+        //             ->latest()
+        //             ->take(10)
+        //             ->get(['image', 'id', 'name', 'deskripsi', 'tanggal']); // atau ambil yang kamu butuh
+
+        $productTopList = Product::orderByDesc('rent')
+            ->take(8)
+            ->get();
+
+        // Ambil event aktif, urutkan terbaru, bagi jadi dua grup
+        $activeEvents = Event::where('status', 'aktif')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $eventsCarousel1 = $activeEvents->take(5); // 5 item pertama
+        $eventsCarousel2 = $activeEvents->slice(1)->take(5); // 5 item berikutnya
+
+        return view('pages.home', compact(
+            'productTopList',
+            'eventsCarousel1',
+            'eventsCarousel2'
+        ));
+
+        // return view('pages.home', compact('events', 'productTopList'));
+    }
+
+    public function showTop($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('pages.product', compact('product'));
+    }
+
+    public function LandingPage(Request $request)
+    {
+        $searchTerm = $request->input('search');
+        $query = Product::query();
+
+        if ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('cpu', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('gpu', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('code', 'like', '%' . $searchTerm . '%');
+            });
         }
 
-        // GPU formatted
-        if (stripos($product->gpu, 'rtx') !== false) {
-            $product->gpu_formatted = 'RTX';
-        } elseif (stripos($product->gpu, 'gtx') !== false) {
-            $product->gpu_formatted = 'GTX';
-        } else {
-            $product->gpu_formatted = 'Unknown';
+        $products = $query->take(8)->get()->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'cpu' => $product->cpu,
+                'gpu' => $product->gpu,
+                'code' => $product->code,
+                'image' => $product->image1 ? asset($product->image1) : asset('img/ad/placeholder1.png'),
+                'price' => $product->price,
+                'desc' => $product->desc
+            ];
+        });
+
+        // Jika request-nya adalah JSON (AJAX), kembalikan response JSON
+        if ($request->wantsJson()) {
+            return response()->json($products);
         }
 
-        return $product;
-    });
-
-    $products = $products->map(function ($product) {
-        $product->cpu_formatted = $this->formatCpu($product->cpu);
-        $product->gpu_formatted = $this->formatGpu($product->gpu);
-        return $product;
-    });
-
-    return view('pages.search', compact('products'));
-}
-private function formatCpu($cpu)
-{
-    return Str::contains(strtolower($cpu), 'intel') ? 'intel' : (Str::contains(strtolower($cpu), 'amd') ? 'amd' : 'unknown');
-}
-
-private function formatGpu($gpu)
-{
-    return Str::contains(strtolower($gpu), 'rtx') ? 'rtx' : (Str::contains(strtolower($gpu), 'gtx') ? 'gtx' : 'unknown');
-}
-
-
-public function homePage()
-{
-    $productTopList = Product::orderByDesc('rent')->take(8)->get(); // Ambil 8 produk dengan penyewaan terbanyak
-
-    return view('pages.home', compact('productTopList'));
-}
-
-public function showTop($id)
-{
-    $product = Product::findOrFail($id);
-    return view('pages.product', compact('product'));
-}
-
+        // Jika tidak, render halaman Blade biasa
+        return view('pages.landing');
+    }
 }

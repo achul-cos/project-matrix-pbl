@@ -36,14 +36,6 @@ class AdminSeeder extends Seeder
         ]);
 
         // Create another admin (inactive example)
-        Admin::create([
-            'name' => 'Admin Nonaktif',
-            'email' => 'adminoff@warnet.com',
-            'password' => Hash::make('admin123'),
-            'role' => 'admin',
-            'is_admin' => true,
-            'is_active' => false,
-            'photo' => null,
-        ]);
+        
     }
 }

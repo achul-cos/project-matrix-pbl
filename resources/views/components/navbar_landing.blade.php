@@ -1,11 +1,11 @@
 <!-- Navbar -->
-<nav id="navbar" class="bg-transparent fixed w-full z-50 top-0 start-0 transition duration-300">
+<nav id="navbar" class="bg-transparent fixed w-full z-70 top-0 start-0 transition duration-300">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
     <!-- Logo -->
     <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="../../../../img/logo/Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
-      <img src="../../../../img/logo/(M)ATRIX Text icon logo white.png" class="h-8 max-md:hidden" alt="Matrix Logo" />
+      <img src="{{ asset('img/logo/Matrix_Icon_Square_Logo_White.png') }}" class="h-12" alt="Matrix Logo" />
+      <img src="{{ asset('img/logo/(M)ATRIX Text icon logo white.png') }}" class="h-8 max-md:hidden" alt="Matrix Logo" />
       <p class="text-white font-bold ml-5 text-lg tracking-10 max-md:tracking-5 max-md:ml-2 max-md:text-base max-sm:hidden">
         Ngewarnet Tanpa Takut War PC
       </p>
@@ -13,16 +13,16 @@
 
     <!-- Tombol -->
     <div class="flex order-1 space-x-3 md:space-x-0 rtl:space-x-reverse gap-4">
-      <a href="/login">
+      <a href="{{ route('login') }}">
         <button id="login"
           class="bg-transparent text-white border border-white font-black text-lg px-3 py-2 rounded-full transition duration-300 hover:bg-white/10">
-          Login
+          Masuk
         </button>
       </a>
-      <a href="/register">
+      <a href="{{ route('register') }}">
         <button id="register"
           class="bg-transparent text-white border border-white font-black text-lg px-3 py-2 rounded-full transition duration-300 hover:bg-white/10">
-          Register
+          Daftar
         </button>
       </a>
     </div>

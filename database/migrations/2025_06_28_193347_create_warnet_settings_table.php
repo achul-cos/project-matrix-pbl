@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rent_report', function (Blueprint $table) {
+        Schema::create('warnet_settings', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_open')->default(true); // true = buka, false = tutup
+            $table->json('available_computers')->nullable(); // ID komputer yg tersedia
+            $table->text('close_message')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rent_report');
+        Schema::dropIfExists('warnet_settings');
     }
 };

@@ -33,7 +33,7 @@
       <div class="mb-8">
         <label for="customToken" class="block mb-2 font-medium text-[#2F5F00]">Masukkan Jumlah Token</label>
         <input type="number" name="customToken" id="customToken" min="1" placeholder="Contoh: 5"
-               class="w-full p-3 border border-[#A3C57C] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#497F00]">
+               class="w-full p-3 border border-[#A3C57C] rounded-full focus:outline-none focus:ring-2 focus:ring-[#497F00]">
       </div>
 
       <!-- Quick Token Buttons -->
@@ -50,6 +50,47 @@
       <div class="flex justify-center">
         <button type="submit"
                 class="bg-[#2F5F00] hover:bg-[#497F00] active:bg-[#3B6A00] text-white font-bold py-3 px-8 rounded-xl shadow-md transition hover:scale-105">
+          Lanjutkan Pembayaran
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-2xl border border-[#E0F0CC] mt-10">
+    <div class="mb-5 flex justify-center">
+      <p class="text-xl font-bold text-center bg-[#2F5F00] text-white px-3 py-2 inline-block">Redeem Kode Voucher</p>
+    </div>
+
+    {{-- Notifikasi sukses --}}
+    @if(session('success'))
+      <div class="mb-6 text-green-800 bg-green-100 border border-green-300 p-4 rounded-lg">
+        {{ session('success') }}
+      </div>
+    @endif
+
+    {{-- Notifikasi error --}}
+    @if($errors->any())
+      <div class="mb-6 text-red-800 bg-red-100 border border-red-300 p-4 rounded-lg">
+        <ul class="list-disc pl-5">
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
+    <form id="couponForm" method="POST" action="{{ route('user.redeem-coupon') }}">
+      @csrf
+      <!-- Coupon Input -->
+      <div class="mb-8">
+        <input type="text" name="coupon" id="coupon" min="1" placeholder="Contoh: PROMOMATRIX"
+               class="w-full p-3 px-5 border border-[#A3C57C] rounded-full focus:outline-none focus:ring-2 focus:ring-[#497F00]">
+      </div>
+
+      <!-- Submit Manual -->
+      <div class="flex justify-center">
+        <button type="submit"
+                class="border-[#2F5F00] hover:border-[#497F00] active:border-[#3B6A00] text-[#2F5F00] font-bold py-3 px-8 rounded-xl border-2 shadow-md transition hover:scale-105">
           Lanjutkan Pembayaran
         </button>
       </div>

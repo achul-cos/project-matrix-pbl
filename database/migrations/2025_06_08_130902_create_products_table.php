@@ -22,14 +22,14 @@ return new class extends Migration
             $table->integer('price');
             $table->enum('room', ['public', 'private'])->default('public');
             $table->enum('status', ['available','online', 'offline', 'maintenance', 'prepare', 'undifined'])->default('maintenance');
-            $table->timestamp('book_start')->nullable();
-            $table->timestamp('book_end')->nullable();
+            $table->timestamp('last_status_update')->nullable();
             $table->string('image1');
             $table->string('image2');
             $table->string('image3');
             $table->string('image4');
             $table->text('desc');
             $table->integer('rent')->default(0);
+            $table->integer('overtime_price')->default(0);
             $table->timestamps();
         });
     }

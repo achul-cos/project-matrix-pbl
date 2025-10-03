@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('photo')->nullable();
-            $table->integer('token')->default(0);
+            $table->integer('token')->nullabel();
             $table->boolean('is_block')->default(false);
             $table->boolean('is_google')->default(false);
             $table->timestamp('last_online')->nullable();
@@ -50,7 +50,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        // Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
 };

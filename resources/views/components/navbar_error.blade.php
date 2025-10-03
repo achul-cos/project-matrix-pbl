@@ -2,8 +2,8 @@
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
         <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse max-sm:hidden">
-            <img src="../../../../img/logo/Matrix_Icon_Square_Logo_White.png" class="h-12" alt="Matrix Logo" />
-            <img src="../../../../img/logo/(M)ATRIX Text icon logo white.png" class="h-8" alt="Matrix Logo" />
+            <img src="{{ asset('img/logo/Matrix_Icon_Square_Logo_White.png') }}" class="h-12" alt="Matrix Logo" />
+            <img src="{{ asset('img/logo/(M)ATRIX Text icon logo white.png') }}" class="h-8" alt="Matrix Logo" />
         </a>
 
         <div class="flex max-sm:order-2 md:order-1">
@@ -33,48 +33,48 @@
             </div>
         </div>
 
-        <div class="flex items-center min-sm:order-1 md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-              <span class="sr-only">Open user menu</span>
-              <img class="w-12 h-12 rounded-full object-cover"
-                  src="{{ asset('img/ad/placeholder1.png') }}"
-                  alt="user photo">
-            </button>
-            <!-- Dropdown menu -->
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-              <div class="px-4 py-3">
-                <span class="block text-sm text-gray-900 dark:text-white">{{ Auth::user()->username ?? "Lorem Ipsum"}}</span>
-                <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email ?? "Lorem@ipsum.com"}}</span>
-              </div>
-              <ul class="py-2" aria-labelledby="user-menu-button">
-                <li>
-                  <a href="../profile/rent" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Riwayat Sewa</a>
-                </li>
-                <li>
-                  <a href="../profile/topup" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Riwayat Top Up</a>
-                </li>
-                <li>
-                  <a href="../profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Pengaturan Akun</a>
-                </li>
-                <li>
-                  <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar</a>
-                </li>
-              </ul>
-            </div>
+      <div class="flex items-center min-sm:order-1 md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-12 h-12 rounded-full object-cover"
+            src="{{ Auth::user()->photo_url ?? asset('img/ad/placeholder1.png') }}"
+            alt="user photo">
+        </button>
+        <!-- Dropdown menu -->
+        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+          <div class="px-4 py-3">
+            <span class="block text-sm text-gray-900 dark:text-white">{{ Auth::user()->username ?? "Lorem Ipsum"}}</span>
+            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email ?? "Lorem@ipsum.com"}}</span>
+          </div>
+          <ul class="py-2" aria-labelledby="user-menu-button">
+            <li>
+              <a href="{{ route('profile.history_rent') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Riwayat Sewa</a>
+            </li>
+            <li>
+              <a href="{{ route('profile.history_topup') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Riwayat Top Up</a>
+            </li>
+            <li>
+              <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Pengaturan Akun</a>
+            </li>
+            <li>
+              <a href="{{ route('logoutAccount') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar</a>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse max-sm:order-3">
-            <a href="/topup">
-            <div class="flex bg-lime-950 rounded-4xl items-center">
-                <div class="px-2">
-                    <p class="self-center text-center font-black text-xl text-amber-50 truncate w-15">{{ Auth::user()->token ?? "00"}}</p>
-                </div>
-                <div class="">
-                    <img src="../img/icon/Matrix_Token_Icon_White.svg" class="w-10 h-10 justify-self-end transform transition-transform hover:scale-105">
-                </div>
+      <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse max-sm:order-3">
+        <a href="{{ route('topup') }}">
+          <div class="flex bg-lime-950 rounded-4xl items-center">
+            <div class="px-2">
+              <p class="self-center text-center font-black text-xl text-amber-50 truncate w-15">{{ Auth::user()->token ?? "00"}}</p>
             </div>
-            </a>
-        </div>
+            <div class="">
+              <img src="{{ asset('img/icon/Matrix_Token_Icon_White.svg') }}" class="w-10 h-10 justify-self-end transform transition-transform hover:scale-105">
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
 </nav>
 

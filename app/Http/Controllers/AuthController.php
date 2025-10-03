@@ -3,17 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\User;
-
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Facades\Auth;
-
 use Laravel\Socialite\Facades\Socialite;
-
 use Illuminate\Support\Str;
-
 use Laravel\Socialite\Two\InvalidStateException;
 
 class AuthController extends Controller
@@ -104,18 +98,17 @@ class AuthController extends Controller
             $login_type => $request->login,
             'password' => $request->password,
         ];
-        // Ambil nilai dari checkbox "Ingat Saya"
+
         $remember = $request->has('remember');
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            // Redirect ke halaman dashboard atau home
             return redirect()->intended('/home')->with('success', 'Login berhasil!');
         }
         return redirect()->back()
             ->withErrors(['login' => 'Email/Username atau password salah'])
             ->withInput();
     }
-    
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -128,7 +121,7 @@ class AuthController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
-    
+
     public function handleGoogleCallback()
     {
         try {
@@ -148,21 +141,18 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first();
 
         if ($user) {
-            // Jika akun sudah terdaftar tapi BUKAN via Google
             if (!$user->is_google) {
                 return redirect('/login')->withErrors([
                     'login' => 'Login dibatalkan karena email telah terdaftar sebelumnya.'
                 ]);
             }
 
-            // Cek blokir
             if ($user->is_block) {
                 return redirect('/login')->withErrors([
                     'login' => 'Akun Anda telah diblokir. Silakan hubungi admin.'
                 ]);
             }
 
-            // Login akun Google yang sudah ada
             Auth::login($user, true);
             return redirect()->intended('/home')->with('success', 'Login berhasil!');
         }

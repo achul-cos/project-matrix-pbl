@@ -5,7 +5,7 @@
 @section('content')
 
   <!-- Login Section -->
-  <main class="flex justify-center items-center min-h-screen px-4 py-12 bg-white">
+  <main class="flex justify-center items-center min-h-screen px-4 py-12 mt-8 bg-white">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl flex flex-col md:flex-row overflow-hidden">
 
       <!-- Form Login -->
@@ -57,11 +57,11 @@
           @endif
 
           <input type="text" name="login" autofocus required placeholder="Email atau Username" class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#556B2F]" value="{{ old('login') }}" />
-          
+
             <div class="mb-4 relative">
                 <input id="password" type="password" name="password" placeholder="Kata Sandi" required
                     class="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#556B2F] transition" />
-                <button type="button" 
+                <button type="button"
                     class="absolute inset-y-0 right-3 flex items-center px-2 text-gray-600 hover:text-gray-900"
                     onclick="togglePasswordVisibility('password', 'eye-icon-password')"
                     aria-label="Toggle password visibility"
@@ -76,11 +76,11 @@
                     </svg>
                 </button>
             </div>
-          
-            
+
+
           <input type="submit" value="MASUK" class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white font-semibold py-3 rounded-full transition duration-300">
 
-          
+
           <div class="flex items-start mt-4">
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
@@ -88,10 +88,10 @@
                     </div>
                     <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Ingat Saya</label>
                 </div>
-                <a href="/forget" class="ms-auto text-sm text-gray-600 hover:underline dark:text-gray-500">Lupa Kata Sandi?</a>
+                <a href="{{ route('forget.form') }}" class="ms-auto text-sm text-gray-600 hover:underline dark:text-gray-500">Lupa Kata Sandi?</a>
             </div>
-          
-          
+
+
         <div class="grid grid-cols-12">
             <hr class="h-px my-8 bg-gray-200 border-0 col-span-3">
             <p class="col-span-6 text-center text-base text-lime-900 opacity-70 place-self-center font-light"> Login Menggunakan </p>
@@ -103,7 +103,7 @@
         </div>
 
           <p class="text-sm mt-4 text-gray-600">Belum punya akun? <a href="/register" class="font-semibold text-[#556B2F] hover:underline">Daftar</a></p>
-          
+
           <a href="/admin">
               <p class="text-xs mt-4 text-gray-400 hover:underline hover:text-lime-900 hover:opacity-50">Login Sebagai Admin.</p>
           </a>

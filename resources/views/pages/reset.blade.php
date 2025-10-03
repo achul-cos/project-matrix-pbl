@@ -132,23 +132,47 @@
 
  <h5 class="text-2xl font-bold text-[#556B2F] mb-3 text-center">Atur Ulang Kata Sandi</h5>
 
-<form class="max-w-sm mx-auto">
+<form class="max-w-sm mx-auto" method="POST" action="{{ route('password.store') }}">
+  @csrf
+
+{{-- Tampilkan error di bawah judul --}}
+@if ($errors->any())
+  <ul class="text-red-500 mb-4 text-sm text-center">
+    @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+    @endforeach
+  </ul>
+@endif
   <div class="mb-5">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kata Sandi Baru</label>
-    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Minimal 8 Karakter" required />
+    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kata Sandi Baru</label>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Minimal 8 Karakter"
+      required
+    />
   </div>
+
   <div class="mb-5">
-    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konfirmasi Kata Sandi</label>
-    <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Minimal 8 Karakter"  required />
+    <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Konfirmasi Kata Sandi</label>
+    <input
+      type="password"
+      name="password_confirmation"
+      id="password_confirmation"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+      placeholder="Minimal 8 Karakter"
+      required
+    />
   </div>
- 
-  <button 
-    type="submit" class=" w-full bg-[#556B2F] hover:bg-[#6e8239] text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-    dark:bg-green-800 dark:hover:bg-green-800 dark:focus:ring-green-800">Ganti Kata Sandi
+
+  <button
+    type="submit"
+    class="w-full bg-[#556B2F] hover:bg-[#6e8239] text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-800 dark:hover:bg-green-800 dark:focus:ring-green-800">
+    Ganti Kata Sandi
   </button>
-</form>     
-        </div>
-    </div>
+</form>
 </div>
 
 @endsection

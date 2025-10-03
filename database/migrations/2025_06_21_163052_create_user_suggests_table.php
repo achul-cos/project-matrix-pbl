@@ -9,14 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('rent_queue', function (Blueprint $table) {
+        Schema::create('users_suggest', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
-            $table->timestamp('booked_start');
-            $table->timestamp('booked_end');
-            $table->string('user_id');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rent_queue');
+        Schema::dropIfExists('users_suggest');
     }
 };
