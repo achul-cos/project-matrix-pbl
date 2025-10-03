@@ -22,6 +22,14 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
         AdminSeeder::class,
-    ]);
+        ]);
+
+        $this->call([
+            CouponSeeder::class,
+        ]);
+
+        $this->call([
+            ProductSeeder::class,
+        ]);
     }
 }
