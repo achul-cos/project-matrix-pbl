@@ -2,6 +2,5 @@
 nixPkgs = [
   "php82",
   "php82Extensions.gd",
-  "composer",
   "nodejs_22"
 ]
